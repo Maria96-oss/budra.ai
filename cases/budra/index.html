@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>БУДРА — широкие бохо-пояса ручной сборки</title>
+<meta name="description" content="Широкие женские пояса в стиле бохо: натуральная кожа и металл, чеканные бляхи, размеры 95 и 120 см. Рейтинг 4,9 на Wildberries, 255 оценок. Доставка по России.">
+<link rel="icon" href="img/logo.png">
+<meta property="og:title" content="БУДРА — широкие бохо-пояса">
+<meta property="og:description" content="Пояса, которые собирают образ. Кожа, металл, чеканка.">
+<meta property="og:image" content="img/boho-1.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F6F1E8;
+  --sand-2:#EDE4D6;
+  --ink:#2B2521;
+  --ink-soft:#6B5F55;
+  --bronze:#A8763F;
+  --bronze-dark:#8A5F30;
+  --line:#DDD1BE;
+  --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans:'Jost', 'Helvetica Neue', Arial, sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--sand);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* ---------- NAV ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:box-shadow .35s ease, padding .35s ease;
+  padding:16px 0;
+  background:rgba(246,241,232,.94);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+}
+header.solid{box-shadow:0 1px 0 var(--line);padding:10px 0}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{width:40px;height:auto}
+.brand span{
+  font-family:var(--serif);font-size:26px;letter-spacing:.32em;
+  text-transform:uppercase;font-weight:500;line-height:1;padding-left:2px;
+}
+.nav-links{display:flex;gap:30px;list-style:none;align-items:center}
+.nav-links a{
+  text-decoration:none;font-size:14px;letter-spacing:.12em;text-transform:uppercase;
+  opacity:.85;transition:opacity .2s, border-color .2s;border-bottom:1px solid transparent;padding-bottom:2px;
+}
+.nav-links a:hover{opacity:1;border-color:var(--bronze)}
+.burger{display:none;background:none;border:0;cursor:pointer;padding:8px;width:42px}
+.burger i{display:block;height:1.5px;background:var(--ink);margin:5px 0}
+
+/* ---------- HERO ---------- */
+.hero{display:grid;grid-template-columns:.92fr 1.08fr;min-height:100svh;align-items:stretch}
+.hero-text{
+  display:flex;align-items:center;justify-content:flex-end;
+  padding:clamp(100px,14vh,150px) clamp(28px,4.5vw,64px) clamp(56px,9vh,100px) clamp(24px,4vw,56px);
+}
+.hero-text-inner{max-width:530px}
+.hero h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(40px,4.8vw,74px);line-height:1.03;letter-spacing:.005em;margin-top:6px;
+}
+.hero p{color:var(--ink-soft);margin-top:20px;max-width:46ch;font-size:clamp(16px,1.35vw,19px)}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+.hero-note{
+  margin-top:26px;padding-top:22px;border-top:1px solid var(--line);
+  font-size:14.5px;color:var(--ink-soft);display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.hero-media{
+  position:relative;overflow:hidden;background:var(--sand-2);
+  display:flex;align-items:center;justify-content:center;
+}
+/* contain — фотография показывается целиком, без обрезки */
+.hero-media img{width:100%;height:100%;object-fit:contain;object-position:center}
+
+/* ---------- BUTTONS ---------- */
+.btn{
+  display:inline-block;padding:15px 34px;border:1px solid var(--bronze);
+  background:var(--bronze);color:#fff;text-decoration:none;
+  font-size:13.5px;letter-spacing:.16em;text-transform:uppercase;
+  cursor:pointer;transition:background .25s,color .25s,border-color .25s,transform .15s;
+}
+.btn:hover{background:var(--bronze-dark);border-color:var(--bronze-dark)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.75)}
+.btn.ghost:hover{background:rgba(255,255,255,.14);border-color:#fff}
+.btn.outline{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.outline:hover{background:var(--ink);color:var(--sand)}
+
+/* ---------- SECTIONS ---------- */
+section{padding:clamp(70px,9vw,120px) 0}
+.eyebrow{
+  font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--bronze);margin-bottom:16px;
+}
+h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(31px,4.4vw,54px);line-height:1.1;letter-spacing:.005em;
+}
+h3{font-family:var(--serif);font-weight:500;font-size:clamp(23px,2.6vw,32px);line-height:1.2}
+.lead{color:var(--ink-soft);max-width:56ch;margin-top:18px}
+.sec-head{max-width:640px;margin-bottom:clamp(38px,5vw,64px)}
+
+/* ---------- PRODUCT ---------- */
+.product{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);align-items:center}
+.product + .product{margin-top:clamp(70px,9vw,120px);padding-top:clamp(70px,9vw,120px);border-top:1px solid var(--line)}
+.product.rev .gallery{order:2}
+.gallery-main{position:relative;background:var(--sand-2);overflow:hidden;aspect-ratio:3/4}
+.gallery-main img{width:100%;height:100%;object-fit:cover;transition:opacity .3s ease}
+.thumbs{display:flex;gap:10px;margin-top:10px}
+.thumbs button{
+  flex:1;padding:0;border:1px solid transparent;background:none;cursor:pointer;
+  aspect-ratio:3/4;overflow:hidden;transition:border-color .25s,opacity .25s;opacity:.62;
+}
+.thumbs button img{width:100%;height:100%;object-fit:cover}
+.thumbs button.on,.thumbs button:hover{opacity:1;border-color:var(--bronze)}
+
+.price-row{display:flex;align-items:baseline;gap:14px;margin:22px 0 6px}
+.price{font-family:var(--serif);font-size:40px;font-weight:500;line-height:1}
+.price-old{color:var(--ink-soft);text-decoration:line-through;font-size:19px}
+.price-note{font-size:14px;color:var(--ink-soft)}
+.rating{display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--ink-soft);margin-top:10px}
+.stars{color:var(--bronze);letter-spacing:2px}
+
+.sizes{display:flex;gap:10px;margin:26px 0 8px;flex-wrap:wrap}
+.sizes button{
+  padding:11px 20px;border:1px solid var(--line);background:transparent;cursor:pointer;
+  font-family:var(--sans);font-size:14px;letter-spacing:.06em;transition:all .2s;color:var(--ink);
+}
+.sizes button.on{border-color:var(--ink);background:var(--ink);color:var(--sand)}
+.size-hint{font-size:14px;color:var(--ink-soft);min-height:1.6em}
+
+.specs{list-style:none;margin-top:28px;border-top:1px solid var(--line)}
+.specs li{display:flex;gap:18px;padding:11px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+.specs span:first-child{flex:0 0 44%;color:var(--ink-soft)}
+.buy{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+
+/* ---------- REVIEWS ---------- */
+.reviews{background:var(--sand-2)}
+.rev-grid{columns:3;column-gap:24px}
+.rev-card{
+  break-inside:avoid;background:var(--sand);padding:26px 26px 24px;margin-bottom:24px;
+  border:1px solid var(--line);
+}
+.rev-card .stars{font-size:14px}
+.rev-card p{margin-top:12px;font-size:15.5px;line-height:1.6}
+.rev-who{margin-top:16px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.rev-sum{display:flex;gap:44px;flex-wrap:wrap;margin-bottom:44px}
+.rev-sum div{line-height:1.2}
+.rev-sum b{display:block;font-family:var(--serif);font-size:46px;font-weight:500}
+.rev-sum small{font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* ---------- ABOUT ---------- */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:center}
+.about img{aspect-ratio:4/5;object-fit:cover;width:100%}
+.about p + p{margin-top:16px}
+
+/* ---------- FAQ ---------- */
+.faq details{border-bottom:1px solid var(--line);padding:4px 0}
+.faq summary{
+  cursor:pointer;list-style:none;padding:22px 40px 22px 0;position:relative;
+  font-size:19px;font-family:var(--serif);font-weight:500;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  font-size:24px;color:var(--bronze);transition:transform .25s;font-family:var(--sans);font-weight:300;
+}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq details p{padding:0 40px 24px 0;color:var(--ink-soft);max-width:70ch}
+
+/* ---------- ФОРМА ЗАКАЗА ---------- */
+.order{background:var(--sand-2)}
+.order-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:start}
+.order-side img{width:100%;aspect-ratio:3/4;object-fit:cover}
+.order-side .steps{list-style:none;margin-top:28px}
+.order-side .steps li{
+  display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15.5px;
+}
+.order-side .steps b{
+  font-family:var(--serif);font-size:20px;color:var(--bronze);flex:0 0 24px;line-height:1.3;
+}
+form.order-form{background:var(--sand);padding:clamp(24px,3.4vw,40px);border:1px solid var(--line)}
+.field{margin-bottom:18px}
+.field label{
+  display:block;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:7px;
+}
+.field input,.field select,.field textarea{
+  width:100%;padding:13px 14px;border:1px solid var(--line);background:#fff;
+  font-family:var(--sans);font-size:16px;font-weight:300;color:var(--ink);border-radius:0;
+  transition:border-color .2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--bronze)}
+.field textarea{resize:vertical;min-height:84px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:18px 0;margin:6px 0 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.total b{font-family:var(--serif);font-size:30px;font-weight:500}
+.agree{display:flex;gap:11px;align-items:flex-start;font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.agree input{margin-top:3px;width:17px;height:17px;flex:0 0 17px;accent-color:var(--bronze)}
+.agree a{color:var(--ink)}
+form.order-form .btn{width:100%;margin-top:20px;text-align:center;border:0}
+.pay-note{margin-top:14px;font-size:13px;color:var(--ink-soft);text-align:center;line-height:1.5}
+.form-msg{
+  margin-top:14px;padding:13px 15px;border:1px solid var(--bronze);
+  background:rgba(168,118,63,.08);font-size:14.5px;display:none;
+}
+.form-msg.on{display:block}
+
+/* ---------- CTA ---------- */
+.cta{background:var(--ink);color:var(--sand);text-align:center}
+.cta h2{color:var(--sand)}
+.cta .lead{color:rgba(246,241,232,.72);margin-left:auto;margin-right:auto}
+.cta .buy{justify-content:center;margin-top:36px}
+.cta .btn.outline{color:var(--sand);border-color:rgba(246,241,232,.6)}
+.cta .btn.outline:hover{background:var(--sand);color:var(--ink)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--sand-2);padding:64px 0 40px;font-size:14.5px;color:var(--ink-soft)}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px}
+footer h4{
+  font-family:var(--sans);font-weight:500;font-size:12.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink);margin-bottom:16px;
+}
+footer a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+footer a:hover{border-color:var(--bronze)}
+footer ul{list-style:none}
+footer li{margin-bottom:9px}
+.legal{margin-top:44px;padding-top:26px;border-top:1px solid var(--line);font-size:13px;line-height:1.7}
+
+/* ---------- ANIM ---------- */
+.fade{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.fade.in{opacity:1;transform:none}
+
+/* ---------- MOBILE ---------- */
+@media (max-width:900px){
+  .rev-grid{columns:2}
+  .product,.about,.order-grid{grid-template-columns:1fr}
+  .order-side img{display:none}
+  .product.rev .gallery{order:0}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .hero{grid-template-columns:1fr;min-height:0}
+  .hero-media{order:-1;height:auto;padding-top:64px}
+  .hero-media img{width:100%;height:auto;object-fit:contain}
+  .hero-text{padding:36px 24px 60px;justify-content:flex-start}
+  .hero-text-inner{max-width:640px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .rev-grid{columns:1}
+  .nav-links{
+    display:none;position:absolute;top:100%;left:0;right:0;
+    background:var(--sand);flex-direction:column;gap:0;padding:8px 24px 20px;
+    box-shadow:0 12px 24px rgba(0,0,0,.08);
+  }
+  .nav-links.open{display:flex}
+  .nav-links li{width:100%;border-bottom:1px solid var(--line)}
+  .nav-links a{display:block;padding:15px 0;color:var(--ink) !important;text-shadow:none !important}
+  .burger{display:block}
+  .foot-grid{grid-template-columns:1fr}
+  .price{font-size:34px}
+  .row2{grid-template-columns:1fr}
+  .rev-sum{gap:28px}
+  .rev-sum b{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <img src="img/logo.png" alt="Будра">
+      <span>Будра</span>
+    </a>
+    <button class="burger" id="burger" aria-label="Меню"><i></i><i></i><i></i></button>
+    <ul class="nav-links" id="menu">
+      <li><a href="#poyasa">Пояса</a></li>
+      <li><a href="#otzyvy">Отзывы</a></li>
+      <li><a href="#brend">О бренде</a></li>
+      <li><a href="#faq">Вопросы</a></li>
+      <li><a href="#zakaz">Заказать</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-text">
+    <div class="hero-text-inner">
+      <div class="eyebrow">Широкие бохо-пояса</div>
+      <h1>Пояс, который собирает образ</h1>
+      <p>Кожа, металл, чеканные бляхи. Один аксессуар превращает простое платье в образ, на который оборачиваются.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#poyasa">Смотреть пояса</a>
+        <a class="btn outline" href="#otzyvy">Читать отзывы</a>
+      </div>
+      <div class="hero-note">
+        <span class="stars">★★★★★</span>
+        <span>4,9 из 5 · 255 оценок на Wildberries</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-media">
+    <img src="img/boho-1.jpg" alt="Широкий бохо-пояс на длинном платье">
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="poyasa">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <div class="eyebrow">Коллекция</div>
+      <h2>Два пояса. Разные характеры.</h2>
+      <p class="lead">Оба собраны на плотной основе с металлической фурнитурой и чеканными медальонами. Не гнутся, не перекручиваются, держат форму на талии и на бёдрах.</p>
+    </div>
+
+    <!-- ТОВАР 1 -->
+    <article class="product fade" data-product="boho">
+      <div class="gallery">
+        <div class="gallery-main"><img id="main-boho" src="img/boho-1.jpg" alt="Бохо-пояс, бронза и золото"></div>
+        <div class="thumbs" data-for="boho">
+          <button class="on" data-src="img/boho-1.jpg"><img src="img/boho-1.jpg" alt=""></button>
+          <button data-src="img/boho-2.jpg"><img src="img/boho-2.jpg" alt=""></button>
+          <button data-src="img/boho-3.jpg"><img src="img/boho-3.jpg" alt=""></button>
+        </div>
+      </div>
+      <div class="info">
+        <div class="eyebrow">Бестселлер · артикул 391240759</div>
+        <h3>Пояс «Бохо» — коричневый, золотистый, бронза</h3>
+        <div class="rating"><span class="stars">★★★★★</span> 4,9 · 255 оценок на Wildberries</div>
+        <div class="price-row">
+          <span class="price">990 ₽</span>
+        </div>
+        <div class="price-note">Цена при заказе напрямую, с подарочной упаковкой. Доставка по России.</div>
+
+        <div class="sizes" data-for="boho">
+          <button class="on" data-len="95">Размер B · 95 см</button>
+          <button data-len="120">Размер C · 120 см</button>
+        </div>
+        <div class="size-hint" id="hint-boho">B — на талию, посадка выше линии бёдер.</div>
+
+        <ul class="specs">
+          <li><span>Материал</span><span>Натуральная и искусственная кожа, металл</span></li>
+          <li><span>Декор</span><span>Чеканные бляхи, пряжки</span></li>
+          <li><span>Комплектация</span><span>Пояс, подарочная упаковка</span></li>
+          <li><span>Возврат</span><span>14 дней, есть примерка</span></li>
+        </ul>
+
+        <div class="buy">
+          <a class="btn" href="#zakaz">Заказать с оплатой на сайте</a>
+          <a class="btn outline" href="https://www.wildberries.ru/catalog/391240759/detail.aspx" target="_blank" rel="noopener">Купить на Wildberries</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ТОВАР 2 -->
+    <article class="product rev fade" data-product="black">
+      <div class="gallery">
+        <div class="gallery-main"><img id="main-black" src="img/black-1.jpg" alt="Чёрный бохо-пояс с бронзовой бляхой"></div>
+        <div class="thumbs" data-for="black">
+          <button class="on" data-src="img/black-1.jpg"><img src="img/black-1.jpg" alt=""></button>
+          <button data-src="img/black-2.jpg"><img src="img/black-2.jpg" alt=""></button>
+          <button data-src="img/black-3.jpg"><img src="img/black-3.jpg" alt=""></button>
+          <button data-src="img/black-4.jpg"><img src="img/black-4.jpg" alt=""></button>
+        </div>
+      </div>
+      <div class="info">
+        <div class="eyebrow">Новинка · артикул 990734584</div>
+        <h3>Пояс «Бохо» — глубокий чёрный с бронзой</h3>
+        <div class="rating"><span class="stars">★★★★★</span> 5,0 · 13 оценок на Wildberries</div>
+        <div class="price-row">
+          <span class="price">990 ₽</span>
+        </div>
+        <div class="price-note">Цена при заказе напрямую. Ширина 8,5 см, подарочная упаковка.</div>
+
+        <div class="sizes" data-for="black">
+          <button class="on" data-len="95">Размер B · 95 см</button>
+          <button data-len="120">Размер C · 120 см</button>
+        </div>
+        <div class="size-hint" id="hint-black">B — на талию, посадка выше линии бёдер.</div>
+
+        <ul class="specs">
+          <li><span>Материал</span><span>Натуральная и искусственная кожа, металл</span></li>
+          <li><span>Ширина</span><span>8,5 см</span></li>
+          <li><span>Комплектация</span><span>Пояс, подарочная упаковка</span></li>
+          <li><span>Возврат</span><span>14 дней, есть примерка</span></li>
+        </ul>
+
+        <div class="buy">
+          <a class="btn" href="#zakaz">Заказать с оплатой на сайте</a>
+          <a class="btn outline" href="https://www.wildberries.ru/catalog/990734584/detail.aspx" target="_blank" rel="noopener">Купить на Wildberries</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="otzyvy">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <div class="eyebrow">Отзывы</div>
+      <h2>Что пишут покупательницы</h2>
+      <p class="lead">Отзывы собраны с карточки на Wildberries. Публикуем как есть, включая замечания.</p>
+    </div>
+
+    <div class="rev-sum fade">
+      <div><b>4,9</b><small>Средняя оценка</small></div>
+      <div><b>255</b><small>Оценок</small></div>
+      <div><b>159</b><small>Отзывов</small></div>
+      <div><b>100%</b><small>Соответствует размеру</small></div>
+    </div>
+
+    <div class="rev-grid fade">
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>Реально 120, для девочек с красивыми формами, идеально! Давно искала такой ремень. Спасибо за товар.</p>
+        <div class="rev-who">Татьяна · 14 августа</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>Ремень очень красивый! Даже на мой 48 размер смотрится великолепно, качество понравилось!</p>
+        <div class="rev-who">Анастасия · 6 августа</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>Стильный, удобный ремень хорошего качества. Покупкой довольна. При получении от ремня ощущался небольшой неприятный запах, но он быстро выветрился. Сейчас всё нормально.</p>
+        <div class="rev-who">Ельчанинова · 26 июля</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>Этот ремень теперь моя любовь. Ношу его со всеми шмотками.</p>
+        <div class="rev-who">Анна-Лайма · 3 июня</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>Очень классный ремень! Отлично подошёл под все образы.</p>
+        <div class="rev-who">Виктория · 29 мая</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>Пояс шикарный, надеваю на многие юбки, смотрится стильно и оригинально.</p>
+        <div class="rev-who">Ирина · 22 мая</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>Очень стильный! Подходит к разным лукам.</p>
+        <div class="rev-who">Алексей · 5 мая</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>Даже лучше, чем на фото.</p>
+        <div class="rev-who">Ульяна · 5 мая</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>Очень стильно смотрится, шикарное качество, соответствует описанию.</p>
+        <div class="rev-who">Василиса · 17 июня</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="brend">
+  <div class="wrap about">
+    <img class="fade" src="img/black-4.jpg" alt="Бохо-пояс в образе">
+    <div class="fade">
+      <div class="eyebrow">О бренде</div>
+      <h2>Будра</h2>
+      <p class="lead">Будра — это про аксессуар, который делает всю работу. Не надо новый гардероб: достаточно одного пояса, чтобы простое льняное платье стало образом, а джинсы с базовой рубашкой перестали быть «просто джинсами».</p>
+      <p>Мы выбираем широкие модели с настоящей металлической фурнитурой и чеканкой. Такие пояса не теряются на фигуре, держат форму и одинаково хорошо садятся и на талию, и на бёдра.</p>
+      <p>Продукция сертифицирована: декларация соответствия ТР ТС 017/2011 зарегистрирована 28.04.2025.</p>
+      <div class="buy"><a class="btn outline" href="#poyasa">Выбрать пояс</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <div class="eyebrow">Вопросы</div>
+      <h2>Честно о том, что спрашивают чаще всего</h2>
+    </div>
+    <div class="faq fade">
+      <details open>
+        <summary>Какой размер выбрать?</summary>
+        <p>B — длина 95 см, садится на талию. C — длина 120 см, подходит и на талию с напуском, и на бёдра, и на верхнюю одежду. Если сомневаетесь между двумя, берите C: его можно носить обоими способами.</p>
+      </details>
+      <details>
+        <summary>Правда, что пояс пахнет при получении?</summary>
+        <p>Да, у части покупательниц первые дни ощущается запах кожи и клея. Это отмечено в отзывах, и мы это не прячем. Запах выветривается за несколько дней, если подержать пояс на воздухе. Если он вам мешает, оформляйте возврат: 14 дней, без объяснений.</p>
+      </details>
+      <details>
+        <summary>Из чего сделан пояс?</summary>
+        <p>Натуральная и искусственная кожа, металлическая фурнитура и чеканные бляхи. Состав указан в декларации соответствия ТР ТС 017/2011.</p>
+      </details>
+      <details>
+        <summary>Можно ли вернуть?</summary>
+        <p>Да. 14 дней на возврат, при заказе на Wildberries доступна примерка перед выкупом.</p>
+      </details>
+      <details>
+        <summary>Как быстро придёт заказ?</summary>
+        <p>При заказе на Wildberries — по стандартным срокам площадки, обычно 2–5 дней. При заказе напрямую сроки и способ доставки согласуем в переписке.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ФОРМА ЗАКАЗА -->
+<section class="order" id="zakaz">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <div class="eyebrow">Оформление</div>
+      <h2>Заказать с оплатой на сайте</h2>
+      <p class="lead">Заполните данные, оплата пройдёт на защищённой странице платёжного сервиса. Карты любых банков, СБП, рассрочка.</p>
+    </div>
+
+    <div class="order-grid">
+      <div class="order-side fade">
+        <img src="img/boho-3.jpg" alt="Бохо-пояс">
+        <ul class="steps">
+          <li><b>1</b><span>Заполняете форму: товар, размер и куда доставить</span></li>
+          <li><b>2</b><span>Оплачиваете картой или через СБП на странице платёжного сервиса</span></li>
+          <li><b>3</b><span>Получаете чек на почту, мы отправляем заказ и присылаем трек-номер</span></li>
+          <li><b>4</b><span>14 дней на возврат, если не подошло</span></li>
+        </ul>
+      </div>
+
+      <form class="order-form fade" id="orderForm" novalidate>
+        <div class="field">
+          <label for="f-item">Товар</label>
+          <select id="f-item">
+            <option value="Пояс «Бохо» — коричневый, золотистый, бронза" data-price="990">Пояс «Бохо» — бронза и золото — 990 ₽</option>
+            <option value="Пояс «Бохо» — глубокий чёрный с бронзой" data-price="990">Пояс «Бохо» — чёрный с бронзой — 990 ₽</option>
+          </select>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="f-size">Размер</label>
+            <select id="f-size">
+              <option value="B · 95 см">B · 95 см (на талию)</option>
+              <option value="C · 120 см">C · 120 см (универсальный)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-qty">Количество</label>
+            <input id="f-qty" type="number" min="1" max="10" value="1" inputmode="numeric">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="f-first">Имя</label>
+            <input id="f-first" type="text" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="f-last">Фамилия</label>
+            <input id="f-last" type="text" autocomplete="family-name" required>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="f-phone">Телефон</label>
+            <input id="f-phone" type="tel" placeholder="+7 999 000-00-00" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label for="f-email">Почта (для чека)</label>
+            <input id="f-email" type="email" placeholder="you@mail.ru" autocomplete="email" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-addr">Адрес доставки</label>
+          <textarea id="f-addr" placeholder="Город, улица, дом, квартира. Или номер и адрес пункта выдачи" autocomplete="street-address" required></textarea>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="f-zip">Индекс</label>
+            <input id="f-zip" type="text" inputmode="numeric" autocomplete="postal-code">
+          </div>
+          <div class="field">
+            <label for="f-delivery">Доставка</label>
+            <select id="f-delivery">
+              <option>СДЭК до пункта выдачи</option>
+              <option>СДЭК курьером до двери</option>
+              <option>Почта России</option>
+              <option>Самовывоз, Москва</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-note">Комментарий (необязательно)</label>
+          <textarea id="f-note" placeholder="Обхват талии или бёдер, под какую вещь берёте, пожелания по доставке"></textarea>
+        </div>
+
+        <div class="total">
+          <span>Итого</span>
+          <b id="f-total">990 ₽</b>
+        </div>
+
+        <label class="agree">
+          <input type="checkbox" id="f-agree">
+          <span>Согласен(на) на обработку персональных данных и принимаю условия
+            <a href="oferta.html" target="_blank">оферты</a> и
+            <a href="politika.html" target="_blank">политики конфиденциальности</a>.</span>
+        </label>
+
+        <button class="btn" type="submit">Перейти к оплате</button>
+        <div class="pay-note">Оплата проходит на стороне платёжного сервиса. Мы не видим и не храним данные вашей карты.</div>
+        <div class="form-msg" id="formMsg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="kontakty">
+  <div class="wrap">
+    <div class="eyebrow">Заказать</div>
+    <h2>Напишите, подберём размер</h2>
+    <p class="lead">Скажите свой обхват талии или бёдер и под какую вещь берёте пояс. Ответим и поможем выбрать между B и C.</p>
+    <div class="buy">
+      <a class="btn" data-tg href="#">Написать в Telegram</a>
+      <a class="btn outline" href="mailto:mbudrevich@bk.ru?subject=%D0%97%D0%B0%D0%BA%D0%B0%D0%B7%20%D0%BF%D0%BE%D1%8F%D1%81%D0%B0%20%D0%91%D1%83%D0%B4%D1%80%D0%B0">Написать на почту</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" style="margin-bottom:16px">
+          <img src="img/logo.png" alt="Будра" style="width:38px">
+          <span style="font-size:22px;color:var(--ink)">Будра</span>
+        </a>
+        <p style="max-width:36ch">Широкие бохо-пояса из кожи и металла. Один аксессуар, который собирает образ.</p>
+      </div>
+      <div>
+        <h4>Каталог</h4>
+        <ul>
+          <li><a href="#poyasa">Пояс «Бохо» бронза</a></li>
+          <li><a href="#poyasa">Пояс «Бохо» чёрный</a></li>
+          <li><a href="#zakaz">Оформить заказ</a></li>
+          <li><a href="#otzyvy">Отзывы</a></li>
+          <li><a href="#faq">Вопросы и ответы</a></li>
+          <li><a href="oferta.html">Оферта</a></li>
+          <li><a href="politika.html">Политика конфиденциальности</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Связаться</h4>
+        <ul>
+          <li><a data-tg href="#">Telegram</a></li>
+          <li><a href="tel:+79522037340">+7 952 203-73-40</a></li>
+          <li><a href="mailto:mbudrevich@bk.ru">mbudrevich@bk.ru</a></li>
+          <li><a href="https://www.wildberries.ru/catalog/391240759/detail.aspx" target="_blank" rel="noopener">Магазин на Wildberries</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      ИП Будревич Мария Васильевна · ОГРНИП 324774600647316<br>
+      Декларация о соответствии ЕАЭС N RU Д-CN.РА03.В.92397/25 от 28.04.2025, ТР ТС 017/2011 «О безопасности продукции лёгкой промышленности». Действительна до 27.04.2030.<br>
+      Информация на сайте не является публичной офертой. © 2026 Будра
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   НАСТРОЙКА ОПЛАТЫ  —  МАША, МЕНЯТЬ ТОЛЬКО ЗДЕСЬ
+
+   1. Регистрируешься в Продамус, получаешь адрес своей платёжной формы.
+      Он выглядит так:  https://твоймагазин.payform.ru/
+   2. Вставляешь его в строчку PAYFORM ниже вместо слова ЗАМЕНИ.
+   3. Всё. Форма сама соберёт заказ и отправит человека на оплату.
+
+   Пока PAYFORM не заполнен, кнопка «Перейти к оплате» не ломается:
+   она соберёт весь заказ текстом и откроет Telegram. То есть продавать
+   можно уже сегодня, а Продамус подключить позже.
+   ===================================================================== */
+var PAYFORM  = 'ЗАМЕНИ';          // например: 'https://budra.payform.ru/'
+var TELEGRAM = 'budra96';         // ник без собачки
+/* ===================================================================== */
+
+// подставляем ссылку на Telegram во все кнопки
+(function(){
+  var url = (TELEGRAM && TELEGRAM !== 'ЗАМЕНИ')
+    ? 'https://t.me/' + TELEGRAM.replace('@','')
+    : 'mailto:mbudrevich@bk.ru';
+  document.querySelectorAll('[data-tg]').forEach(function(a){
+    a.setAttribute('href', url);
+    if (url.indexOf('http') === 0) a.setAttribute('target','_blank');
+  });
+})();
+
+// форма заказа
+var form = document.getElementById('orderForm');
+if (form) {
+  var elItem  = document.getElementById('f-item'),
+      elQty   = document.getElementById('f-qty'),
+      elTotal = document.getElementById('f-total'),
+      msg     = document.getElementById('formMsg');
+
+  function price(){ return parseInt(elItem.selectedOptions[0].dataset.price, 10); }
+  function qty(){ return Math.max(1, Math.min(10, parseInt(elQty.value, 10) || 1)); }
+  function recalc(){ elTotal.textContent = (price() * qty()).toLocaleString('ru-RU') + ' ₽'; }
+  elItem.addEventListener('change', recalc);
+  elQty.addEventListener('input', recalc);
+  recalc();
+
+  function val(id){ return document.getElementById(id).value.trim(); }
+
+  function show(text){ msg.textContent = text; msg.classList.add('on'); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    msg.classList.remove('on');
+
+    var first = val('f-first'), last = val('f-last'),
+        phone = val('f-phone'), email = val('f-email'), addr = val('f-addr');
+
+    if (!first || !last)  return show('Заполните имя и фамилию.');
+    if (phone.replace(/\D/g,'').length < 10) return show('Проверьте номер телефона.');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return show('Проверьте адрес почты, на неё придёт чек.');
+    if (addr.length < 8) return show('Укажите адрес доставки или пункт выдачи.');
+    if (!document.getElementById('f-agree').checked)
+      return show('Поставьте галочку согласия, без неё мы не можем принять заказ.');
+
+    var fio     = last + ' ' + first,
+        name    = elItem.value + ', размер ' + val('f-size'),
+        full    = addr + (val('f-zip') ? ', индекс ' + val('f-zip') : ''),
+        order   = 'BUDRA-' + Date.now().toString().slice(-8);
+
+    if (PAYFORM && PAYFORM.indexOf('payform.ru') !== -1) {
+      var p = new URLSearchParams();
+      p.set('order_id', order);
+      p.set('customer_phone', phone);
+      p.set('customer_email', email);
+      p.set('products[0][name]', name);
+      p.set('products[0][price]', price());
+      p.set('products[0][quantity]', qty());
+      p.set('_param_fio', fio);
+      p.set('_param_dostavka', val('f-delivery'));
+      p.set('_param_adres', full);
+      if (val('f-note')) p.set('_param_kommentariy', val('f-note'));
+      p.set('urlReturn', location.href.split('#')[0]);
+      p.set('urlSuccess', location.href.split('#')[0] + '?paid=1');
+      window.location.href = PAYFORM.replace(/\/?$/, '/') + '?' + p.toString();
+      return;
+    }
+
+    // оплата ещё не подключена — собираем заказ текстом и уводим в Telegram
+    var t = 'Здравствуйте! Заказ ' + order + '\n\n' +
+            'Товар: ' + name + '\n' +
+            'Количество: ' + qty() + '\n' +
+            'Сумма: ' + (price() * qty()) + ' ₽\n\n' +
+            'ФИО: ' + fio + '\n' +
+            'Телефон: ' + phone + '\n' +
+            'Почта: ' + email + '\n' +
+            'Доставка: ' + val('f-delivery') + '\n' +
+            'Адрес: ' + full +
+            (val('f-note') ? '\n\nКомментарий: ' + val('f-note') : '');
+
+    function go(){
+      if (TELEGRAM && TELEGRAM !== 'ЗАМЕНИ')
+        window.open('https://t.me/' + TELEGRAM.replace('@',''), '_blank');
+      else
+        window.location.href = 'mailto:mbudrevich@bk.ru?subject=' +
+          encodeURIComponent('Заказ ' + order) + '&body=' + encodeURIComponent(t);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(function(){
+        show('Заказ скопирован. Откроется Telegram: просто вставьте сообщение и отправьте, мы пришлём ссылку на оплату.');
+        go();
+      }, function(){ show('Заказ собран:\n\n' + t); go(); });
+    } else {
+      show('Заказ собран:\n\n' + t); go();
+    }
+  });
+
+  // возврат после успешной оплаты
+  if (location.search.indexOf('paid=1') !== -1) {
+    show('Оплата прошла. Чек придёт на почту, трек-номер пришлём в течение суток. Спасибо!');
+    document.getElementById('zakaz').scrollIntoView();
+  }
+}
+
+// шапка меняет вид при скролле
+var hdr = document.getElementById('hdr');
+function onScroll(){
+  if (window.scrollY > window.innerHeight * 0.72) hdr.classList.add('solid');
+  else hdr.classList.remove('solid');
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+// мобильное меню
+var burger = document.getElementById('burger'), menu = document.getElementById('menu');
+burger.addEventListener('click', function(){ menu.classList.toggle('open'); });
+menu.addEventListener('click', function(e){ if (e.target.tagName === 'A') menu.classList.remove('open'); });
+
+// галереи
+document.querySelectorAll('.thumbs').forEach(function(box){
+  var key = box.dataset.for;
+  var main = document.getElementById('main-' + key);
+  box.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      box.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      main.style.opacity = 0;
+      setTimeout(function(){ main.src = b.dataset.src; main.style.opacity = 1; }, 160);
+    });
+  });
+});
+
+// выбор размера
+var HINTS = {
+  '95':  'B — на талию, посадка выше линии бёдер.',
+  '120': 'C — универсальный: на талию с напуском, на бёдра и поверх верхней одежды.'
+};
+document.querySelectorAll('.sizes').forEach(function(box){
+  var hint = document.getElementById('hint-' + box.dataset.for);
+  box.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      box.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      hint.textContent = HINTS[b.dataset.len];
+    });
+  });
+});
+
+// появление блоков при скролле
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold:0.12});
+document.querySelectorAll('.fade').forEach(function(el){ io.observe(el); });
+</script>
+</body>
+</html>
