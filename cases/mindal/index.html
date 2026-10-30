@@ -85,11 +85,16 @@ header.s{border-color:var(--line)}
 .work{border-radius:22px;overflow:hidden;background:var(--cream);position:relative;aspect-ratio:3/4}
 .work:nth-child(2),.work:nth-child(5){transform:translateY(34px)}
 .work svg{width:100%;height:100%;display:block}
+.work img,.m .ph img,.art img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.m .ph{position:relative;overflow:hidden}
 .work span{position:absolute;left:14px;bottom:14px;background:rgba(251,246,241,.92);border-radius:999px;padding:6px 14px;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 
 /* почему */
-.why{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
+.why{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:22px;margin-top:46px}
 .why div{padding:32px;border-radius:24px;border:1px solid var(--line);background:#fff}
+.why-ph{position:relative;padding:0!important;overflow:hidden;min-height:300px}
+.why-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.why-ph span{position:absolute;left:14px;right:14px;bottom:14px;background:rgba(251,246,241,.92);border-radius:14px;padding:10px 14px;font-size:13px}
 .why b{font-family:var(--serif);font-size:44px;color:var(--rose);font-weight:500;line-height:1;display:block;margin-bottom:16px}
 .why h3{font-size:26px;margin-bottom:8px}
 .why p{color:var(--muted);font-size:15.5px}
@@ -143,6 +148,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .gallery{grid-template-columns:1fr 1fr}
   .work:nth-child(2),.work:nth-child(5){transform:none}
   .why,.revs{grid-template-columns:1fr}
+  .why-ph{min-height:260px}
   .team{grid-template-columns:repeat(3,1fr);gap:12px}
   .m .ph{font-size:40px;margin-bottom:12px}
   .m h3{font-size:20px}
@@ -170,7 +176,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <ul class="links">
       <li><a href="#uslugi">Услуги</a></li>
       <li><a href="#raboty">Работы</a></li>
-      <li><a href="#mastera">Мастера</a></li>
       <li><a href="#otzyvy">Отзывы</a></li>
     </ul>
     <a href="#zapis" class="btn">Записаться</a>
@@ -193,20 +198,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div><b>4,9</b><span>оценка гостей</span></div>
       </div>
     </div>
-    <div class="art fade" aria-hidden="true">
-      <svg viewBox="0 0 500 540">
-        <defs>
-          <linearGradient id="n1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6DCD4"/><stop offset="1" stop-color="#C98A7E"/></linearGradient>
-          <linearGradient id="n2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".2" stop-color="#FFFFFF"/><stop offset=".21" stop-color="#F6E3DC"/><stop offset="1" stop-color="#EFD3CA"/></linearGradient>
-          <linearGradient id="n3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8E4E45"/><stop offset="1" stop-color="#5A2C27"/></linearGradient>
-          <linearGradient id="gl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-          <path id="nail" d="M0 150 C0 60 22 0 50 0 C78 0 100 60 100 150 C100 178 78 196 50 196 C22 196 0 178 0 150Z"/>
-        </defs>
-        <g transform="translate(70 150) rotate(-14)"><use href="#nail" fill="url(#n1)"/><rect x="28" y="20" width="10" height="120" rx="5" fill="url(#gl)" opacity=".7"/></g>
-        <g transform="translate(190 96)"><use href="#nail" fill="url(#n2)"/><rect x="28" y="20" width="10" height="110" rx="5" fill="url(#gl)" opacity=".6"/></g>
-        <g transform="translate(310 150) rotate(14)"><use href="#nail" fill="url(#n3)"/><rect x="28" y="20" width="10" height="120" rx="5" fill="url(#gl)" opacity=".5"/></g>
-        <circle cx="420" cy="90" r="5" fill="#fff" opacity=".8"/><circle cx="92" cy="96" r="3.5" fill="#fff" opacity=".7"/><circle cx="440" cy="400" r="3" fill="#fff" opacity=".7"/>
-      </svg>
+    <div class="art fade">
+      <img class="photo" src="img/hero.jpg" alt="Мастер делает маникюр в стерильных перчатках">
       <div class="badge"><b>Сегодня есть окна</b>14:00 · 17:30 · 19:00</div>
     </div>
   </div>
@@ -231,13 +224,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <section id="raboty">
   <div class="wrap">
-    <div class="fade"><div class="eyebrow">Работы мастеров</div><h2>Нюд, френч, <em>хром</em></h2>
-    <p class="lead">Здесь у настоящей студии будут фото работ из её Instagram: клиенты смотрят их чаще, чем цены.</p></div>
+    <div class="fade"><div class="eyebrow">Наши работы</div><h2>Любой маникюр, <em>от нюда</em> до дизайна</h2>
+    <p class="lead">Покажите фото, которое нравится, или доверьтесь мастеру: подберём форму и оттенок под ваши руки.</p></div>
     <div class="gallery">
-      <div class="work fade"><svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#F1E2DA"/><g transform="translate(100 90)"><path d="M0 150 C0 60 22 0 50 0 C78 0 100 60 100 150 C100 178 78 196 50 196 C22 196 0 178 0 150Z" fill="#E3B8AC"/></g></svg><span>Нюд</span></div>
-      <div class="work fade"><svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#EFE6E0"/><g transform="translate(100 90)"><path d="M0 150 C0 60 22 0 50 0 C78 0 100 60 100 150 C100 178 78 196 50 196 C22 196 0 178 0 150Z" fill="#F8E9E3"/><path d="M0 40 C10 12 28 0 50 0 C72 0 90 12 100 40 C80 30 20 30 0 40Z" fill="#fff"/></g></svg><span>Френч</span></div>
-      <div class="work fade"><svg viewBox="0 0 300 400"><defs><linearGradient id="ch" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".35" stop-color="#D9CFD4"/><stop offset=".6" stop-color="#F7F2F5"/><stop offset="1" stop-color="#B7A9B0"/></linearGradient></defs><rect width="300" height="400" fill="#E6E0E2"/><g transform="translate(100 90)"><path d="M0 150 C0 60 22 0 50 0 C78 0 100 60 100 150 C100 178 78 196 50 196 C22 196 0 178 0 150Z" fill="url(#ch)"/></g></svg><span>Хром</span></div>
-      <div class="work fade"><svg viewBox="0 0 300 400"><rect width="300" height="400" fill="#EAD7D2"/><g transform="translate(100 90)"><path d="M0 150 C0 60 22 0 50 0 C78 0 100 60 100 150 C100 178 78 196 50 196 C22 196 0 178 0 150Z" fill="#7A3A33"/><circle cx="50" cy="70" r="5" fill="#E9C9A6"/><circle cx="38" cy="92" r="3" fill="#E9C9A6"/><circle cx="62" cy="96" r="3" fill="#E9C9A6"/></g></svg><span>Вишня</span></div>
+      <div class="work fade"><img src="img/work-1.jpg" alt="Маникюр в нюдовом оттенке" loading="lazy"></div>
+      <div class="work fade"><img src="img/work-2.jpg" alt="Маникюр миндальной формы с перламутром" loading="lazy"></div>
+      <div class="work fade"><img src="img/work-3.jpg" alt="Аккуратный нюдовый маникюр" loading="lazy"></div>
+      <div class="work fade"><img src="img/work-4.jpg" alt="Тёмно-красный френч" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -246,20 +239,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="wrap">
     <div class="fade"><div class="eyebrow">Почему к нам возвращаются</div><h2>Три вещи, которые <em>не обсуждаются</em></h2></div>
     <div class="why">
+      <div class="fade why-ph"><img src="img/palette.jpg" alt="Палитра оттенков гель-лака" loading="lazy"><span>Больше 200 оттенков в палитре</span></div>
       <div class="fade"><b>01</b><h3>Стерильность</h3><p>Инструменты проходят три этапа обработки и сухожар. Крафт-пакет вскрываем при вас.</p></div>
       <div class="fade"><b>02</b><h3>Без спешки</h3><p>На одного гостя полтора часа, а не сорок минут. Поэтому покрытие ровное и держится.</p></div>
       <div class="fade"><b>03</b><h3>Гарантия</h3><p>Если покрытие отошло в первые семь дней, исправим бесплатно.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="masters" id="mastera">
-  <div class="wrap">
-    <div class="fade"><div class="eyebrow">Мастера</div><h2>Те, кому <em>доверяют</em> руки</h2></div>
-    <div class="team">
-      <div class="m fade"><div class="ph" style="background:linear-gradient(160deg,#E9C6BC,#C98A7E)">А</div><h3>Алина</h3><p>Топ-мастер · 7 лет · френч и сложный дизайн</p></div>
-      <div class="m fade"><div class="ph" style="background:linear-gradient(160deg,#E7D3CC,#B29189)">В</div><h3>Вероника</h3><p>Мастер · 4 года · укрепление и нюд</p></div>
-      <div class="m fade"><div class="ph" style="background:linear-gradient(160deg,#EBD9D2,#A9685C)">К</div><h3>Ксения</h3><p>Мастер педикюра · 5 лет</p></div>
     </div>
   </div>
 </section>
@@ -283,7 +266,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <h2>Выберите <em>удобное</em> время</h2>
       <p class="lead">Оставьте заявку, администратор подтвердит запись в течение 15 минут. Или напишите нам в Telegram.</p>
       <ul class="contacts">
-        <li><span>Адрес</span><span>Москва, 3 минуты от метро</span></li>
+        <li><span>Адрес</span><span>Москва, 3 минуты пешком от м. Новослободская</span></li>
         <li><span>Часы</span><span>ежедневно 10:00–22:00</span></li>
         <li><span>Телефон</span><span>+7 (900) 000-00-00</span></li>
         <li><span>Telegram</span><span>@mindal_nails</span></li>
@@ -305,7 +288,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <footer>
   <div class="wrap">
-    <span>© Миндаль, студия маникюра. Вымышленная студия для портфолио.</span>
+    <span>© Миндаль, студия маникюра. Вымышленная студия для портфолио. Фото: Unsplash.</span>
     <span>Сайт: <a href="../../index.html">budra.ai</a></span>
   </div>
 </footer>
