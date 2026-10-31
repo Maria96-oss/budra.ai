@@ -282,6 +282,7 @@ footer li{margin-bottom:9px}
 </style>
 </head>
 <body>
+<div style="background:#2a2420;color:#f1e7da;text-align:center;font-size:13px;padding:10px 16px;position:relative;z-index:50">Магазин закрыт, заказы не принимаются. Сайт сохранён как пример работы студии <a href="../../index.html" style="color:#e6c79c">budra.ai</a>.</div>
 
 <header id="hdr">
   <div class="wrap nav">
@@ -628,7 +629,7 @@ footer li{margin-bottom:9px}
             <a href="politika.html" target="_blank">политики конфиденциальности</a>.</span>
         </label>
 
-        <button class="btn" type="submit">Перейти к оплате</button>
+        <button class="btn" type="submit">Магазин закрыт</button>
         <div class="pay-note">Оплата проходит на стороне платёжного сервиса. Мы не видим и не храним данные вашей карты.</div>
         <div class="form-msg" id="formMsg"></div>
       </form>
@@ -718,6 +719,7 @@ var TELEGRAM = 'budra96';         // ник без собачки
 
 // форма заказа
 var form = document.getElementById('orderForm');
+form.querySelectorAll('input,select,textarea').forEach(function(el){ el.disabled = true; });
 if (form) {
   var elItem  = document.getElementById('f-item'),
       elQty   = document.getElementById('f-qty'),
@@ -738,6 +740,7 @@ if (form) {
   form.addEventListener('submit', function(e){
     e.preventDefault();
     msg.classList.remove('on');
+    return show('Магазин закрыт: заказы больше не принимаются. Сайт сохранён как пример работы студии budra.ai.');
 
     var first = val('f-first'), last = val('f-last'),
         phone = val('f-phone'), email = val('f-email'), addr = val('f-addr');
