@@ -7,9 +7,7 @@
 <meta name="description" content="Йога-студия «Лайм»: хатха, виньяса, йога для спины. Первое занятие бесплатно. Расписание и онлайн-запись.">
 <meta property="og:title" content="Лайм · йога-студия">
 <meta property="og:description" content="Хатха, виньяса, йога для спины. Первое занятие бесплатно.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../fonts/fonts.css">
 <style>
 :root{
   --forest:#123C2F;
@@ -153,6 +151,7 @@ label{font-size:13px;font-weight:700;color:var(--muted);display:grid;gap:6px}
 input,select{font:inherit;font-size:16px;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--ink);width:100%}
 input:focus,select:focus{outline:3px solid var(--lime);border-color:var(--green)}
 .agree{font-weight:500;font-size:13px;display:flex;gap:10px;align-items:flex-start;line-height:1.45}
+.agree a{color:inherit;text-decoration:underline}
 .agree input{width:auto;margin-top:2px}
 .ok{display:none;background:var(--mint);border-radius:14px;padding:14px;font-size:15px}
 
@@ -342,7 +341,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <label>Ваше имя<input name="name" required autocomplete="name" placeholder="Анна"></label>
       <label>Телефон<input name="phone" type="tel" required autocomplete="tel" placeholder="+7 900 000-00-00"></label>
       <label>Направление<select name="dir" id="dirSel"><option>Хатха для начинающих</option><option>Виньяса</option><option>Йога для спины</option><option>Пока не знаю, подскажите</option></select></label>
-      <label class="agree"><input type="checkbox" required checked> Согласна на обработку персональных данных и с политикой конфиденциальности</label>
+      <label class="agree"><input type="checkbox" name="agree" required> <span>Даю <a href="../dokumenty/soglasie.html" target="_blank">согласие на обработку персональных данных</a> и принимаю <a href="../dokumenty/politika.html" target="_blank">политику конфиденциальности</a></span></label>
       <button class="btn" type="submit">Записаться бесплатно</button>
       <div class="ok" id="ok">Спасибо! Это демо-сайт, поэтому заявка никуда не ушла. У настоящей студии она придёт администратору в Telegram или в онлайн-запись.</div>
     </form>
@@ -378,6 +377,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </footer>
 
 <script>
+function alert0(f){var l=f.querySelector('.agree');l.style.color='#c0392b';l.querySelector('input').focus();setTimeout(function(){l.style.color=''},2500)}
 (function(){
   var h=document.getElementById('hdr');
   addEventListener('scroll',function(){h.classList.toggle('s',scrollY>10)},{passive:true});
@@ -473,6 +473,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
   document.getElementById('form').addEventListener('submit',function(e){
     e.preventDefault();var f=e.target;
+    if(!f.agree.checked){alert0(f);return}
     if(!f.name.value.trim()){f.name.focus();return}
     if(!f.phone.value.trim()){f.phone.focus();return}
     document.getElementById('ok').style.display='block';
