@@ -830,8 +830,11 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
      где браузер сам видео заранее не грузит. Держим два ролика вперёд и один назад, и кадры этих этапов. */
   var pos = -1, busy = false, locked = true, z = 1, blobs = {}, loading = {}, vids = {}, stills = {};
   function key(c, rev){ return 'c' + c + (rev ? 'r' : '') + SUF; }
+  // медленный интернет или экономия трафика: без роликов, этапы сменяются растворением чётких кадров
+  var nc = navigator.connection || {};
+  function slowNet(){ return !!nc.saveData || /(^|-)2g|3g/.test(nc.effectiveType || ''); }
   function fetchClip(k){
-    if (blobs[k] || loading[k]) return;
+    if (slowNet() || blobs[k] || loading[k]) return;
     loading[k] = fetch('step/' + k + '.mp4').then(function(r){ if (!r.ok) throw r.status; return r.blob(); })
       .then(function(b){ blobs[k] = URL.createObjectURL(b); delete loading[k]; })
       .catch(function(){ delete loading[k]; setTimeout(function(){ fetchClip(k); }, 1500); });
@@ -852,8 +855,11 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     if (p + 1 < LAST) want.push(key(p + 2, false));
     if (p > 0) want.push(key(p, true));
     if (p === -1) stillImg(0);
-    want.forEach(fetchClip);
-    [p - 1, p + 1, p + 2].forEach(stillImg);
+    // сначала чёткие кадры соседних этапов, ролики только после них, чтобы не делить с ними канал
+    [p + 1, p - 1, p + 2].forEach(stillImg);
+    var nx = stills[p + 1];
+    if (!nx || nx.complete) want.forEach(fetchClip);
+    else nx.addEventListener('load', function(){ if (pos === p) want.forEach(fetchClip); }, { once: true });
     Object.keys(vids).forEach(function(k){
       if (want.indexOf(k) < 0 && vids[k] !== shownV) { vids[k].remove(); delete vids[k]; }
     });
