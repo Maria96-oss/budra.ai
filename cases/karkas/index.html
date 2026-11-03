@@ -96,9 +96,11 @@ body[data-mode=night] .ticker{background:rgba(6,10,20,.5)}
 @keyframes run{to{transform:translateX(-50%)}}
 
 /* ---------- сборка дома ---------- */
-.build{position:relative;background:#1b2130;color:#fff}
+.build{position:relative;background:#1b2130;color:#fff;height:760vh}
+@media (max-width:760px){.build{height:620vh}}
 .stage{position:sticky;top:0;height:100svh;overflow:hidden}
 .media{position:absolute;inset:0}
+.media canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .media video,.media .crisp{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
 .media .crisp{opacity:0;transition:opacity .6s var(--ease)}
 .media .crisp.on{opacity:1}
@@ -303,7 +305,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 .still .hero{position:relative;inset:auto;height:100svh;min-height:560px}
 .still .intro{display:none}
 .still .stage{position:relative;height:auto}
-.still video{display:none}
+.still video,.still canvas{display:none}
 /* без анимаций этапы переключаются кружками, на телефоне они стоят рядом */
 @media (max-width:760px){.still .stage{height:auto}.still .rail{display:flex;position:static;transform:none;flex-direction:row;justify-content:center;padding:12px 0 4px;background:#1b2130}.still .caption{flex:none}}
 </style>
@@ -321,8 +323,8 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
       <img class="ph" src="img/dom-den.webp" width="2200" height="1228" alt="Готовый каркасный дом с террасой среди берёз, летний день" fetchpriority="high">
     </picture>
     <picture class="night">
-      <source media="(max-width:760px)" srcset="img/dom-noch-m.webp">
-      <img class="ph" src="img/dom-noch.webp" width="2200" height="1228" alt="Тот же дом вечером: светятся окна и фонари вдоль дорожки" loading="lazy">
+      <source media="(max-width:760px)" data-srcset="img/dom-noch-m.webp">
+      <img class="ph" id="nightImg" data-src="img/dom-noch.webp" width="2200" height="1228" alt="Тот же дом вечером: светятся окна и фонари вдоль дорожки">
     </picture>
     <video class="intro" id="intro" muted playsinline preload="auto" poster="img/intro-poster.webp" aria-hidden="true"></video>
     </div></div>
@@ -360,7 +362,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 
     <div class="backdrop" id="backdrop" aria-hidden="true"></div>
     <div class="media" id="media">
-      <video id="vid" muted playsinline preload="none" aria-hidden="true"></video>
+      <canvas id="seq" aria-hidden="true"></canvas>
       <div id="crisps"></div>
       <svg class="lines" id="lines" aria-hidden="true"></svg>
       <div id="callouts"></div>
@@ -556,7 +558,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   var phone = window.matchMedia('(max-width: 760px)');
 
   /* ---------- остановки сборки ----------
-     t: секунда в видео sborka.mp4; координаты выносок в долях кадра 16:9. */
+     t: секунда полного ролика сборки (номер кадра серии = t × 5); координаты выносок в долях кадра 16:9. */
   var STOPS = [
     { t: 0, img: 'etap-0', when: 'Старт · день 1', title: 'Участок', text: 'Размечаем пятно дома и привозим сваи и брус.', sum: 0,
       incl: [['Выезд и разметка', 'бесплатно'], ['Завоз свай и бруса', '1 день']], callouts: [] },
@@ -605,7 +607,12 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     btn.setAttribute('aria-pressed', choice === 'night' ? 'true' : 'false');
     btn.setAttribute('aria-label', choice === 'night' ? 'Вернуть автоматический режим' : 'Показать дом вечером');
   }
-  btn.addEventListener('click', function(){ choice = choice === 'night' ? null : 'night'; applyMode(); });
+  function loadNight(){
+    var im = document.getElementById('nightImg'), src = im.previousElementSibling;
+    if (im.getAttribute('src')) return;
+    src.srcset = src.dataset.srcset; im.src = im.dataset.src;
+  }
+  btn.addEventListener('click', function(){ loadNight(); choice = choice === 'night' ? null : 'night'; applyMode(); });
 
   /* ---------- калькулятор ---------- */
   var RATE = { kit: [20000, 26000, '≈ 1 месяц'], warm: [40000, 60000, '≈ 2 месяца'], key: [55000, 80000, '≈ 3 месяца'] };
@@ -633,7 +640,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   });
 
   /* ---------- сцена сборки ---------- */
-  var build = document.getElementById('sborka'), media = document.getElementById('media'), vid = document.getElementById('vid');
+  var build = document.getElementById('sborka'), media = document.getElementById('media'), seq = document.getElementById('seq');
   var svg = document.getElementById('lines'), box = document.getElementById('callouts'), crisps = document.getElementById('crisps');
   var cap = { body: document.getElementById('cap'), when: document.getElementById('capWhen'), title: document.getElementById('capTitle'), text: document.getElementById('capText'), price: document.getElementById('capPrice'), sum: document.getElementById('capSum'), note: document.getElementById('capNote'), incl: document.getElementById('capIncl') };
   var railBtns = [].slice.call(document.querySelectorAll('.rail button')), bars = [].slice.call(document.querySelectorAll('#bar i')), tlRows = [].slice.call(document.querySelectorAll('#tl li'));
@@ -646,7 +653,10 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     im.dataset.src = 'img/' + s.img + (phone.matches ? '-m' : '') + '.webp';
     crisps.appendChild(im); s.el = im;
   });
-  function need(i){ [i - 1, i, i + 1].forEach(function(k){ var s = STOPS[k]; if (s && !s.el.getAttribute('src')) s.el.src = s.el.dataset.src; }); }
+  function need(i){ var s = STOPS[i]; if (s && !s.el.getAttribute('src')) s.el.src = s.el.dataset.src; }
+  // чёткий кадр остановки грузим, только если человек на ней задержался: на медленном интернете полоса нужна серии кадров
+  var needTimer = 0;
+  function needSoon(i){ clearTimeout(needTimer); needTimer = setTimeout(function(){ if (current === i) need(i); }, reduce ? 0 : 600); }
 
   var items = [];
   STOPS.forEach(function(s, si){
@@ -733,15 +743,21 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     gsap.to(sumState, { v: v, duration: .8, ease: 'power2.out', overwrite: true, onUpdate: function(){ cap.sum.textContent = priceText(sumState.v); } });
   }
 
+  // длинное слово («Домокомплект») не должно вылезать из карточки: уменьшаем шрифт, пока не поместится
+  function fitTitle(el){
+    el.style.fontSize = '';
+    var fs = parseFloat(getComputedStyle(el).fontSize);
+    while (el.scrollWidth > el.clientWidth + 1 && fs > 20) { fs -= 2; el.style.fontSize = fs + 'px'; }
+  }
   var current = -1;
   function showStop(si){
     if (si === current) return;
-    current = si; stopNow = si; applyMode(); need(si);
+    current = si; stopNow = si; applyMode(); needSoon(si);
     var s = STOPS[si];
     if (phone.matches) document.getElementById('backdrop').style.backgroundImage = 'url(img/' + s.img + '-m.webp)';
     cap.body.classList.add('swap');
     setTimeout(function(){
-      cap.when.textContent = s.when; cap.title.textContent = s.title; cap.text.textContent = s.text;
+      cap.when.textContent = s.when; cap.title.textContent = s.title; cap.text.textContent = s.text; fitTitle(cap.title);
       cap.price.hidden = !s.sum;
       cap.note.textContent = s.note ? s.note + ' · цены демо' : '';
       var rows = s.incl || s.callouts.map(function(c){ return [c.name, c.note]; });
@@ -766,7 +782,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   if (reduce) {
     body.classList.add('still', 'intro-done');
     intro.remove();
-    vid.remove();
+    seq.remove();
     var go = function(i){ need(i); crisp(i); showStop(i); layout(); shown = -1; showCallouts(i); };
     railBtns.forEach(function(b){ b.addEventListener('click', function(){ go(+b.dataset.stop); }); });
     go(1);
@@ -782,12 +798,51 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   gsap.ticker.lagSmoothing(0);
   gsap.registerPlugin(ScrollTrigger);
 
-  var loaded = false;
-  function loadVideo(){
-    if (loaded) return; loaded = true;
-    vid.src = phone.matches ? 'video/sborka-m.mp4' : 'video/sborka.mp4';
-    vid.preload = 'auto'; vid.load();
-    var p = vid.play(); if (p && p.then) p.then(function(){ vid.pause(); }).catch(function(){});
+  /* ---------- серия кадров на canvas вместо видео ----------
+     176 кадров через 0,2 с полного ролика сборки. Сначала грузим каждый 4-й, потом каждый 2-й, потом остальные;
+     кадры рядом с текущим местом прокрутки поднимаем в начало очереди. Пока нужный не загрузился, рисуем ближайший загруженный. */
+  var FPS = 5, N = 176, DIR = phone.matches ? 'm' : 'd';
+  var frames = new Array(N), ready = new Array(N), queue = [], active = 0, started = false, base4 = 0;
+  // чёткие кадры этапов тихо подгружаем, когда уже есть каждый 4-й кадр серии
+  function preloadCrisps(){ loadNight(); STOPS.forEach(function(st, k){ setTimeout(function(){ if (!st.el.getAttribute('src')) st.el.src = st.el.dataset.src; }, 300 * k); }); }
+  var g = seq.getContext('2d'), drawn = -1, dirty = true;
+  function url(i){ return 'kadry/' + DIR + '/f' + ('00' + i).slice(-3) + '.webp'; }
+  function pump(){
+    while (active < 4 && queue.length) {
+      var i = queue.shift();
+      if (frames[i]) continue;
+      (function(i){
+        var im = new Image(); im.decoding = 'async'; frames[i] = im; active++;
+        im.onload = function(){ (im.decode ? im.decode() : Promise.resolve()).catch(function(){}).then(function(){ ready[i] = true; dirty = true; }); active--; if (i % 4 === 0 && ++base4 === Math.ceil(N / 4)) preloadCrisps(); pump(); };
+        im.onerror = function(){ active--; pump(); };
+        im.src = url(i);
+      })(i);
+    }
+  }
+  window.__seqReady = function(){ return ready.filter(Boolean).length; }; // для проверки загрузки
+  function startFrames(){
+    if (started) return; started = true;
+    [4, 2, 1].forEach(function(step){ for (var i = 0; i < N; i += step) if (queue.indexOf(i) < 0) queue.push(i); });
+    queue.push(N - 1);
+    pump();
+  }
+  function prioritize(i){
+    for (var d = 6; d >= 0; d--) [i - d, i + d].forEach(function(k){
+      if (k >= 0 && k < N && !frames[k]) { var at = queue.indexOf(k); if (at >= 0) queue.splice(at, 1); queue.unshift(k); }
+    });
+    pump();
+  }
+  function sizeCanvas(){
+    var r = Math.min(2, window.devicePixelRatio || 1);
+    seq.width = Math.round(media.clientWidth * r); seq.height = Math.round(media.clientHeight * r); dirty = true;
+  }
+  function draw(i){
+    var k = -1;
+    for (var d = 0; d < N && k < 0; d++) { if (ready[i - d]) k = i - d; else if (ready[i + d]) k = i + d; }
+    if (k < 0 || (k === drawn && !dirty)) return;
+    var im = frames[k], W = seq.width, H = seq.height, A2 = im.naturalWidth / im.naturalHeight;
+    var rw = Math.max(W, H * A2), rh = rw / A2, ox = (W - rw) * (phone.matches ? .63 : .6), oy = (H - rh) * .5;
+    g.drawImage(im, ox, oy, rw, rh); drawn = k; dirty = false;
   }
 
   /* ---------- интро: быстрый таймлапс сборки, потом текст и живой дом ---------- */
@@ -795,17 +850,21 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   function finishIntro(){
     if (introDone) return; introDone = true;
     html.classList.remove('intro-wait'); body.classList.add('intro-done');
-    try { intro.pause(); } catch (e) {}
+    // интро больше не нужно: останавливаем и его скачивание, чтобы не занимало медленный интернет
+    try { intro.pause(); if (intro.currentTime < intro.duration - .1 || !intro.duration) { intro.removeAttribute('src'); intro.load(); } } catch (e) {}
     kbTween = gsap.fromTo(kb, { scale: 1, xPercent: 0 }, { scale: 1.07, xPercent: -1.2, duration: 18, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    setTimeout(function(){ loadVideo(); need(0); }, 400);
+    startFrames();
+
   }
   intro.poster = phone.matches ? 'img/intro-poster-m.webp' : 'img/intro-poster.webp';
   intro.src = phone.matches ? 'video/intro-m.mp4' : 'video/intro.mp4';
+  intro.addEventListener('playing', function(){ setTimeout(startFrames, 300); });
   intro.addEventListener('ended', finishIntro);
   intro.addEventListener('error', finishIntro);
   var ip = intro.play();
   if (ip && ip.catch) ip.catch(finishIntro);                 // автозапуск запрещён: сразу готовый дом
-  setTimeout(function(){ if (!introDone && intro.currentTime < .05) finishIntro(); }, 2500); // видео не стартовало
+  // медленный интернет: если за 3 с интро не готово доиграть без остановок, сразу показываем готовый дом
+  setTimeout(function(){ if (!introDone && intro.readyState < 4) finishIntro(); }, 3000);
   setTimeout(finishIntro, 9000);                              // страховка
 
   var target = T_DAY, shownT = T_DAY;
@@ -835,16 +894,17 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
       target = STOPS[seg].t; crisp(seg); showStop(seg); showCallouts(seg);
     } else {                                     // едем к следующей остановке: видео
       var k = off - HOLD, a = STOPS[seg], b = STOPS[seg + 1];
-      target = a.t + (b.t - a.t) * k; crisp(-1); showCallouts(-1); showStop(k > .5 ? seg + 1 : seg); need(seg + 1);
+      target = a.t + (b.t - a.t) * k; crisp(-1); showCallouts(-1); showStop(k > .5 ? seg + 1 : seg);
     }
   }
   ScrollTrigger.create({ trigger: build, start: 'top top', end: 'bottom bottom', onUpdate: function(self){ onProgress(self.progress); } });
 
+  var wantPrev = -1;
   gsap.ticker.add(function(){
-    if (!vid.readyState) return;
-    shownT += (target - shownT) * .18;
-    // новую перемотку даём только после окончания прошлой, иначе кадр не успевает отрисоваться
-    if (!vid.seeking && Math.abs(vid.currentTime - shownT) > 1 / 30) { try { vid.currentTime = shownT; } catch (e) {} }
+    shownT += (target - shownT) * .2;
+    var i = Math.max(0, Math.min(N - 1, Math.round(shownT * FPS)));
+    if (i !== wantPrev) { wantPrev = i; if (started && !ready[i]) prioritize(i); }
+    draw(i);
   });
 
   railBtns.forEach(function(b){
@@ -862,7 +922,8 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     });
   });
 
-  window.addEventListener('resize', function(){ layout(); ScrollTrigger.refresh(); });
+  window.addEventListener('resize', function(){ sizeCanvas(); layout(); fitTitle(cap.title); ScrollTrigger.refresh(); });
+  sizeCanvas();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
   layout(); onProgress(0);
   applyMode();
