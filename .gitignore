@@ -1,0 +1,9 @@
+# Защита: эти папки и файлы никогда не публикуются
+_исходники/
+_авито_фото/
+_claude-code/
+*.pdf
+.DS_Store
+.taste-skill/
+.claude/
+CLAUDE.md

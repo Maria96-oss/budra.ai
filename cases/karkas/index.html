@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лето рядом — каркасные дома за 3 месяца (демо)</title>
+<meta name="description" content="Демо-сайт студии budra.ai: каркасные дома в Подмосковье, сборка дома при прокрутке.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../../fonts/fonts.css">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-wait')</script>
+<style>
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:400;font-display:swap;src:url(../../fonts/golos-text-cyrillic-400-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:400;font-display:swap;src:url(../../fonts/golos-text-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+20BD,U+2212}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:500;font-display:swap;src:url(../../fonts/golos-text-cyrillic-500-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:500;font-display:swap;src:url(../../fonts/golos-text-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+20BD,U+2212}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:600;font-display:swap;src:url(../../fonts/golos-text-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Golos Text';font-style:normal;font-weight:600;font-display:swap;src:url(../../fonts/golos-text-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+20BD,U+2212}
+
+:root{
+  --bg:#ecebe7; --paper:#f6f5f1; --ink:#2f3a0c; --soft:#5b6340; --line:rgba(47,58,12,.16);
+  --night-bg:#0e1626; --night-ink:#efe9dc;
+  --accent:#f2b531; --on-accent:#2a1f05;
+  --display:'Oswald',Impact,'Arial Narrow',sans-serif;
+  --sans:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.23,1,.32,1);
+  --m:clamp(16px,3vw,40px);
+  --glass:rgba(18,24,32,.28); --glass-line:rgba(255,255,255,.3);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.5 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--m)}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.eyebrow::before{content:"";width:28px;height:2px;background:currentColor}
+.h2{font:700 clamp(40px,6vw,84px)/.92 var(--display);text-transform:uppercase;margin:14px 0 16px;text-wrap:balance}
+.sub{color:var(--soft);max-width:36em}
+
+/* стекло: полупрозрачная плашка, сквозь неё видно фото */
+.glass{background:var(--glass);border:1px solid var(--glass-line);-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);color:#fff}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 14px;font-size:14px;font-weight:500;line-height:1.2;text-decoration:none;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 22px;border-radius:999px;font:600 16px/1 var(--sans);text-decoration:none;border:0;cursor:pointer;transition:transform .16s var(--ease),background .2s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn-accent{background:var(--accent);color:var(--on-accent)}
+.btn-accent:hover{background:#f6c24f}
+.btn.glass{color:#fff}
+
+/* ---------- первый экран ---------- */
+/* первый экран лежит поверх сцены сборки: при прокрутке он уезжает, а дом откатывается к участку */
+.hero{position:absolute;inset:0;z-index:6;overflow:hidden;background:#6da0dc;isolation:isolate}
+.hero .pics,.hero .kb{position:absolute;inset:0}
+.hero .kb{transform-origin:60% 58%;will-change:transform}
+.hero picture,.hero .ph{position:absolute;inset:0;width:100%;height:100%}
+.hero .ph{object-fit:cover;object-position:60% 50%}
+.intro{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%;z-index:2;transition:opacity .9s var(--ease)}
+.intro-done .intro{opacity:0}
+/* после интро по очереди проявляются заголовок, текст и кнопки */
+.hero-copy>*,.hero .top,.hero .ticker,.hero .toggle{transition:opacity .8s var(--ease) var(--d,0s),transform .8s var(--ease) var(--d,0s)}
+.intro-wait .hero-copy>*,.intro-wait .hero .top,.intro-wait .hero .ticker,.intro-wait .hero .toggle{opacity:0;transform:translateY(18px)}
+.intro-wait .hero::after{opacity:0}
+.hero::after{transition:opacity 1s var(--ease)}
+.hero-copy>:nth-child(2){--d:.1s}.hero-copy>:nth-child(3){--d:.25s}.hero-copy>:nth-child(4){--d:.4s}
+.hero .top{--d:.5s}.hero .ticker{--d:.55s}.hero .toggle{--d:.6s}
+.at-hero .caption,.at-hero .rail{opacity:0;transform:translateY(12px);pointer-events:none}
+.caption,.rail{transition:opacity .4s var(--ease),transform .4s var(--ease)}
+.hero .night{opacity:0;transition:opacity 1.5s var(--ease)}
+body[data-mode=night] .hero .night{opacity:1}
+body[data-mode=night] .hero{background:#0b1730}
+/* мягкое затемнение фото под текстом: свет, а не плашка */
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(14,20,8,.7) 0%,rgba(14,20,8,.5) 30%,rgba(14,20,8,0) 60%),linear-gradient(0deg,rgba(14,20,8,.45) 0%,rgba(14,20,8,0) 26%)}
+.top{position:absolute;z-index:5;top:var(--m);left:var(--m);right:var(--m);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.demo{color:#fff}
+.demo b{font-weight:600}
+.nav{display:flex;gap:2px;padding:4px}
+.nav a{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;transition:background .2s var(--ease)}
+.nav a:hover{background:rgba(255,255,255,.18)}
+.menu{display:none}
+.hero-copy{position:absolute;z-index:4;left:var(--m);top:calc(var(--m) + 84px);max-width:min(1000px,70vw);color:#fff}
+body[data-mode=night] .hero-copy{color:var(--night-ink)}
+h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(56px,8.4vw,136px);line-height:.9;letter-spacing:-.005em;margin:14px 0 18px;text-wrap:balance}
+.lead{font-size:clamp(17px,1.4vw,20px);line-height:1.45;max-width:23em;text-shadow:0 1px 14px rgba(14,20,8,.55)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.toggle{position:absolute;z-index:5;right:var(--m);bottom:calc(64px + var(--m));width:56px;height:56px;border-radius:50%;display:grid;place-items:center;cursor:pointer;transition:transform .16s var(--ease)}
+.toggle:active{transform:scale(.94)}
+.toggle svg{width:24px;height:24px}
+.toggle .moon{display:none}
+body[data-mode=night] .toggle .sun{display:none}
+body[data-mode=night] .toggle .moon{display:block}
+.ticker{position:absolute;z-index:4;left:0;right:0;bottom:0;height:64px;display:flex;align-items:center;overflow:hidden;border-width:1px 0 0;background:rgba(47,58,12,.34);transition:background 1.5s var(--ease)}
+body[data-mode=night] .ticker{background:rgba(6,10,20,.5)}
+.ticker-run{display:flex;flex-shrink:0;animation:run 34s linear infinite;font:600 22px/1 var(--display);letter-spacing:.02em;text-transform:uppercase;color:#fff}
+.ticker-run span{padding:0 22px;white-space:nowrap}
+.ticker-run span::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:44px;vertical-align:middle;transform:translateY(-2px)}
+@keyframes run{to{transform:translateX(-50%)}}
+
+/* ---------- сборка дома ---------- */
+.build{position:relative;background:#1b2130;color:#fff}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden}
+.media{position:absolute;inset:0}
+.media video,.media .crisp{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
+.media .crisp{opacity:0;transition:opacity .6s var(--ease)}
+.media .crisp.on{opacity:1}
+.media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(14,22,38,.55) 0%,rgba(14,22,38,0) 38%)}
+.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible}
+.lines line{stroke:#fff;stroke-width:1.25;vector-effect:non-scaling-stroke;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset .45s var(--ease)}
+.lines g.on line{stroke-dashoffset:0}
+.lines g:not(.on) line{transition-duration:.2s}
+.dot{position:absolute;z-index:3;left:0;top:0;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;border:0;background:none;pointer-events:none;opacity:0;transform:scale(.4);transition:opacity .25s var(--ease),transform .3s var(--ease)}
+.dot::before{content:"";position:absolute;inset:6px;border-radius:50%;border:1.25px solid #fff;opacity:.8}
+.dot::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#fff}
+.dot.on{opacity:1;transform:none}
+.callout{position:absolute;z-index:3;left:0;top:0;border-radius:14px;padding:9px 13px 10px;opacity:0;transform:translateY(6px);transition:opacity .3s var(--ease),transform .3s var(--ease);pointer-events:none;max-width:230px}
+.callout b{display:block;font:700 15px/1.15 var(--display);letter-spacing:.03em;text-transform:uppercase}
+.callout small{display:block;font-size:12.5px;line-height:1.3;opacity:.88;margin-top:3px}
+.callout.on{opacity:1;transform:none}
+.callout:not(.on){transition-duration:.18s}
+
+.caption{position:absolute;z-index:4;left:var(--m);bottom:var(--m);width:min(430px,calc(100% - 2*var(--m)));border-radius:22px;padding:20px 22px 22px}
+.caption .when{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.caption h2{font:700 clamp(40px,5vw,64px)/.92 var(--display);text-transform:uppercase;margin:8px 0 10px}
+.caption p{font-size:16px;line-height:1.45;opacity:.92}
+.price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:14px}
+.price[hidden]{display:none}
+.price strong{font:700 26px/1 var(--display);font-variant-numeric:tabular-nums;color:var(--accent)}
+.price span{font-size:12px;opacity:.75}
+.cap-body{transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.cap-body.swap{opacity:0;transform:translateY(6px)}
+.backdrop{display:none}
+.incl{display:none;list-style:none;margin-top:14px;border-top:1px solid rgba(255,255,255,.14)}
+.incl li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px}
+.incl li span{opacity:.7;text-align:right}
+.bar{display:none;gap:4px;margin-top:14px}
+.tl{display:none;list-style:none;margin-top:14px;font-size:13.5px}
+.tl li{display:flex;justify-content:space-between;gap:10px;padding:6px 0;opacity:.5}
+.tl li span{opacity:.8}
+.tl li.done{opacity:.85}
+.tl li.cur{opacity:1;color:var(--accent);font-weight:600}
+.bar i{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.18);transition:background .3s var(--ease)}
+.bar i.done{background:var(--accent)}
+
+/* кружки этапов: тёмное стекло, белая цифра */
+.rail{position:absolute;z-index:4;right:var(--m);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;list-style:none}
+.rail button{position:relative;width:44px;height:44px;border-radius:50%;font:700 16px/1 var(--display);color:#fff;background:rgba(10,14,22,.55);border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);cursor:pointer;transition:background .25s var(--ease),color .25s var(--ease),transform .16s var(--ease)}
+.rail button:active{transform:scale(.94)}
+.rail button.done{background:rgba(242,181,49,.35);border-color:rgba(242,181,49,.7)}
+.rail button[aria-current=step]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.rail button::after{content:attr(data-name);position:absolute;right:54px;top:50%;transform:translateY(-50%) translateX(4px);opacity:0;pointer-events:none;white-space:nowrap;font:500 13px/1 var(--sans);background:rgba(10,14,22,.65);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding:7px 10px;border-radius:999px;transition:opacity .2s var(--ease),transform .2s var(--ease)}
+@media (hover:hover){.rail button:hover::after{opacity:1;transform:translateY(-50%)}}
+
+/* ---------- разделы ---------- */
+section.block{padding:clamp(72px,10vw,140px) 0}
+section.block+section.block{padding-top:0}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.tier{background:var(--paper);border-radius:24px;padding:26px 24px 28px;display:flex;flex-direction:column}
+.tier.hit{background:var(--ink);color:#fff}
+.tier .tag{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.tier.hit .tag{color:var(--accent)}
+.tier h3{font:700 clamp(30px,2.8vw,40px)/.92 var(--display);white-space:nowrap;text-transform:uppercase;margin:10px 0 16px}
+.tier .cost{font:700 30px/1 var(--display);font-variant-numeric:tabular-nums}
+.tier .cost small{display:block;font:400 14px/1.4 var(--sans);opacity:.75;margin-top:6px}
+.tier ul{list-style:none;margin:20px 0 0;border-top:1px solid var(--line)}
+.tier.hit ul{border-color:rgba(255,255,255,.18)}
+.tier li{padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.tier.hit li{border-color:rgba(255,255,255,.12)}
+.note{font-size:13px;color:var(--soft);margin-top:16px}
+
+.calc{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:40px}
+.calc form,.calc .out{background:var(--paper);border-radius:24px;padding:28px}
+.calc .out{background:var(--ink);color:#fff;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.field{margin-bottom:26px}
+.field>label,.field legend{display:flex;justify-content:space-between;width:100%;font-weight:600;margin-bottom:12px}
+.field output{font:700 22px/1 var(--display);font-variant-numeric:tabular-nums}
+fieldset{border:0;min-width:0}
+input[type=range]{width:100%;accent-color:var(--ink);height:28px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:rgba(47,58,12,.07);border-radius:16px;padding:5px}
+.seg label{display:block;cursor:pointer;position:relative}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:12px 6px;border-radius:12px;font-size:14px;font-weight:600;transition:background .2s var(--ease)}
+.seg input:checked+span{background:#fff;box-shadow:0 1px 4px rgba(47,58,12,.15)}
+.seg input:focus-visible+span{outline:2px solid var(--accent)}
+.check{display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer;font-size:15px}
+.check input{width:22px;height:22px;accent-color:var(--ink);flex-shrink:0;margin-top:1px}
+.sub-seg{display:flex;flex-wrap:wrap;gap:8px 16px;margin:2px 0 6px 34px;transition:opacity .2s var(--ease)}
+.sub-seg label{font-size:14px;display:flex;gap:6px;align-items:center;cursor:pointer}
+.out .sum{font:700 clamp(34px,4.2vw,54px)/.98 var(--display);font-variant-numeric:tabular-nums;margin-top:14px}
+.out .term{opacity:.8;margin-top:10px}
+
+.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.proj{background:var(--paper);border-radius:24px;overflow:hidden}
+.proj .pic{position:relative;aspect-ratio:4/3;background:#cfd6c4}
+.proj img{width:100%;height:100%;object-fit:cover}
+.proj .pic .pill{position:absolute;left:12px;top:12px;font-size:12px}
+.proj .body{padding:20px 22px 24px}
+.proj h3{font:700 32px/.95 var(--display);text-transform:uppercase}
+.proj dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin-top:14px;font-size:15px}
+.proj dt{color:var(--soft)}
+.proj dd{font-variant-numeric:tabular-nums}
+
+.steps{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:40px;counter-reset:s}
+.steps li{border-top:2px solid var(--ink);padding-top:16px;counter-increment:s}
+.steps li::before{content:counter(s,decimal-leading-zero);font:700 15px/1 var(--display);color:var(--soft)}
+.steps h3{font:700 24px/1 var(--display);text-transform:uppercase;margin:12px 0 8px}
+.steps p{font-size:15px;color:var(--soft)}
+
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.review{background:var(--paper);border-radius:24px;padding:24px}
+.review .pill{background:rgba(47,58,12,.08);font-size:12px;padding:6px 10px}
+.review p{margin:16px 0;font-size:16px}
+.review b{font-weight:600}
+.review small{display:block;color:var(--soft)}
+
+.faq{margin-top:32px;border-top:1px solid var(--line);max-width:880px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 44px 22px 0;position:relative;font:600 19px/1.3 var(--sans)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:6px;top:50%;width:12px;height:12px;margin-top:-9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg);transition:transform .25s var(--ease)}
+.faq details[open] summary::after{transform:rotate(225deg);margin-top:-3px}
+.faq details p{padding:0 0 22px;color:var(--soft);max-width:44em}
+
+.lead-block{background:var(--ink);color:#fff;border-radius:32px;padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.lead-block .sub{color:rgba(255,255,255,.75)}
+.contacts{margin-top:28px;display:grid;gap:10px;font-size:16px}
+.contacts span{opacity:.7;margin-right:8px}
+.form{display:grid;gap:12px;align-content:start}
+.form input[type=text],.form input[type=tel],.form textarea{width:100%;font:400 16px/1.4 var(--sans);padding:15px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+.form input::placeholder,.form textarea::placeholder{color:rgba(255,255,255,.55)}
+.form textarea{min-height:96px;resize:vertical}
+.form .check{font-size:14px;color:rgba(255,255,255,.85)}
+.form .check input{accent-color:var(--accent)}
+.form .check a{color:#fff}
+.form .btn{width:100%}
+.ok{display:none;background:rgba(242,181,49,.16);border:1px solid rgba(242,181,49,.5);border-radius:14px;padding:16px;font-size:15px}
+.ok.show{display:block}
+.foot{padding:32px 0 48px;font-size:13px;color:var(--soft)}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* ---------- телефон ---------- */
+@media (max-width:760px){
+  body{font-size:16px}
+  .nav{display:none}
+  .menu{display:inline-flex}
+  .demo{font-size:12.5px;padding:7px 12px}
+  /* дом целиком внизу, заголовок сверху на небе */
+  .hero{background:linear-gradient(180deg,#3f7fd2 0%,#78aee6 45%,#9cc6ee 62%)}
+  body[data-mode=night] .hero{background:linear-gradient(180deg,#071226 0%,#0d1a33 55%,#16233d 70%)}
+  .hero .pics{top:auto;bottom:40px;left:50%;width:165%;height:auto;aspect-ratio:1100/614;transform:translateX(-62%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%)}
+  .hero .ph,.intro{object-position:50% 50%}
+  .hero::after{background:none}
+  .hero-copy{top:calc(var(--m) + 54px);right:var(--m);max-width:none}
+  h1{font-size:clamp(46px,13.6vw,72px)}
+  .lead{font-size:16px;max-width:none;text-shadow:none}
+  .btn{height:48px;padding:0 18px;font-size:15px}
+  .toggle{width:44px;height:44px;bottom:calc(56px + 12px)}
+  .ticker{height:56px}
+  .ticker-run{font-size:18px}
+
+  /* сборка: видео полосой сверху (дом и рабочие целиком), компактная карточка под ним */
+  .stage{display:flex;flex-direction:column;height:100svh}
+  .media{position:relative;inset:auto;flex:none;width:100%;height:min(38svh,72vw)}
+  .media video,.media .crisp{object-position:63% 50%}
+  .media::after{display:none}
+  .backdrop{display:block;position:absolute;inset:-40px;background:#1b2130 center/cover no-repeat;filter:blur(26px) brightness(.45) saturate(1.1);transition:background-image .6s var(--ease)}
+  .caption{position:relative;left:auto;bottom:auto;width:auto;flex:1;min-height:0;margin:0;border:0;border-radius:0;padding:14px 16px max(14px,env(safe-area-inset-bottom));background:rgba(14,20,30,.35);-webkit-backdrop-filter:none;backdrop-filter:none;overflow:hidden;display:flex;flex-direction:column}
+  .caption .when{font-size:12px}
+  .caption h2{font-size:34px;margin:6px 0 6px}
+  .caption p{font-size:14.5px;line-height:1.4}
+  .price{margin-top:10px}
+  .price strong{font-size:22px}
+  .incl{display:block;margin-top:10px}
+  .incl li{font-size:13.5px;padding:7px 0}
+  .bar{display:flex;margin-top:auto;padding-top:12px}
+  .rail{display:none}
+  .callout{max-width:none;white-space:nowrap;padding:5px 9px;border-radius:9px}
+  .callout b{font-size:12px}
+  .callout small{display:none}
+  .dot{pointer-events:auto;cursor:pointer}
+
+  .tiers,.projects,.reviews,.calc,.lead-block{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr;gap:0}
+  .steps li{padding:16px 0 18px}
+  .seg span{font-size:13px;padding:12px 4px}
+}
+
+/* без анимаций: обычные кадры вместо видео */
+@media (max-width:760px) and (min-height:760px){
+  .tl{display:block}
+}
+/* низкие экраны: iPhone SE и Safari с панелями */
+@media (max-width:760px) and (max-height:700px){
+  .hero .pics{width:135%;transform:translateX(-61%)}
+  .hero-copy{top:calc(var(--m) + 46px)}
+  h1{font-size:44px;margin:10px 0 12px}
+  .lead{font-size:15px}
+  .actions{margin-top:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  .ticker-run{animation:none}
+  .hero .night,.btn,.toggle{transition:none}
+}
+.still .build{height:auto!important}
+.still .hero{position:relative;inset:auto;height:100svh;min-height:560px}
+.still .intro{display:none}
+.still .stage{position:relative;height:auto}
+.still video{display:none}
+/* без анимаций этапы переключаются кружками, на телефоне они стоят рядом */
+@media (max-width:760px){.still .stage{height:auto}.still .rail{display:flex;position:static;transform:none;flex-direction:row;justify-content:center;padding:12px 0 4px;background:#1b2130}.still .caption{flex:none}}
+</style>
+</head>
+<body data-mode="day">
+
+
+
+<section class="build" id="sborka" aria-label="Сборка дома по этапам">
+  <div class="stage" id="stage">
+  <header class="hero" id="hero" aria-labelledby="h1">
+    <div class="pics"><div class="kb" id="kb">
+    <picture>
+      <source media="(max-width:760px)" srcset="img/dom-den-m.webp">
+      <img class="ph" src="img/dom-den.webp" width="2200" height="1228" alt="Готовый каркасный дом с террасой среди берёз, летний день" fetchpriority="high">
+    </picture>
+    <picture class="night">
+      <source media="(max-width:760px)" srcset="img/dom-noch-m.webp">
+      <img class="ph" src="img/dom-noch.webp" width="2200" height="1228" alt="Тот же дом вечером: светятся окна и фонари вдоль дорожки" loading="lazy">
+    </picture>
+    <video class="intro" id="intro" muted playsinline preload="auto" poster="img/intro-poster.webp" aria-hidden="true"></video>
+    </div></div>
+
+    <div class="top">
+      <a class="pill demo glass" href="../../index.html">Демо-проект студии&nbsp;<b>budra.ai</b></a>
+      <nav class="nav pill glass" aria-label="Разделы">
+        <a href="#sborka">Сборка</a><a href="#ceny">Цены</a><a href="#proekty">Проекты</a><a href="#voprosy">Вопросы</a>
+      </nav>
+      <a class="pill glass menu" href="#ceny">Цены</a>
+    </div>
+
+    <div class="hero-copy">
+      <div class="eyebrow">Каркасные дома в&nbsp;Подмосковье</div>
+      <h1 id="h1">Готовый дом за&nbsp;3&nbsp;месяца</h1>
+      <p class="lead">Сваи за неделю, коробка за месяц, ключи через три. Цена фиксируется в&nbsp;договоре.</p>
+      <div class="actions">
+        <a class="btn btn-accent" href="#sborka">Смотреть, как строим</a>
+        <a class="btn glass" href="#raschet">Рассчитать</a>
+      </div>
+    </div>
+
+    <button class="toggle glass" id="toggle" type="button" aria-label="Показать дом вечером" aria-pressed="false">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1z"/></svg>
+    </button>
+
+    <div class="ticker glass" aria-label="Готовый дом за 3 месяца. Под ключ от 6,5 млн ₽. Цена фиксируется в договоре. Ипотека на ИЖС.">
+      <div class="ticker-run" aria-hidden="true">
+        <span>Готовый дом за 3 месяца</span><span>Под ключ от 6,5 млн ₽</span><span>Цена фиксируется в договоре</span><span>Ипотека на ИЖС</span>
+        <span>Готовый дом за 3 месяца</span><span>Под ключ от 6,5 млн ₽</span><span>Цена фиксируется в договоре</span><span>Ипотека на ИЖС</span>
+      </div>
+    </div>
+  </header>
+
+    <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+    <div class="media" id="media">
+      <video id="vid" muted playsinline preload="none" aria-hidden="true"></video>
+      <div id="crisps"></div>
+      <svg class="lines" id="lines" aria-hidden="true"></svg>
+      <div id="callouts"></div>
+    </div>
+
+    <div class="caption glass">
+      <div class="cap-body" id="cap">
+        <div class="when" id="capWhen"></div>
+        <h2 id="capTitle"></h2>
+        <p id="capText"></p>
+        <div class="price" id="capPrice" hidden><strong id="capSum"></strong><span id="capNote"></span></div>
+        <ul class="incl" id="capIncl"></ul>
+      </div>
+      <ol class="tl" id="tl" aria-hidden="true"><li>Фундамент<span>неделя 1</span></li><li>Каркас<span>недели 2–3</span></li><li>Домокомплект<span>неделя 4</span></li><li>Тёплый контур<span>недели 5–8</span></li><li>Под ключ<span>≈ 3 месяца</span></li></ol>
+      <div class="bar" id="bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+
+    <ol class="rail" aria-label="Этапы сборки">
+      <li><button type="button" data-stop="1" data-name="Фундамент" aria-label="Этап 1: фундамент">1</button></li>
+      <li><button type="button" data-stop="2" data-name="Каркас" aria-label="Этап 2: каркас">2</button></li>
+      <li><button type="button" data-stop="3" data-name="Домокомплект" aria-label="Этап 3: домокомплект">3</button></li>
+      <li><button type="button" data-stop="5" data-name="Тёплый контур" aria-label="Этап 4: тёплый контур">4</button></li>
+      <li><button type="button" data-stop="6" data-name="Под ключ" aria-label="Этап 5: под ключ">5</button></li>
+    </ol>
+  </div>
+</section>
+
+<section class="block" id="ceny">
+  <div class="wrap">
+    <div class="eyebrow">Комплектации</div>
+    <h2 class="h2">Три точки, где можно остановиться</h2>
+    <p class="sub">Цена за дом около 100&nbsp;м². Можно взять только коробку и доделать самим или сразу заехать с&nbsp;ключами.</p>
+    <div class="tiers">
+      <article class="tier">
+        <div class="tag">Около 1 месяца</div>
+        <h3>Домокомплект</h3>
+        <div class="cost">от 2,2 млн ₽<small>от 22 000 ₽ за м²</small></div>
+        <ul><li>Каркас из сухой строганой доски 50×150</li><li>Перекрытия, стропила, обшивка ОСП</li><li>Ветрозащита и кровля из металла</li><li>Черновой пол</li></ul>
+      </article>
+      <article class="tier">
+        <div class="tag">Около 2 месяцев</div>
+        <h3>Тёплый контур</h3>
+        <div class="cost">от 4,5 млн ₽<small>от 45 000 ₽ за м²</small></div>
+        <ul><li>Всё из домокомплекта</li><li>Базальтовая вата 200 мм и пароизоляция</li><li>Окна ПВХ, двухкамерный стеклопакет</li><li>Входная дверь и фасад из лиственницы</li></ul>
+      </article>
+      <article class="tier hit">
+        <div class="tag">Около 3 месяцев · чаще всего</div>
+        <h3>Под ключ</h3>
+        <div class="cost">от 6,5 млн ₽<small>от 65 000 ₽ за м²</small></div>
+        <ul><li>Всё из тёплого контура</li><li>Электрика, вода, канализация, отопление</li><li>Вентиляция и внутренняя отделка</li><li>Санузел, можно заезжать</li></ul>
+      </article>
+    </div>
+    <p class="note">Цены демо, не оферта. Газ, скважина и септик на участке считаются отдельно.</p>
+  </div>
+</section>
+
+<section class="block" id="raschet">
+  <div class="wrap">
+    <div class="eyebrow">Калькулятор</div>
+    <h2 class="h2">Сколько будет стоить ваш дом</h2>
+    <div class="calc">
+      <form id="calc" onsubmit="return false">
+        <div class="field">
+          <label for="area">Площадь дома <output id="areaOut" for="area">100 м²</output></label>
+          <input type="range" id="area" name="area" min="60" max="200" step="5" value="100">
+        </div>
+        <fieldset class="field">
+          <legend>Комплектация</legend>
+          <div class="seg">
+            <label><input type="radio" name="tier" value="kit"><span>Домокомплект</span></label>
+            <label><input type="radio" name="tier" value="warm"><span>Тёплый контур</span></label>
+            <label><input type="radio" name="tier" value="key" checked><span>Под ключ</span></label>
+          </div>
+        </fieldset>
+        <label class="check"><input type="checkbox" id="terrace"> Терраса около 18&nbsp;м²</label>
+        <label class="check"><input type="checkbox" id="found" checked> Фундамент</label>
+        <div class="sub-seg" id="foundType">
+          <label><input type="radio" name="ft" value="piles" checked> винтовые сваи</label>
+          <label><input type="radio" name="ft" value="slab"> утеплённая плита</label>
+        </div>
+      </form>
+      <div class="out" aria-live="polite">
+        <div>
+          <div class="eyebrow">Примерно</div>
+          <div class="sum" id="sum"></div>
+          <div class="term" id="term"></div>
+        </div>
+        <div>
+          <a class="btn btn-accent" href="#zayavka" style="width:100%">Получить точный расчёт</a>
+          <p class="note" style="color:rgba(255,255,255,.65)">Цены демо, не оферта.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="proekty">
+  <div class="wrap">
+    <div class="eyebrow">Готовые проекты</div>
+    <h2 class="h2">Можно взять за основу</h2>
+    <div class="projects">
+      <article class="proj"><div class="pic"><img src="img/proekt-1.webp" width="1200" height="896" alt="Небольшой одноэтажный каркасный дом с крыльцом среди берёз" loading="lazy"><span class="pill glass">фото для примера</span></div>
+        <div class="body"><h3>Тихий 72</h3><dl><dt>Площадь</dt><dd>72 м², 2 спальни</dd><dt>Под ключ</dt><dd>от 4,7 млн ₽</dd><dt>Срок</dt><dd>около 2,5 месяцев</dd></dl></div></article>
+      <article class="proj"><div class="pic"><img src="img/proekt-2.webp" width="1200" height="896" alt="Семейный каркасный дом буквой Г с большой террасой" loading="lazy"><span class="pill glass">фото для примера</span></div>
+        <div class="body"><h3>Семейный 110</h3><dl><dt>Площадь</dt><dd>110 м², 3 спальни</dd><dt>Под ключ</dt><dd>от 7,2 млн ₽</dd><dt>Срок</dt><dd>около 3 месяцев</dd></dl></div></article>
+      <article class="proj"><div class="pic"><img src="img/proekt-3.webp" width="1200" height="896" alt="Длинный дом в стиле барнхаус с тёмным фасадом и стеклянным фронтоном" loading="lazy"><span class="pill glass">фото для примера</span></div>
+        <div class="body"><h3>Барн 140</h3><dl><dt>Площадь</dt><dd>140 м², 4 спальни</dd><dt>Под ключ</dt><dd>от 9,1 млн ₽</dd><dt>Срок</dt><dd>около 4 месяцев</dd></dl></div></article>
+    </div>
+    <p class="note">Цены демо, не оферта. Фото для примера.</p>
+  </div>
+</section>
+
+<section class="block" id="kak">
+  <div class="wrap">
+    <div class="eyebrow">Как мы работаем</div>
+    <h2 class="h2">От заявки до ключей</h2>
+    <ol class="steps">
+      <li><h3>Заявка</h3><p>Созваниваемся, обсуждаем дом и участок. Первый расчёт в тот же день.</p></li>
+      <li><h3>Выезд</h3><p>Смотрим участок, подъезд и грунт. Бесплатно в пределах 100 км от МКАД.</p></li>
+      <li><h3>Договор</h3><p>Фиксируем цену и график по неделям. Платите по этапам, а не всё сразу.</p></li>
+      <li><h3>Стройка</h3><p>Каждую пятницу фото и видео с участка. Можно приехать в любой день.</p></li>
+      <li><h3>Ключи</h3><p>Сдаём дом по акту. Гарантия на каркас и фундамент 10 лет.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="block" id="otzyvy">
+  <div class="wrap">
+    <div class="eyebrow">Отзывы</div>
+    <h2 class="h2">Что говорят хозяева</h2>
+    <div class="reviews">
+      <figure class="review"><span class="pill">Пример отзыва</span><p>«Боялись, что затянут до зимы. Заехали в конце сентября, как и было в графике.»</p><figcaption><b>Ирина и Олег</b><small>дом 96 м², Истра</small></figcaption></figure>
+      <figure class="review"><span class="pill">Пример отзыва</span><p>«Каждую пятницу приходили фото. Ни разу не пришлось ехать проверять.»</p><figcaption><b>Андрей</b><small>дом 110 м², Чехов</small></figcaption></figure>
+      <figure class="review"><span class="pill">Пример отзыва</span><p>«Взяли тёплый контур, отделку делаем сами. Цена из договора не поменялась.»</p><figcaption><b>Мария</b><small>дом 72 м², Дмитров</small></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="voprosy">
+  <div class="wrap">
+    <div class="eyebrow">Частые вопросы</div>
+    <h2 class="h2">Коротко о главном</h2>
+    <div class="faq">
+      <details><summary>Можно ли купить дом в ипотеку?</summary><p>Да, каркасный дом подходит под ипотеку на ИЖС. Помогаем собрать документы для банка: проект, смету и договор подряда.</p></details>
+      <details><summary>Правда ли 3 месяца, а не полгода?</summary><p>Для простого дома около 100&nbsp;м² под ключ да. Каркас собираем за месяц, потому что доска и сваи лежат у нас на складе. Большие и сложные дома дольше, срок пишем в договоре.</p></details>
+      <details><summary>Можно ли строить зимой?</summary><p>Да. Сухой каркас не боится мороза, а сваи вкручивают и в мёрзлый грунт. Зимой обычно даже быстрее: меньше очередь на технику.</p></details>
+      <details><summary>Что не входит в цену?</summary><p>Подключения на участке: газ, скважина, септик и электрика до дома. Посчитаем их отдельно после выезда.</p></details>
+      <details><summary>Какая гарантия?</summary><p>10 лет на каркас и фундамент, 2 года на отделку и инженерию.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="zayavka">
+  <div class="wrap">
+    <div class="lead-block">
+      <div>
+        <div class="eyebrow">Заявка</div>
+        <h2 class="h2">Посчитаем ваш дом за&nbsp;день</h2>
+        <p class="sub">Оставьте телефон. Перезвоним, уточним площадь и участок и пришлём расчёт с графиком по неделям.</p>
+        <div class="contacts">
+          <div><span>Телефон</span>+7 (000) 000-00-00</div>
+          <div><span>Почта</span>demo@budra.ai</div>
+          <div><span>Где строим</span>Московская область</div>
+        </div>
+        <button class="btn glass" type="button" style="margin-top:22px" disabled>Написать в мессенджер (демо)</button>
+      </div>
+      <form class="form" id="form" novalidate>
+        <input type="text" name="name" placeholder="Как вас зовут" autocomplete="name" aria-label="Имя" required>
+        <input type="tel" name="phone" placeholder="Телефон" autocomplete="tel" inputmode="tel" aria-label="Телефон" required>
+        <textarea name="msg" placeholder="Какой дом хотите, где участок (необязательно)" aria-label="Комментарий"></textarea>
+        <label class="check"><input type="checkbox" id="agree" required> <span>Согласен на обработку персональных данных по <a href="politika.html">политике</a></span></label>
+        <button class="btn btn-accent" type="submit">Отправить заявку</button>
+        <div class="ok" id="ok" role="status">Это демо-сайт, заявка не отправлена. У настоящей компании она пришла бы менеджеру.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Демо-сайт студии <a href="../../index.html">budra.ai</a>. Компания «Лето рядом» вымышленная, цены демо и не являются офертой.</span>
+    <a href="politika.html">Политика обработки персональных данных</a>
+  </div>
+</footer>
+
+<script src="../../vendor/gsap.min.js"></script>
+<script src="../../vendor/ScrollTrigger.min.js"></script>
+<script src="../../vendor/lenis.min.js"></script>
+<script>
+(function(){
+  var body = document.body;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var phone = window.matchMedia('(max-width: 760px)');
+
+  /* ---------- остановки сборки ----------
+     t: секунда в видео sborka.mp4; координаты выносок в долях кадра 16:9. */
+  var STOPS = [
+    { t: 0, img: 'etap-0', when: 'Старт · день 1', title: 'Участок', text: 'Размечаем пятно дома и привозим сваи и брус.', sum: 0,
+      incl: [['Выезд и разметка', 'бесплатно'], ['Завоз свай и бруса', '1 день']], callouts: [] },
+    { t: 4.75, img: 'etap-1', rail: 1, when: 'Этап 1 · неделя 1', title: 'Фундамент', text: 'Вкручиваем винтовые сваи и кладём обвязку. Без бетона и без ожидания.', sum: 250000, note: 'сваи под дом 100 м²',
+      callouts: [
+        { x: .725, y: .805, lx: .79, ly: .44, name: 'Винтовые сваи', note: 'оцинкованная сталь, 2–3 дня' },
+        { x: .585, y: .748, lx: .55, ly: .5, name: 'Обвязка', note: 'брус 150×150 мм' },
+        { x: .385, y: .705, lx: .34, ly: .6, name: 'Лаги пола', note: 'шаг 60 см' }
+      ] },
+    { t: 9.79, img: 'etap-2', rail: 2, when: 'Этап 2 · недели 2–3', title: 'Каркас', text: 'Ставим стены и стропила из сухой строганой доски. Дом уже видно с дороги.', sum: 2200000, note: 'домокомплект целиком',
+      callouts: [
+        { x: .42, y: .58, lx: .27, ly: .38, name: 'Каркас из сухого бруса', note: 'стойки 50×150, шаг 60 см' },
+        { x: .56, y: .42, lx: .5, ly: .2, name: 'Стропила', note: 'двускатная крыша' }
+      ] },
+    { t: 14.83, img: 'etap-3', rail: 3, when: 'Этап 3 · неделя 4', title: 'Домокомплект', text: 'Закрываем стены ОСП и мембраной, кроем крышу металлом. Коробка готова за месяц.', sum: 2200000, note: 'домокомплект готов',
+      callouts: [
+        { x: .6, y: .62, lx: .64, ly: .32, name: 'Ветрозащитная мембрана', note: 'дом не продувает' },
+        { x: .46, y: .45, lx: .28, ly: .3, name: 'Кровля фальц', note: 'металл, скрытый крепёж' }
+      ] },
+    { t: 20.08, img: 'etap-4', rail: 4, when: 'Этап 4 · недели 5–8', title: 'Тёплый контур', text: 'Ставим окна, утепляем и обшиваем фасад лиственницей.', sum: 4500000, note: 'тёплый контур',
+      callouts: [
+        { x: .655, y: .59, lx: .74, ly: .3, name: 'Окна', note: 'двухкамерный стеклопакет' },
+        { x: .572, y: .655, lx: .52, ly: .36, name: 'Утеплитель 200 мм', note: 'базальтовая вата' },
+        { x: .4, y: .64, lx: .25, ly: .44, name: 'Фасад', note: 'лиственница' }
+      ] },
+    { t: 25.125, img: 'etap-5', rail: 4, when: '≈ 2 месяца', title: 'Коробка готова', text: 'Тёплый закрытый дом с террасой. Можно остановиться здесь и доделать самим.', sum: 4500000, note: 'тёплый контур',
+      callouts: [
+        { x: .5, y: .735, lx: .36, ly: .52, name: 'Терраса', note: 'около 18 м²' },
+        { x: .6, y: .57, lx: .64, ly: .3, name: 'Фасад', note: 'планкен из лиственницы' }
+      ] },
+    { t: 30.17, img: 'dom-den', rail: 5, when: '≈ 3 месяца · ключи', title: 'Под ключ', text: 'Инженерия, отделка, газон и дорожка. Привозите вещи.', sum: 6500000, note: 'под ключ',
+      incl: [['Электрика, вода, отопление', 'входит'], ['Отделка и санузел', 'входит'], ['Газон и дорожка', 'по желанию']], callouts: [] },
+    { t: 35.2, img: 'dom-noch', rail: 5, when: 'Первый вечер', title: 'Добро пожаловать домой', text: 'Свет в окнах, фонари вдоль дорожки. Лето рядом.', sum: 6500000, note: 'под ключ',
+      incl: [['Срок', '≈ 3 месяца'], ['Цена', 'фиксируется в договоре']], callouts: [] }
+  ];
+  var HOLD = .6, LAST = STOPS.length - 1, UNITS = STOPS.length * HOLD + LAST;
+  // перед этапами: первый экран (заголовок уезжает) и откат готового дома к участку
+  var HH = .5, RW = 1.3, TOTAL = HH + RW + UNITS, T_DAY = STOPS[6].t;
+
+  /* ---------- день / ночь ----------
+     Автоматический режим: день, а на финале сборки ночь.
+     Нажатие включает вечер и держит его; повторное возвращает автоматический режим. */
+  var choice = null, stopNow = 0, btn = document.getElementById('toggle');
+  function applyMode(){
+    body.dataset.mode = choice || (stopNow === LAST ? 'night' : 'day');
+    btn.setAttribute('aria-pressed', choice === 'night' ? 'true' : 'false');
+    btn.setAttribute('aria-label', choice === 'night' ? 'Вернуть автоматический режим' : 'Показать дом вечером');
+  }
+  btn.addEventListener('click', function(){ choice = choice === 'night' ? null : 'night'; applyMode(); });
+
+  /* ---------- калькулятор ---------- */
+  var RATE = { kit: [20000, 26000, '≈ 1 месяц'], warm: [40000, 60000, '≈ 2 месяца'], key: [55000, 80000, '≈ 3 месяца'] };
+  var calc = document.getElementById('calc');
+  function money(v){ return v >= 1e6 ? (Math.round(v / 1e5) / 10).toString().replace('.', ',') + ' млн ₽' : Math.round(v / 1000) + ' тыс. ₽'; }
+  function recalc(){
+    var a = +calc.area.value, r = RATE[calc.querySelector('[name=tier]:checked').value];
+    var lo = a * r[0], hi = a * r[1];
+    if (document.getElementById('terrace').checked) { lo += 250000; hi += 450000; }
+    var f = document.getElementById('found').checked, slab = calc.querySelector('[name=ft]:checked').value === 'slab';
+    document.getElementById('foundType').style.opacity = f ? 1 : .4;
+    if (f) { lo += slab ? 900000 : 200000; hi += slab ? 1400000 : 300000; }
+    document.getElementById('areaOut').textContent = a + ' м²';
+    document.getElementById('sum').textContent = 'от ' + money(lo) + ' до ' + money(hi);
+    document.getElementById('term').textContent = 'Срок ' + r[2] + (a > 130 ? ', для большого дома чуть дольше' : '');
+  }
+  calc.addEventListener('input', recalc); recalc();
+
+  /* ---------- форма: демо ---------- */
+  var form = document.getElementById('form');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    document.getElementById('ok').classList.add('show');
+  });
+
+  /* ---------- сцена сборки ---------- */
+  var build = document.getElementById('sborka'), media = document.getElementById('media'), vid = document.getElementById('vid');
+  var svg = document.getElementById('lines'), box = document.getElementById('callouts'), crisps = document.getElementById('crisps');
+  var cap = { body: document.getElementById('cap'), when: document.getElementById('capWhen'), title: document.getElementById('capTitle'), text: document.getElementById('capText'), price: document.getElementById('capPrice'), sum: document.getElementById('capSum'), note: document.getElementById('capNote'), incl: document.getElementById('capIncl') };
+  var railBtns = [].slice.call(document.querySelectorAll('.rail button')), bars = [].slice.call(document.querySelectorAll('#bar i')), tlRows = [].slice.call(document.querySelectorAll('#tl li'));
+  var NS = 'http://www.w3.org/2000/svg', A = 2752 / 1536;
+
+  // чёткие кадры: грузим только когда понадобятся
+  STOPS.forEach(function(s){
+    var im = document.createElement('img');
+    im.className = 'crisp'; im.alt = ''; im.decoding = 'async';
+    im.dataset.src = 'img/' + s.img + (phone.matches ? '-m' : '') + '.webp';
+    crisps.appendChild(im); s.el = im;
+  });
+  function need(i){ [i - 1, i, i + 1].forEach(function(k){ var s = STOPS[k]; if (s && !s.el.getAttribute('src')) s.el.src = s.el.dataset.src; }); }
+
+  var items = [];
+  STOPS.forEach(function(s, si){
+    s.callouts.forEach(function(c, ci){
+      var g = document.createElementNS(NS, 'g'), ln = document.createElementNS(NS, 'line');
+      g.appendChild(ln); svg.appendChild(g);
+      var dot = document.createElement('button');
+      dot.type = 'button'; dot.className = 'dot'; dot.tabIndex = -1; dot.setAttribute('aria-label', c.name);
+      var el = document.createElement('div');
+      el.className = 'callout glass';
+      el.innerHTML = '<b>' + c.name + '</b><small>' + c.note + '</small>';
+      box.appendChild(dot); box.appendChild(el);
+      var it = { step: si, i: ci, c: c, g: g, ln: ln, dot: dot, el: el };
+      dot.addEventListener('click', function(){ if (phone.matches) openOne(it); });
+      items.push(it);
+    });
+  });
+
+  // перевод координат кадра в пиксели сцены с учётом object-fit: cover
+  function layout(){
+    var W = media.clientWidth, H = media.clientHeight;
+    var rw = Math.max(W, H * A), rh = rw / A;
+    var ox = (W - rw) * (phone.matches ? .63 : .6), oy = (H - rh) * .5;
+    var small = phone.matches, placed = [];
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    items.forEach(function(it){
+      var px = ox + it.c.x * rw, py = oy + it.c.y * rh;
+      it.hidden = px < 10 || px > W - 10;
+      var ew = it.el.offsetWidth, eh = it.el.offsetHeight, lx, ly;
+      if (small) { lx = px - ew / 2; ly = py - eh - 22; }   // на телефоне подпись прямо над точкой
+      else { lx = ox + it.c.lx * rw - ew / 2; ly = oy + it.c.ly * rh - eh; }
+      lx = Math.max(8, Math.min(W - ew - (small ? 8 : 72), lx));
+      ly = Math.max(8, ly);
+      if (!small) {
+        for (var guard = 0; guard < 6; guard++) {
+          var hit = placed.filter(function(r){ return r.step === it.step && lx < r.x + r.w + 8 && lx + ew + 8 > r.x && ly < r.y + r.h + 8 && ly + eh + 8 > r.y; })[0];
+          if (!hit) break;
+          ly = hit.y - eh - 10; if (ly < 8) ly = hit.y + hit.h + 10;
+        }
+        placed.push({ step: it.step, x: lx, y: ly, w: ew, h: eh });
+      }
+      it.el.style.left = lx + 'px'; it.el.style.top = ly + 'px';
+      it.dot.style.left = px + 'px'; it.dot.style.top = py + 'px';
+      var ex = Math.max(lx + 14, Math.min(lx + ew - 14, px)), ey = ly + eh;
+      it.ln.setAttribute('x1', px); it.ln.setAttribute('y1', py - 8);
+      it.ln.setAttribute('x2', ex); it.ln.setAttribute('y2', ey);
+      it.ln.style.setProperty('--len', Math.hypot(ex - px, ey - py) + 2);
+      it.g.style.display = it.el.style.display = it.dot.style.display = it.hidden ? 'none' : '';
+    });
+  }
+
+  // выноски: на компьютере все по очереди; на телефоне точки, подпись по нажатию (первая открыта)
+  var shown = -1, timers = [];
+  function openOne(target){
+    var wasOn = target.el.classList.contains('on');
+    items.forEach(function(it){
+      var on = it === target && !wasOn;
+      it.el.classList.toggle('on', on); it.g.classList.toggle('on', on);
+    });
+  }
+  function showCallouts(si){
+    if (si === shown) return;
+    shown = si;
+    timers.forEach(clearTimeout); timers = [];
+    var first = null;
+    items.forEach(function(it){
+      var mine = it.step === si && !it.hidden;
+      it.dot.tabIndex = mine && phone.matches ? 0 : -1;
+      if (!mine) { it.g.classList.remove('on'); it.el.classList.remove('on'); it.dot.classList.remove('on'); return; }
+      var d = reduce ? 0 : 140 * it.i;
+      timers.push(setTimeout(function(){ it.dot.classList.add('on'); }, d));
+      if (phone.matches) { if (!first) first = it; return; }
+      timers.push(setTimeout(function(){ it.g.classList.add('on'); }, d + 80));
+      timers.push(setTimeout(function(){ it.el.classList.add('on'); }, d + 260));
+    });
+    if (first) timers.push(setTimeout(function(){ openOne(first); }, reduce ? 0 : 300));
+  }
+
+  // счётчик цены растёт по ходу сборки
+  var sumState = { v: 0 };
+  function priceText(v){ return 'от ' + (v >= 1e6 ? (Math.round(v / 1e5) / 10).toString().replace('.', ',') + ' млн ₽' : (Math.round(v / 1000) * 1000).toLocaleString('ru-RU') + ' ₽'); }
+  function setSum(v){
+    if (reduce || !window.gsap) { sumState.v = v; cap.sum.textContent = priceText(v); return; }
+    gsap.to(sumState, { v: v, duration: .8, ease: 'power2.out', overwrite: true, onUpdate: function(){ cap.sum.textContent = priceText(sumState.v); } });
+  }
+
+  var current = -1;
+  function showStop(si){
+    if (si === current) return;
+    current = si; stopNow = si; applyMode(); need(si);
+    var s = STOPS[si];
+    if (phone.matches) document.getElementById('backdrop').style.backgroundImage = 'url(img/' + s.img + '-m.webp)';
+    cap.body.classList.add('swap');
+    setTimeout(function(){
+      cap.when.textContent = s.when; cap.title.textContent = s.title; cap.text.textContent = s.text;
+      cap.price.hidden = !s.sum;
+      cap.note.textContent = s.note ? s.note + ' · цены демо' : '';
+      var rows = s.incl || s.callouts.map(function(c){ return [c.name, c.note]; });
+      cap.incl.innerHTML = rows.map(function(r){ return '<li>' + r[0] + '<span>' + r[1] + '</span></li>'; }).join('');
+      cap.body.classList.remove('swap');
+    }, reduce ? 0 : 200);
+    if (s.sum) setSum(s.sum);
+    var r = s.rail || 0;
+    railBtns.forEach(function(b, k){
+      if (k + 1 === r) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+      b.classList.toggle('done', k + 1 < r);
+    });
+    bars.forEach(function(b, k){ b.classList.toggle('done', k < r); });
+    tlRows.forEach(function(li, k){ li.classList.toggle('done', k + 1 < r); li.classList.toggle('cur', k + 1 === r); });
+  }
+  function crisp(si){ STOPS.forEach(function(s, k){ s.el.classList.toggle('on', k === si); }); }
+
+  var html = document.documentElement, hero = document.getElementById('hero'), heroCopy = hero.querySelector('.hero-copy');
+  var intro = document.getElementById('intro'), kb = document.getElementById('kb');
+
+  /* ---------- без анимаций: сразу готовый дом, просто кадры, этапы кнопками ---------- */
+  if (reduce) {
+    body.classList.add('still', 'intro-done');
+    intro.remove();
+    vid.remove();
+    var go = function(i){ need(i); crisp(i); showStop(i); layout(); shown = -1; showCallouts(i); };
+    railBtns.forEach(function(b){ b.addEventListener('click', function(){ go(+b.dataset.stop); }); });
+    go(1);
+    window.addEventListener('resize', layout);
+    return;
+  }
+
+  /* ---------- видео по прокрутке ---------- */
+  build.style.height = (100 + TOTAL * (phone.matches ? 38 : 48)) + 'vh';
+  var lenis = new Lenis({ lerp: .1 });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(function(t){ lenis.raf(t * 1000); });
+  gsap.ticker.lagSmoothing(0);
+  gsap.registerPlugin(ScrollTrigger);
+
+  var loaded = false;
+  function loadVideo(){
+    if (loaded) return; loaded = true;
+    vid.src = phone.matches ? 'video/sborka-m.mp4' : 'video/sborka.mp4';
+    vid.preload = 'auto'; vid.load();
+    var p = vid.play(); if (p && p.then) p.then(function(){ vid.pause(); }).catch(function(){});
+  }
+
+  /* ---------- интро: быстрый таймлапс сборки, потом текст и живой дом ---------- */
+  var introDone = false, kbTween = null, kbParked = false;
+  function finishIntro(){
+    if (introDone) return; introDone = true;
+    html.classList.remove('intro-wait'); body.classList.add('intro-done');
+    try { intro.pause(); } catch (e) {}
+    kbTween = gsap.fromTo(kb, { scale: 1, xPercent: 0 }, { scale: 1.07, xPercent: -1.2, duration: 18, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    setTimeout(function(){ loadVideo(); need(0); }, 400);
+  }
+  intro.poster = phone.matches ? 'img/intro-poster-m.webp' : 'img/intro-poster.webp';
+  intro.src = phone.matches ? 'video/intro-m.mp4' : 'video/intro.mp4';
+  intro.addEventListener('ended', finishIntro);
+  intro.addEventListener('error', finishIntro);
+  var ip = intro.play();
+  if (ip && ip.catch) ip.catch(finishIntro);                 // автозапуск запрещён: сразу готовый дом
+  setTimeout(function(){ if (!introDone && intro.currentTime < .05) finishIntro(); }, 2500); // видео не стартовало
+  setTimeout(finishIntro, 9000);                              // страховка
+
+  var target = T_DAY, shownT = T_DAY;
+  function heroState(u){
+    var exitK = Math.min(1, u / HH);                          // заголовок уезжает
+    var fade = u <= HH ? 0 : Math.min(1, (u - HH) / (RW * .3)); // фото растворяется в видео
+    gsap.set(heroCopy, { y: -140 * exitK, opacity: 1 - exitK });
+    hero.style.opacity = 1 - fade;
+    hero.style.visibility = fade >= 1 ? 'hidden' : '';
+    if (u > .02 && kbTween && !kbParked) { kbParked = true; kbTween.pause(); gsap.to(kb, { scale: 1, xPercent: 0, duration: .6, ease: 'power2.out' }); }
+    if (u <= .02 && kbParked && introDone) { kbParked = false; kbTween.restart(); }
+  }
+  function onProgress(p){
+    var U = p * TOTAL;
+    if (U > .02 && !introDone) finishIntro();
+    heroState(U);
+    body.classList.toggle('at-hero', U < HH + RW * .7);
+    if (U < HH + RW) {                                        // первый экран и откат дома к участку
+      var k = Math.max(0, (U - HH) / RW);
+      target = T_DAY * (1 - k); crisp(-1); showCallouts(-1);
+      if (phone.matches && current < 0) document.getElementById('backdrop').style.backgroundImage = 'url(img/dom-den-m.webp)';
+      if (k > .7) showStop(0);
+      return;
+    }
+    var u = U - HH - RW, seg = Math.min(LAST, Math.floor(u / (HOLD + 1))), off = u - seg * (HOLD + 1);
+    if (off <= HOLD || seg === LAST) {           // стоим на остановке: чёткий кадр и выноски
+      target = STOPS[seg].t; crisp(seg); showStop(seg); showCallouts(seg);
+    } else {                                     // едем к следующей остановке: видео
+      var k = off - HOLD, a = STOPS[seg], b = STOPS[seg + 1];
+      target = a.t + (b.t - a.t) * k; crisp(-1); showCallouts(-1); showStop(k > .5 ? seg + 1 : seg); need(seg + 1);
+    }
+  }
+  ScrollTrigger.create({ trigger: build, start: 'top top', end: 'bottom bottom', onUpdate: function(self){ onProgress(self.progress); } });
+
+  gsap.ticker.add(function(){
+    if (!vid.readyState) return;
+    shownT += (target - shownT) * .18;
+    // новую перемотку даём только после окончания прошлой, иначе кадр не успевает отрисоваться
+    if (!vid.seeking && Math.abs(vid.currentTime - shownT) > 1 / 30) { try { vid.currentTime = shownT; } catch (e) {} }
+  });
+
+  railBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var i = +b.dataset.stop, len = build.offsetHeight - innerHeight;
+      lenis.scrollTo(build.offsetTop + len * ((HH + RW + i * (HOLD + 1) + HOLD / 2) / TOTAL), { duration: 1.6 });
+    });
+  });
+  // «Сборка» и «Смотреть, как строим» ведут к началу стройки на этой же сцене
+  [].slice.call(document.querySelectorAll('a[href="#sborka"]')).forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault(); finishIntro();
+      var len = build.offsetHeight - innerHeight;
+      lenis.scrollTo(build.offsetTop + len * ((HH + RW + HOLD / 2) / TOTAL), { duration: 2.2 });
+    });
+  });
+
+  window.addEventListener('resize', function(){ layout(); ScrollTrigger.refresh(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  layout(); onProgress(0);
+  applyMode();
+})();
+</script>
+</body>
+</html>
