@@ -3,8 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Лето рядом — каркасные дома за 3 месяца (демо)</title>
-<meta name="description" content="Демо-сайт студии budra.ai: каркасные дома в Подмосковье, сборка дома при прокрутке.">
+<title>Лето рядом — готовый дом за 3 месяца · демо</title>
+<meta name="description" content="Листайте страницу и смотрите, как каркасный дом вырастает от пустого участка до вечера с огнями в окнах.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Лето рядом · демо студии budra.ai">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://maria96-oss.github.io/budra.ai/cases/karkas/">
+<meta property="og:title" content="Лето рядом — готовый дом за 3 месяца">
+<meta property="og:description" content="Листайте страницу и смотрите, как каркасный дом вырастает от пустого участка до вечера с огнями в окнах.">
+<meta property="og:image" content="https://maria96-oss.github.io/budra.ai/cases/karkas/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Каркасный дом вечером, светятся окна. Надпись: готовый дом за 3 месяца">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2f3a0c">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="../../fonts/fonts.css">
 <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-wait')</script>
@@ -96,28 +111,27 @@ body[data-mode=night] .ticker{background:rgba(6,10,20,.5)}
 @keyframes run{to{transform:translateX(-50%)}}
 
 /* ---------- сборка дома ---------- */
-.build{position:relative;background:#1b2130;color:#fff;height:760vh}
-@media (max-width:760px){.build{height:620vh}}
-.stage{position:sticky;top:0;height:100svh;overflow:hidden}
-.media{position:absolute;inset:0}
-.media canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.media video,.media .crisp{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
-.media .crisp{opacity:0;transition:opacity .6s var(--ease)}
-.media .crisp.on{opacity:1}
+.build{position:relative;background:#1b2130;color:#fff;height:100svh}
+.stage{position:relative;height:100svh;overflow:hidden}
+.media{position:absolute;inset:0;z-index:1;isolation:isolate} /* слои роликов не выходят за пределы видео */
+.media .clip,.media .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
+.media .shot{opacity:0}
+#clips{position:absolute;inset:0}
+#callouts,.lines{z-index:9000}
+.callout,.dot{z-index:9001}
 .media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(14,22,38,.55) 0%,rgba(14,22,38,0) 38%)}
 .lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible}
-.lines line{stroke:#fff;stroke-width:1.25;vector-effect:non-scaling-stroke;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset .45s var(--ease)}
-.lines g.on line{stroke-dashoffset:0}
-.lines g:not(.on) line{transition-duration:.2s}
-.dot{position:absolute;z-index:3;left:0;top:0;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;border:0;background:none;pointer-events:none;opacity:0;transform:scale(.4);transition:opacity .25s var(--ease),transform .3s var(--ease)}
+.lines line{stroke:#fff;stroke-width:1.25;vector-effect:non-scaling-stroke}
+.lines g{opacity:0;transition:opacity .12s linear}
+.lines g.on{opacity:1}
+.dot{position:absolute;z-index:3;left:0;top:0;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;border:0;background:none;pointer-events:none;opacity:0;transition:opacity .12s linear}
 .dot::before{content:"";position:absolute;inset:6px;border-radius:50%;border:1.25px solid #fff;opacity:.8}
 .dot::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#fff}
-.dot.on{opacity:1;transform:none}
-.callout{position:absolute;z-index:3;left:0;top:0;border-radius:14px;padding:9px 13px 10px;opacity:0;transform:translateY(6px);transition:opacity .3s var(--ease),transform .3s var(--ease);pointer-events:none;max-width:230px}
+.dot.on{opacity:1}
+.callout{position:absolute;z-index:3;left:0;top:0;border-radius:14px;padding:9px 13px 10px;opacity:0;transition:opacity .12s linear;pointer-events:none;max-width:230px}
 .callout b{display:block;font:700 15px/1.15 var(--display);letter-spacing:.03em;text-transform:uppercase}
 .callout small{display:block;font-size:12.5px;line-height:1.3;opacity:.88;margin-top:3px}
-.callout.on{opacity:1;transform:none}
-.callout:not(.on){transition-duration:.18s}
+.callout.on{opacity:1}
 
 .caption{position:absolute;z-index:4;left:var(--m);bottom:var(--m);width:min(430px,calc(100% - 2*var(--m)));border-radius:22px;padding:20px 22px 22px}
 .caption .when{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
@@ -127,7 +141,8 @@ body[data-mode=night] .ticker{background:rgba(6,10,20,.5)}
 .price[hidden]{display:none}
 .price strong{font:700 26px/1 var(--display);font-variant-numeric:tabular-nums;color:var(--accent)}
 .price span{font-size:12px;opacity:.75}
-.cap-body{transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.cap-body{transition:opacity .2s linear}
+.moving .cap-body{opacity:.35}
 .cap-body.swap{opacity:0;transform:translateY(6px)}
 .backdrop{display:none}
 .incl{display:none;list-style:none;margin-top:14px;border-top:1px solid rgba(255,255,255,.14)}
@@ -261,7 +276,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   /* сборка: видео полосой сверху (дом и рабочие целиком), компактная карточка под ним */
   .stage{display:flex;flex-direction:column;height:100svh}
   .media{position:relative;inset:auto;flex:none;width:100%;height:min(38svh,72vw)}
-  .media video,.media .crisp{object-position:63% 50%}
+  .media .clip,.media .shot{object-position:63% 50%}
   .media::after{display:none}
   .backdrop{display:block;position:absolute;inset:-40px;background:#1b2130 center/cover no-repeat;filter:blur(26px) brightness(.45) saturate(1.1);transition:background-image .6s var(--ease)}
   .caption{position:relative;left:auto;bottom:auto;width:auto;flex:1;min-height:0;margin:0;border:0;border-radius:0;padding:14px 16px max(14px,env(safe-area-inset-bottom));background:rgba(14,20,30,.35);-webkit-backdrop-filter:none;backdrop-filter:none;overflow:hidden;display:flex;flex-direction:column}
@@ -305,7 +320,10 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 .still .hero{position:relative;inset:auto;height:100svh;min-height:560px}
 .still .intro{display:none}
 .still .stage{position:relative;height:auto}
-.still video,.still canvas{display:none}
+.still .clip{display:none}
+/* пока идут этапы: Safari не оттягивает страницу «резинкой» и не прокручивает её сам */
+.steps-on,.steps-on body{overscroll-behavior:none}
+.steps-on .stage{touch-action:none}
 /* без анимаций этапы переключаются кружками, на телефоне они стоят рядом */
 @media (max-width:760px){.still .stage{height:auto}.still .rail{display:flex;position:static;transform:none;flex-direction:row;justify-content:center;padding:12px 0 4px;background:#1b2130}.still .caption{flex:none}}
 </style>
@@ -362,8 +380,8 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 
     <div class="backdrop" id="backdrop" aria-hidden="true"></div>
     <div class="media" id="media">
-      <canvas id="seq" aria-hidden="true"></canvas>
-      <div id="crisps"></div>
+      <img class="shot" id="still" alt="" aria-hidden="true">
+      <div id="clips"></div>
       <svg class="lines" id="lines" aria-hidden="true"></svg>
       <div id="callouts"></div>
     </div>
@@ -549,7 +567,6 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 </footer>
 
 <script src="../../vendor/gsap.min.js"></script>
-<script src="../../vendor/ScrollTrigger.min.js"></script>
 <script src="../../vendor/lenis.min.js"></script>
 <script>
 (function(){
@@ -639,24 +656,16 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     document.getElementById('ok').classList.add('show');
   });
 
-  /* ---------- сцена сборки ---------- */
-  var build = document.getElementById('sborka'), media = document.getElementById('media'), seq = document.getElementById('seq');
-  var svg = document.getElementById('lines'), box = document.getElementById('callouts'), crisps = document.getElementById('crisps');
+  /* ---------- сцена сборки: пошаговая, по жестам ----------
+     Один жест (колёсико, тачпад, свайп, стрелка) = один этап. Переход проигрывается роликом целиком,
+     пока он идёт, новые жесты не считаются. Внутри блока обычная прокрутка выключена. */
+  var build = document.getElementById('sborka'), media = document.getElementById('media');
+  var stillEl = document.getElementById('still'), clipsBox = document.getElementById('clips');
+  var svg = document.getElementById('lines'), box = document.getElementById('callouts');
   var cap = { body: document.getElementById('cap'), when: document.getElementById('capWhen'), title: document.getElementById('capTitle'), text: document.getElementById('capText'), price: document.getElementById('capPrice'), sum: document.getElementById('capSum'), note: document.getElementById('capNote'), incl: document.getElementById('capIncl') };
   var railBtns = [].slice.call(document.querySelectorAll('.rail button')), bars = [].slice.call(document.querySelectorAll('#bar i')), tlRows = [].slice.call(document.querySelectorAll('#tl li'));
-  var NS = 'http://www.w3.org/2000/svg', A = 2752 / 1536;
-
-  // чёткие кадры: грузим только когда понадобятся
-  STOPS.forEach(function(s){
-    var im = document.createElement('img');
-    im.className = 'crisp'; im.alt = ''; im.decoding = 'async';
-    im.dataset.src = 'img/' + s.img + (phone.matches ? '-m' : '') + '.webp';
-    crisps.appendChild(im); s.el = im;
-  });
-  function need(i){ var s = STOPS[i]; if (s && !s.el.getAttribute('src')) s.el.src = s.el.dataset.src; }
-  // чёткий кадр остановки грузим, только если человек на ней задержался: на медленном интернете полоса нужна серии кадров
-  var needTimer = 0;
-  function needSoon(i){ clearTimeout(needTimer); needTimer = setTimeout(function(){ if (current === i) need(i); }, reduce ? 0 : 600); }
+  var NS = 'http://www.w3.org/2000/svg', A = 2752 / 1536, SUF = phone.matches ? '-m' : '';
+  function stillUrl(i){ return 'step/stop-' + i + SUF + '.webp'; }
 
   var items = [];
   STOPS.forEach(function(s, si){
@@ -686,7 +695,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
       var px = ox + it.c.x * rw, py = oy + it.c.y * rh;
       it.hidden = px < 10 || px > W - 10;
       var ew = it.el.offsetWidth, eh = it.el.offsetHeight, lx, ly;
-      if (small) { lx = px - ew / 2; ly = py - eh - 22; }   // на телефоне подпись прямо над точкой
+      if (small) { lx = px - ew / 2; ly = py - eh - 22; }
       else { lx = ox + it.c.lx * rw - ew / 2; ly = oy + it.c.ly * rh - eh; }
       lx = Math.max(8, Math.min(W - ew - (small ? 8 : 72), lx));
       ly = Math.max(8, ly);
@@ -703,67 +712,48 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
       var ex = Math.max(lx + 14, Math.min(lx + ew - 14, px)), ey = ly + eh;
       it.ln.setAttribute('x1', px); it.ln.setAttribute('y1', py - 8);
       it.ln.setAttribute('x2', ex); it.ln.setAttribute('y2', ey);
-      it.ln.style.setProperty('--len', Math.hypot(ex - px, ey - py) + 2);
       it.g.style.display = it.el.style.display = it.dot.style.display = it.hidden ? 'none' : '';
     });
   }
 
-  // выноски: на компьютере все по очереди; на телефоне точки, подпись по нажатию (первая открыта)
-  var shown = -1, timers = [];
+  // выноски этапа появляются целиком и сразу: точка, линия и подпись вместе. На телефоне открыта первая, остальные по нажатию
   function openOne(target){
     var wasOn = target.el.classList.contains('on');
-    items.forEach(function(it){
-      var on = it === target && !wasOn;
-      it.el.classList.toggle('on', on); it.g.classList.toggle('on', on);
-    });
+    items.forEach(function(it){ var on = it === target && !wasOn; it.el.classList.toggle('on', on); it.g.classList.toggle('on', on); });
   }
   function showCallouts(si){
-    if (si === shown) return;
-    shown = si;
-    timers.forEach(clearTimeout); timers = [];
     var first = null;
     items.forEach(function(it){
       var mine = it.step === si && !it.hidden;
       it.dot.tabIndex = mine && phone.matches ? 0 : -1;
-      if (!mine) { it.g.classList.remove('on'); it.el.classList.remove('on'); it.dot.classList.remove('on'); return; }
-      var d = reduce ? 0 : 140 * it.i;
-      timers.push(setTimeout(function(){ it.dot.classList.add('on'); }, d));
-      if (phone.matches) { if (!first) first = it; return; }
-      timers.push(setTimeout(function(){ it.g.classList.add('on'); }, d + 80));
-      timers.push(setTimeout(function(){ it.el.classList.add('on'); }, d + 260));
+      it.dot.classList.toggle('on', mine);
+      var lab = mine && (!phone.matches || !first);
+      if (mine && !first) first = it;
+      it.g.classList.toggle('on', lab); it.el.classList.toggle('on', lab);
     });
-    if (first) timers.push(setTimeout(function(){ openOne(first); }, reduce ? 0 : 300));
   }
 
-  // счётчик цены растёт по ходу сборки
   var sumState = { v: 0 };
   function priceText(v){ return 'от ' + (v >= 1e6 ? (Math.round(v / 1e5) / 10).toString().replace('.', ',') + ' млн ₽' : (Math.round(v / 1000) * 1000).toLocaleString('ru-RU') + ' ₽'); }
   function setSum(v){
     if (reduce || !window.gsap) { sumState.v = v; cap.sum.textContent = priceText(v); return; }
-    gsap.to(sumState, { v: v, duration: .8, ease: 'power2.out', overwrite: true, onUpdate: function(){ cap.sum.textContent = priceText(sumState.v); } });
+    gsap.to(sumState, { v: v, duration: .5, ease: 'power2.out', overwrite: true, onUpdate: function(){ cap.sum.textContent = priceText(sumState.v); } });
   }
-
   // длинное слово («Домокомплект») не должно вылезать из карточки: уменьшаем шрифт, пока не поместится
   function fitTitle(el){
     el.style.fontSize = '';
     var fs = parseFloat(getComputedStyle(el).fontSize);
     while (el.scrollWidth > el.clientWidth + 1 && fs > 20) { fs -= 2; el.style.fontSize = fs + 'px'; }
   }
-  var current = -1;
   function showStop(si){
-    if (si === current) return;
-    current = si; stopNow = si; applyMode(); needSoon(si);
+    stopNow = si; applyMode();
     var s = STOPS[si];
-    if (phone.matches) document.getElementById('backdrop').style.backgroundImage = 'url(img/' + s.img + '-m.webp)';
-    cap.body.classList.add('swap');
-    setTimeout(function(){
-      cap.when.textContent = s.when; cap.title.textContent = s.title; cap.text.textContent = s.text; fitTitle(cap.title);
-      cap.price.hidden = !s.sum;
-      cap.note.textContent = s.note ? s.note + ' · цены демо' : '';
-      var rows = s.incl || s.callouts.map(function(c){ return [c.name, c.note]; });
-      cap.incl.innerHTML = rows.map(function(r){ return '<li>' + r[0] + '<span>' + r[1] + '</span></li>'; }).join('');
-      cap.body.classList.remove('swap');
-    }, reduce ? 0 : 200);
+    if (phone.matches) document.getElementById('backdrop').style.backgroundImage = 'url(' + stillUrl(si) + ')';
+    cap.when.textContent = s.when; cap.title.textContent = s.title; cap.text.textContent = s.text; fitTitle(cap.title);
+    cap.price.hidden = !s.sum;
+    cap.note.textContent = s.note ? s.note + ' · цены демо' : '';
+    var rows = s.incl || s.callouts.map(function(c){ return [c.name, c.note]; });
+    cap.incl.innerHTML = rows.map(function(r){ return '<li>' + r[0] + '<span>' + r[1] + '</span></li>'; }).join('');
     if (s.sum) setSum(s.sum);
     var r = s.rail || 0;
     railBtns.forEach(function(b, k){
@@ -773,92 +763,41 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     bars.forEach(function(b, k){ b.classList.toggle('done', k < r); });
     tlRows.forEach(function(li, k){ li.classList.toggle('done', k + 1 < r); li.classList.toggle('cur', k + 1 === r); });
   }
-  function crisp(si){ STOPS.forEach(function(s, k){ s.el.classList.toggle('on', k === si); }); }
 
   var html = document.documentElement, hero = document.getElementById('hero'), heroCopy = hero.querySelector('.hero-copy');
   var intro = document.getElementById('intro'), kb = document.getElementById('kb');
 
-  /* ---------- без анимаций: сразу готовый дом, просто кадры, этапы кнопками ---------- */
+  /* ---------- без анимаций: сразу готовый дом, этапы кружками, без роликов ---------- */
   if (reduce) {
     body.classList.add('still', 'intro-done');
     intro.remove();
-    seq.remove();
-    var go = function(i){ need(i); crisp(i); showStop(i); layout(); shown = -1; showCallouts(i); };
+    var go = function(i){ stillEl.src = stillUrl(i); stillEl.style.opacity = 1; showStop(i); layout(); showCallouts(i); };
     railBtns.forEach(function(b){ b.addEventListener('click', function(){ go(+b.dataset.stop); }); });
+    stillEl.onload = layout;
     go(1);
     window.addEventListener('resize', layout);
     return;
   }
 
-  /* ---------- видео по прокрутке ---------- */
-  build.style.height = (100 + TOTAL * (phone.matches ? 38 : 48)) + 'vh';
-  var lenis = new Lenis({ lerp: .1 });
-  lenis.on('scroll', ScrollTrigger.update);
+  /* ---------- плавная прокрутка остальной страницы ---------- */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+  var lenis = new Lenis({ lerp: .15 });
   gsap.ticker.add(function(t){ lenis.raf(t * 1000); });
   gsap.ticker.lagSmoothing(0);
-  gsap.registerPlugin(ScrollTrigger);
-
-  /* ---------- серия кадров на canvas вместо видео ----------
-     176 кадров через 0,2 с полного ролика сборки. Сначала грузим каждый 4-й, потом каждый 2-й, потом остальные;
-     кадры рядом с текущим местом прокрутки поднимаем в начало очереди. Пока нужный не загрузился, рисуем ближайший загруженный. */
-  var FPS = 5, N = 176, DIR = phone.matches ? 'm' : 'd';
-  var frames = new Array(N), ready = new Array(N), queue = [], active = 0, started = false, base4 = 0;
-  // чёткие кадры этапов тихо подгружаем, когда уже есть каждый 4-й кадр серии
-  function preloadCrisps(){ loadNight(); STOPS.forEach(function(st, k){ setTimeout(function(){ if (!st.el.getAttribute('src')) st.el.src = st.el.dataset.src; }, 300 * k); }); }
-  var g = seq.getContext('2d'), drawn = -1, dirty = true;
-  function url(i){ return 'kadry/' + DIR + '/f' + ('00' + i).slice(-3) + '.webp'; }
-  function pump(){
-    while (active < 4 && queue.length) {
-      var i = queue.shift();
-      if (frames[i]) continue;
-      (function(i){
-        var im = new Image(); im.decoding = 'async'; frames[i] = im; active++;
-        im.onload = function(){ (im.decode ? im.decode() : Promise.resolve()).catch(function(){}).then(function(){ ready[i] = true; dirty = true; }); active--; if (i % 4 === 0 && ++base4 === Math.ceil(N / 4)) preloadCrisps(); pump(); };
-        im.onerror = function(){ active--; pump(); };
-        im.src = url(i);
-      })(i);
-    }
-  }
-  window.__seqReady = function(){ return ready.filter(Boolean).length; }; // для проверки загрузки
-  function startFrames(){
-    if (started) return; started = true;
-    [4, 2, 1].forEach(function(step){ for (var i = 0; i < N; i += step) if (queue.indexOf(i) < 0) queue.push(i); });
-    queue.push(N - 1);
-    pump();
-  }
-  function prioritize(i){
-    for (var d = 6; d >= 0; d--) [i - d, i + d].forEach(function(k){
-      if (k >= 0 && k < N && !frames[k]) { var at = queue.indexOf(k); if (at >= 0) queue.splice(at, 1); queue.unshift(k); }
-    });
-    pump();
-  }
-  function sizeCanvas(){
-    var r = Math.min(2, window.devicePixelRatio || 1);
-    seq.width = Math.round(media.clientWidth * r); seq.height = Math.round(media.clientHeight * r); dirty = true;
-  }
-  function draw(i){
-    var k = -1;
-    for (var d = 0; d < N && k < 0; d++) { if (ready[i - d]) k = i - d; else if (ready[i + d]) k = i + d; }
-    if (k < 0 || (k === drawn && !dirty)) return;
-    var im = frames[k], W = seq.width, H = seq.height, A2 = im.naturalWidth / im.naturalHeight;
-    var rw = Math.max(W, H * A2), rh = rw / A2, ox = (W - rw) * (phone.matches ? .63 : .6), oy = (H - rh) * .5;
-    g.drawImage(im, ox, oy, rw, rh); drawn = k; dirty = false;
-  }
 
   /* ---------- интро: быстрый таймлапс сборки, потом текст и живой дом ---------- */
-  var introDone = false, kbTween = null, kbParked = false;
+  var introDone = false, kbTween = null;
   function finishIntro(){
     if (introDone) return; introDone = true;
     html.classList.remove('intro-wait'); body.classList.add('intro-done');
     // интро больше не нужно: останавливаем и его скачивание, чтобы не занимало медленный интернет
     try { intro.pause(); if (intro.currentTime < intro.duration - .1 || !intro.duration) { intro.removeAttribute('src'); intro.load(); } } catch (e) {}
     kbTween = gsap.fromTo(kb, { scale: 1, xPercent: 0 }, { scale: 1.07, xPercent: -1.2, duration: 18, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    startFrames();
-
+    preloadAround(-1);
   }
   intro.poster = phone.matches ? 'img/intro-poster-m.webp' : 'img/intro-poster.webp';
   intro.src = phone.matches ? 'video/intro-m.mp4' : 'video/intro.mp4';
-  intro.addEventListener('playing', function(){ setTimeout(startFrames, 300); });
   intro.addEventListener('ended', finishIntro);
   intro.addEventListener('error', finishIntro);
   var ip = intro.play();
@@ -867,66 +806,160 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   setTimeout(function(){ if (!introDone && intro.readyState < 4) finishIntro(); }, 3000);
   setTimeout(finishIntro, 9000);                              // страховка
 
-  var target = T_DAY, shownT = T_DAY;
-  function heroState(u){
-    var exitK = Math.min(1, u / HH);                          // заголовок уезжает
-    var fade = u <= HH ? 0 : Math.min(1, (u - HH) / (RW * .3)); // фото растворяется в видео
-    gsap.set(heroCopy, { y: -140 * exitK, opacity: 1 - exitK });
-    hero.style.opacity = 1 - fade;
-    hero.style.visibility = fade >= 1 ? 'hidden' : '';
-    if (u > .02 && kbTween && !kbParked) { kbParked = true; kbTween.pause(); gsap.to(kb, { scale: 1, xPercent: 0, duration: .6, ease: 'power2.out' }); }
-    if (u <= .02 && kbParked && introDone) { kbParked = false; kbTween.restart(); }
+  /* ---------- ролики-переходы ----------
+     c0: готовый дом → участок, c1…c7: этап за этапом. Обратные версии (…r) для движения вверх.
+     Держим загруженными ролик к следующему этапу и ролик к предыдущему. */
+  var pos = -1, busy = false, locked = true, z = 1, cache = {};
+  function key(c, rev){ return 'c' + c + (rev ? 'r' : '') + SUF; }
+  function clip(k){
+    if (cache[k]) return cache[k];
+    var v = document.createElement('video');
+    v.muted = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+    v.preload = 'auto'; v.className = 'clip'; v.src = 'step/' + k + '.mp4';
+    clipsBox.appendChild(v); v.load(); cache[k] = v;
+    return v;
   }
-  function onProgress(p){
-    var U = p * TOTAL;
-    if (U > .02 && !introDone) finishIntro();
-    heroState(U);
-    body.classList.toggle('at-hero', U < HH + RW * .7);
-    if (U < HH + RW) {                                        // первый экран и откат дома к участку
-      var k = Math.max(0, (U - HH) / RW);
-      target = T_DAY * (1 - k); crisp(-1); showCallouts(-1);
-      if (phone.matches && current < 0) document.getElementById('backdrop').style.backgroundImage = 'url(img/dom-den-m.webp)';
-      if (k > .7) showStop(0);
-      return;
-    }
-    var u = U - HH - RW, seg = Math.min(LAST, Math.floor(u / (HOLD + 1))), off = u - seg * (HOLD + 1);
-    if (off <= HOLD || seg === LAST) {           // стоим на остановке: чёткий кадр и выноски
-      target = STOPS[seg].t; crisp(seg); showStop(seg); showCallouts(seg);
-    } else {                                     // едем к следующей остановке: видео
-      var k = off - HOLD, a = STOPS[seg], b = STOPS[seg + 1];
-      target = a.t + (b.t - a.t) * k; crisp(-1); showCallouts(-1); showStop(k > .5 ? seg + 1 : seg);
-    }
-  }
-  ScrollTrigger.create({ trigger: build, start: 'top top', end: 'bottom bottom', onUpdate: function(self){ onProgress(self.progress); } });
-
-  var wantPrev = -1;
-  gsap.ticker.add(function(){
-    shownT += (target - shownT) * .2;
-    var i = Math.max(0, Math.min(N - 1, Math.round(shownT * FPS)));
-    if (i !== wantPrev) { wantPrev = i; if (started && !ready[i]) prioritize(i); }
-    draw(i);
-  });
-
-  railBtns.forEach(function(b){
-    b.addEventListener('click', function(){
-      var i = +b.dataset.stop, len = build.offsetHeight - innerHeight;
-      lenis.scrollTo(build.offsetTop + len * ((HH + RW + i * (HOLD + 1) + HOLD / 2) / TOTAL), { duration: 1.6 });
+  var shownV = null;
+  function preloadAround(p){
+    var want = [];
+    if (p < LAST) want.push(key(p + 1, false));
+    if (p > -1) want.push(key(p, true));
+    want.forEach(clip);
+    Object.keys(cache).forEach(function(k){
+      if (want.indexOf(k) < 0 && cache[k] !== shownV) { var v = cache[k]; v.removeAttribute('src'); v.load(); v.remove(); delete cache[k]; }
     });
+  }
+  function front(el){ el.style.zIndex = ++z; el.style.opacity = 1; }
+
+  function leaveHero(){
+    finishIntro();
+    if (phone.matches) document.getElementById('backdrop').style.backgroundImage = 'url(' + stillUrl(0) + ')';
+    if (kbTween) kbTween.pause();
+    gsap.to(kb, { scale: 1, xPercent: 0, duration: .4 });
+    gsap.to(heroCopy, { y: -120, opacity: 0, duration: .5, ease: 'power2.in' });
+    gsap.to(hero, { opacity: 0, duration: .5, delay: .15, onComplete: function(){ hero.style.visibility = 'hidden'; } });
+    body.classList.remove('at-hero');
+  }
+  function enterHero(){
+    hero.style.visibility = '';
+    gsap.to(hero, { opacity: 1, duration: .45 });
+    gsap.to(heroCopy, { y: 0, opacity: 1, duration: .6, ease: 'power2.out', delay: .1 });
+    body.classList.add('at-hero');
+    stopNow = -1; applyMode();
+    if (kbTween) kbTween.restart();
+  }
+
+  function step(dir){
+    if (busy) return;
+    var to = pos + dir;
+    if (to > LAST) { release(document.getElementById('ceny')); return; }
+    if (to < -1) return;
+    busy = true; body.classList.add('moving');
+    var v = clip(key(dir > 0 ? to : pos, dir < 0)), started = false, done = false;
+    showCallouts(-1);
+    if (pos === -1) leaveHero();
+    if (to === -1) body.classList.add('at-hero');
+    function finish(){
+      if (done) return; done = true;
+      pos = to; busy = false; body.classList.remove('moving');
+      if (to === -1) enterHero(); else { showStop(to); layout(); showCallouts(to); }
+      preloadAround(to);
+      if (to >= 0) loadNight();
+    }
+    function play(){
+      if (started) return; started = true;
+      try { v.currentTime = 0; } catch (e) {}
+      front(v); shownV = v;
+      var pr = v.play();
+      if (pr && pr.catch) pr.catch(function(){ snap(to); finish(); });
+    }
+    v.onended = finish;
+    if (v.readyState >= 3) play(); else v.addEventListener('canplay', play, { once: true });
+    setTimeout(function(){ if (!started) { snap(to); finish(); } }, 3500);   // ролик не успел загрузиться: сразу кадр этапа
+    setTimeout(function(){ if (!done) { snap(to); finish(); } }, 7000);      // ролик застрял посреди
+  }
+  function snap(i){ if (i >= 0) { stillEl.src = stillUrl(i); front(stillEl); } }
+
+  // кружок этапа: сразу к нужному этапу коротким растворением
+  function jump(k){
+    if (busy || k === pos) return;
+    busy = true; showCallouts(-1);
+    if (pos === -1) leaveHero();
+    var im = new Image();
+    im.onload = im.onerror = function(){
+      stillEl.src = im.src; stillEl.style.opacity = 0; stillEl.style.zIndex = ++z;
+      gsap.to(stillEl, { opacity: 1, duration: .4, ease: 'power1.out', onComplete: function(){
+        pos = k; busy = false; showStop(k); layout(); showCallouts(k); preloadAround(k); loadNight();
+      } });
+    };
+    im.src = stillUrl(k);
+  }
+  railBtns.forEach(function(b){ b.addEventListener('click', function(){ jump(+b.dataset.stop); }); });
+
+  /* ---------- закрепление блока и выход к остальной странице ---------- */
+  var lastWheel = 0, consumed = false, acc = 0;
+  function quietNow(){ consumed = true; lastWheel = performance.now(); }
+  function lock(){ locked = true; html.classList.add('steps-on'); lenis.stop(); window.scrollTo(0, 0); quietNow(); }
+  function release(target){ locked = false; html.classList.remove('steps-on'); lenis.start(); lenis.scrollTo(target, { duration: 1.1, force: true, lock: true }); quietNow(); }
+  lenis.stop(); html.classList.add('steps-on');
+  function maybeLock(){ if (!locked && window.scrollY <= 1) lock(); }
+  window.addEventListener('scroll', maybeLock, { passive: true });
+
+  // колёсико и тачпад: всё, что идёт без паузы дольше 0,22 с, считается одним жестом (вместе с инерцией)
+  window.addEventListener('wheel', function(e){
+    if (!locked) return;
+    e.preventDefault();
+    var now = performance.now();
+    if (now - lastWheel > 220) { consumed = false; acc = 0; }
+    lastWheel = now;
+    if (consumed) return;
+    acc += e.deltaY;
+    if (Math.abs(acc) > 24) { consumed = true; step(acc > 0 ? 1 : -1); }
+  }, { passive: false });
+
+  // свайп на телефоне: один свайп = один этап
+  var ty = null;
+  window.addEventListener('touchstart', function(e){ if (locked) ty = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener('touchmove', function(e){ if (locked && e.cancelable) e.preventDefault(); }, { passive: false });
+  window.addEventListener('touchend', function(e){
+    if (!locked || ty === null) return;
+    var dy = ty - e.changedTouches[0].clientY; ty = null;
+    if (Math.abs(dy) > 40) step(dy > 0 ? 1 : -1);
+  }, { passive: true });
+
+  // клавиатура
+  window.addEventListener('keydown', function(e){
+    if (!locked) return;
+    if (e.target.closest && e.target.closest('input,textarea,select')) return;
+    var d = { ArrowDown: 1, PageDown: 1, ' ': 1, ArrowUp: -1, PageUp: -1 }[e.key];
+    if (!d) return;
+    e.preventDefault();
+    if (!e.repeat) step(d);
   });
-  // «Сборка» и «Смотреть, как строим» ведут к началу стройки на этой же сцене
-  [].slice.call(document.querySelectorAll('a[href="#sborka"]')).forEach(function(a){
+
+  // ссылки: «Сборка» запускает сборку, остальные отпускают страницу к нужному разделу
+  [].slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function(a){
+    var id = a.getAttribute('href');
+    if (id.length < 2) return;
     a.addEventListener('click', function(e){
-      e.preventDefault(); finishIntro();
-      var len = build.offsetHeight - innerHeight;
-      lenis.scrollTo(build.offsetTop + len * ((HH + RW + HOLD / 2) / TOTAL), { duration: 2.2 });
+      e.preventDefault();
+      if (id === '#sborka') {
+        if (!locked) { lenis.scrollTo(0, { duration: 1, onComplete: function(){ lock(); if (pos === -1) step(1); } }); }
+        else if (pos === -1) step(1);
+        return;
+      }
+      var t = document.querySelector(id);
+      if (!t) return;
+      if (locked) release(t); else lenis.scrollTo(t, { duration: 1.1 });
     });
   });
 
-  window.addEventListener('resize', function(){ sizeCanvas(); layout(); fitTitle(cap.title); ScrollTrigger.refresh(); });
-  sizeCanvas();
+  window.addEventListener('resize', function(){ layout(); fitTitle(cap.title); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
-  layout(); onProgress(0);
+  body.classList.add('at-hero');
+  layout();
   applyMode();
+  window.__scene = function(){ return { pos: pos, busy: busy, locked: locked, title: cap.title.textContent, callouts: document.querySelectorAll('.callout.on').length, dots: document.querySelectorAll('.dot.on').length }; }; // для проверки
 })();
 </script>
 </body>
