@@ -116,12 +116,13 @@ body[data-mode=night] .ticker{background:rgba(6,10,20,.5)}
 .media{position:absolute;inset:0;z-index:1;isolation:isolate} /* слои роликов не выходят за пределы видео */
 .media .clip,.media .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
 .media .shot{opacity:0}
-#clips{position:absolute;inset:0}
-#callouts,.lines{z-index:9000}
-.callout,.dot{z-index:9001}
+#clips{position:absolute;inset:0;z-index:1;isolation:isolate}
+.lines{z-index:2}
+#callouts{position:absolute;inset:0;z-index:3;pointer-events:none}
+#callouts .dot{pointer-events:auto}
 .media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(14,22,38,.55) 0%,rgba(14,22,38,0) 38%)}
 .lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible}
-.lines line{stroke:#fff;stroke-width:1.25;vector-effect:non-scaling-stroke}
+.lines line{stroke:#fff;stroke-width:1.6;filter:drop-shadow(0 0 2px rgba(0,0,0,.6));vector-effect:non-scaling-stroke}
 .lines g{opacity:0;transition:opacity .12s linear}
 .lines g.on{opacity:1}
 .dot{position:absolute;z-index:3;left:0;top:0;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;border:0;background:none;pointer-events:none;opacity:0;transition:opacity .12s linear}
@@ -129,20 +130,20 @@ body[data-mode=night] .ticker{background:rgba(6,10,20,.5)}
 .dot::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#fff}
 .dot.on{opacity:1}
 .callout{position:absolute;z-index:3;left:0;top:0;border-radius:14px;padding:9px 13px 10px;opacity:0;transition:opacity .12s linear;pointer-events:none;max-width:230px}
-.callout b{display:block;font:700 15px/1.15 var(--display);letter-spacing:.03em;text-transform:uppercase}
-.callout small{display:block;font-size:12.5px;line-height:1.3;opacity:.88;margin-top:3px}
+.callout{background:rgba(10,14,22,.7)!important;border-color:rgba(255,255,255,.35)!important}
+.callout b{display:block;font:700 19px/1.12 var(--display);letter-spacing:.03em;text-transform:uppercase}
+.callout small{display:block;font-size:14px;line-height:1.3;opacity:.9;margin-top:3px}
 .callout.on{opacity:1}
 
-.caption{position:absolute;z-index:4;left:var(--m);bottom:var(--m);width:min(430px,calc(100% - 2*var(--m)));border-radius:22px;padding:20px 22px 22px}
+.caption{position:absolute;z-index:4;left:var(--m);bottom:var(--m);background:rgba(12,16,24,.72)!important;width:min(430px,calc(100% - 2*var(--m)));border-radius:22px;padding:20px 22px 22px}
 .caption .when{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
-.caption h2{font:700 clamp(40px,5vw,64px)/.92 var(--display);text-transform:uppercase;margin:8px 0 10px}
+.caption h2{font:700 clamp(40px,5vw,64px)/1.16 var(--display);text-transform:uppercase;margin:8px 0 10px}
 .caption p{font-size:16px;line-height:1.45;opacity:.92}
 .price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:14px}
 .price[hidden]{display:none}
 .price strong{font:700 26px/1 var(--display);font-variant-numeric:tabular-nums;color:var(--accent)}
 .price span{font-size:12px;opacity:.75}
-.cap-body{transition:opacity .2s linear}
-.moving .cap-body{opacity:.35}
+.cap-body{opacity:1}
 .cap-body.swap{opacity:0;transform:translateY(6px)}
 .backdrop{display:none}
 .incl{display:none;list-style:none;margin-top:14px;border-top:1px solid rgba(255,255,255,.14)}
@@ -161,7 +162,8 @@ body[data-mode=night] .ticker{background:rgba(6,10,20,.5)}
 .rail{position:absolute;z-index:4;right:var(--m);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;list-style:none}
 .rail button{position:relative;width:44px;height:44px;border-radius:50%;font:700 16px/1 var(--display);color:#fff;background:rgba(10,14,22,.55);border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);cursor:pointer;transition:background .25s var(--ease),color .25s var(--ease),transform .16s var(--ease)}
 .rail button:active{transform:scale(.94)}
-.rail button.done{background:rgba(242,181,49,.35);border-color:rgba(242,181,49,.7)}
+.rail{gap:8px}
+.rail button{width:40px;height:40px;font-size:15px}
 .rail button[aria-current=step]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .rail button::after{content:attr(data-name);position:absolute;right:54px;top:50%;transform:translateY(-50%) translateX(4px);opacity:0;pointer-events:none;white-space:nowrap;font:500 13px/1 var(--sans);background:rgba(10,14,22,.65);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding:7px 10px;border-radius:999px;transition:opacity .2s var(--ease),transform .2s var(--ease)}
 @media (hover:hover){.rail button:hover::after{opacity:1;transform:translateY(-50%)}}
@@ -380,8 +382,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 
     <div class="backdrop" id="backdrop" aria-hidden="true"></div>
     <div class="media" id="media">
-      <img class="shot" id="still" alt="" aria-hidden="true">
-      <div id="clips"></div>
+      <div id="clips"><img class="shot" id="still" alt="" aria-hidden="true"></div>
       <svg class="lines" id="lines" aria-hidden="true"></svg>
       <div id="callouts"></div>
     </div>
@@ -395,15 +396,18 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
         <ul class="incl" id="capIncl"></ul>
       </div>
       <ol class="tl" id="tl" aria-hidden="true"><li>Фундамент<span>неделя 1</span></li><li>Каркас<span>недели 2–3</span></li><li>Домокомплект<span>неделя 4</span></li><li>Тёплый контур<span>недели 5–8</span></li><li>Под ключ<span>≈ 3 месяца</span></li></ol>
-      <div class="bar" id="bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="bar" id="bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </div>
 
     <ol class="rail" aria-label="Этапы сборки">
-      <li><button type="button" data-stop="1" data-name="Фундамент" aria-label="Этап 1: фундамент">1</button></li>
-      <li><button type="button" data-stop="2" data-name="Каркас" aria-label="Этап 2: каркас">2</button></li>
-      <li><button type="button" data-stop="3" data-name="Домокомплект" aria-label="Этап 3: домокомплект">3</button></li>
-      <li><button type="button" data-stop="5" data-name="Тёплый контур" aria-label="Этап 4: тёплый контур">4</button></li>
-      <li><button type="button" data-stop="6" data-name="Под ключ" aria-label="Этап 5: под ключ">5</button></li>
+      <li><button type="button" data-stop="0" data-name="Участок" aria-label="Этап 1 из 8: участок">1</button></li>
+      <li><button type="button" data-stop="1" data-name="Фундамент" aria-label="Этап 2 из 8: фундамент">2</button></li>
+      <li><button type="button" data-stop="2" data-name="Каркас" aria-label="Этап 3 из 8: каркас">3</button></li>
+      <li><button type="button" data-stop="3" data-name="Домокомплект" aria-label="Этап 4 из 8: домокомплект">4</button></li>
+      <li><button type="button" data-stop="4" data-name="Тёплый контур" aria-label="Этап 5 из 8: тёплый контур">5</button></li>
+      <li><button type="button" data-stop="5" data-name="Коробка готова" aria-label="Этап 6 из 8: коробка готова">6</button></li>
+      <li><button type="button" data-stop="6" data-name="Под ключ" aria-label="Этап 7 из 8: под ключ">7</button></li>
+      <li><button type="button" data-stop="7" data-name="Вечер" aria-label="Этап 8 из 8: вечер">8</button></li>
     </ol>
   </div>
 </section>
@@ -417,19 +421,19 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
       <article class="tier">
         <div class="tag">Около 1 месяца</div>
         <h3>Домокомплект</h3>
-        <div class="cost">от 2,2 млн ₽<small>от 22 000 ₽ за м²</small></div>
+        <div class="cost">от 3,5 млн ₽<small>от 33 000 ₽ за м², фундамент на сваях входит</small></div>
         <ul><li>Каркас из сухой строганой доски 50×150</li><li>Перекрытия, стропила, обшивка ОСП</li><li>Ветрозащита и кровля из металла</li><li>Черновой пол</li></ul>
       </article>
       <article class="tier">
         <div class="tag">Около 2 месяцев</div>
         <h3>Тёплый контур</h3>
-        <div class="cost">от 4,5 млн ₽<small>от 45 000 ₽ за м²</small></div>
-        <ul><li>Всё из домокомплекта</li><li>Базальтовая вата 200 мм и пароизоляция</li><li>Окна ПВХ, двухкамерный стеклопакет</li><li>Входная дверь и фасад из лиственницы</li></ul>
+        <div class="cost">от 5,5 млн ₽<small>от 53 000 ₽ за м², коробка с террасой</small></div>
+        <ul><li>Всё из домокомплекта</li><li>Базальтовая вата 200 мм и пароизоляция</li><li>Окна ПВХ, двухкамерный стеклопакет</li><li>Входная дверь и фасад из лиственницы</li><li>Терраса около 18 м²</li></ul>
       </article>
       <article class="tier hit">
         <div class="tag">Около 3 месяцев · чаще всего</div>
         <h3>Под ключ</h3>
-        <div class="cost">от 6,5 млн ₽<small>от 65 000 ₽ за м²</small></div>
+        <div class="cost">от 6,5 млн ₽<small>от 63 000 ₽ за м², с фундаментом</small></div>
         <ul><li>Всё из тёплого контура</li><li>Электрика, вода, канализация, отопление</li><li>Вентиляция и внутренняя отделка</li><li>Санузел, можно заезжать</li></ul>
       </article>
     </div>
@@ -455,7 +459,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
             <label><input type="radio" name="tier" value="key" checked><span>Под ключ</span></label>
           </div>
         </fieldset>
-        <label class="check"><input type="checkbox" id="terrace"> Терраса около 18&nbsp;м²</label>
+        <label class="check"><input type="checkbox" id="terrace"> <span>Терраса около 18&nbsp;м²<span id="terraceIn" hidden> · уже входит</span></span></label>
         <label class="check"><input type="checkbox" id="found" checked> Фундамент</label>
         <div class="sub-seg" id="foundType">
           <label><input type="radio" name="ft" value="piles" checked> винтовые сваи</label>
@@ -577,43 +581,52 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   /* ---------- остановки сборки ----------
      t: секунда полного ролика сборки (номер кадра серии = t × 5); координаты выносок в долях кадра 16:9. */
   var STOPS = [
-    { t: 0, img: 'etap-0', when: 'Старт · день 1', title: 'Участок', text: 'Размечаем пятно дома и привозим сваи и брус.', sum: 0,
-      incl: [['Выезд и разметка', 'бесплатно'], ['Завоз свай и бруса', '1 день']], callouts: [] },
-    { t: 4.75, img: 'etap-1', rail: 1, when: 'Этап 1 · неделя 1', title: 'Фундамент', text: 'Вкручиваем винтовые сваи и кладём обвязку. Без бетона и без ожидания.', sum: 250000, note: 'сваи под дом 100 м²',
+    { when: 'Старт · день 1', title: 'Участок', text: 'Привезли материалы и разметили, где встанет дом.', sum: 0,
       callouts: [
-        { x: .725, y: .805, lx: .79, ly: .44, name: 'Винтовые сваи', note: 'оцинкованная сталь, 2–3 дня' },
-        { x: .585, y: .748, lx: .55, ly: .5, name: 'Обвязка', note: 'брус 150×150 мм' },
-        { x: .385, y: .705, lx: .34, ly: .6, name: 'Лаги пола', note: 'шаг 60 см' }
+        { x: .22, y: .66, lx: .2, ly: .36, name: 'Привезли сваи и брус', note: 'за один рейс' },
+        { x: .585, y: .81, lx: .62, ly: .5, name: 'Разметили пятно дома', note: 'колышки и шнур' }
       ] },
-    { t: 9.79, img: 'etap-2', rail: 2, when: 'Этап 2 · недели 2–3', title: 'Каркас', text: 'Ставим стены и стропила из сухой строганой доски. Дом уже видно с дороги.', sum: 2200000, note: 'домокомплект целиком',
+    { when: 'Этап 1 · неделя 1', title: 'Фундамент', text: 'Вкручиваем винтовые сваи и кладём обвязку. Без бетона и без ожидания.', sum: 250000, note: 'фундамент',
       callouts: [
-        { x: .42, y: .58, lx: .27, ly: .38, name: 'Каркас из сухого бруса', note: 'стойки 50×150, шаг 60 см' },
-        { x: .56, y: .42, lx: .5, ly: .2, name: 'Стропила', note: 'двускатная крыша' }
+        { x: .725, y: .805, lx: .78, ly: .46, name: 'Вкрутили сваи', note: 'оцинкованная сталь, 2–3 дня' },
+        { x: .585, y: .748, lx: .55, ly: .52, name: 'Уложили обвязку', note: 'брус 150×150 мм' },
+        { x: .385, y: .705, lx: .3, ly: .5, name: 'Лаги пола', note: 'шаг 60 см' }
       ] },
-    { t: 14.83, img: 'etap-3', rail: 3, when: 'Этап 3 · неделя 4', title: 'Домокомплект', text: 'Закрываем стены ОСП и мембраной, кроем крышу металлом. Коробка готова за месяц.', sum: 2200000, note: 'домокомплект готов',
+    { when: 'Этап 2 · недели 2–3', title: 'Каркас', text: 'Ставим стены и стропила из сухой строганой доски. Дом уже видно с дороги.', sum: 2200000, note: 'каркас и стропила',
       callouts: [
-        { x: .6, y: .62, lx: .64, ly: .32, name: 'Ветрозащитная мембрана', note: 'дом не продувает' },
-        { x: .46, y: .45, lx: .28, ly: .3, name: 'Кровля фальц', note: 'металл, скрытый крепёж' }
+        { x: .42, y: .6, lx: .26, ly: .4, name: 'Подняли каркас', note: 'сухая доска 50×150' },
+        { x: .56, y: .33, lx: .44, ly: .14, name: 'Поставили стропила', note: 'двускатная крыша' }
       ] },
-    { t: 20.08, img: 'etap-4', rail: 4, when: 'Этап 4 · недели 5–8', title: 'Тёплый контур', text: 'Ставим окна, утепляем и обшиваем фасад лиственницей.', sum: 4500000, note: 'тёплый контур',
+    { when: 'Этап 3 · неделя 4', title: 'Домокомплект', text: 'Закрываем стены ОСП и мембраной, кроем крышу металлом. Коробка за месяц.', sum: 3500000, note: 'домокомплект',
       callouts: [
-        { x: .655, y: .59, lx: .74, ly: .3, name: 'Окна', note: 'двухкамерный стеклопакет' },
-        { x: .572, y: .655, lx: .52, ly: .36, name: 'Утеплитель 200 мм', note: 'базальтовая вата' },
-        { x: .4, y: .64, lx: .25, ly: .44, name: 'Фасад', note: 'лиственница' }
+        { x: .6, y: .62, lx: .7, ly: .36, name: 'Обшили и закрыли мембраной', note: 'дом не продувает' },
+        { x: .45, y: .42, lx: .3, ly: .24, name: 'Покрыли крышу', note: 'фальц, скрытый крепёж' }
       ] },
-    { t: 25.125, img: 'etap-5', rail: 4, when: '≈ 2 месяца', title: 'Коробка готова', text: 'Тёплый закрытый дом с террасой. Можно остановиться здесь и доделать самим.', sum: 4500000, note: 'тёплый контур',
+    { when: 'Этап 4 · недели 5–8', title: 'Тёплый контур', text: 'Ставим окна, утепляем и обшиваем фасад лиственницей.', sum: 4500000, note: 'тёплый контур',
       callouts: [
-        { x: .5, y: .735, lx: .36, ly: .52, name: 'Терраса', note: 'около 18 м²' },
-        { x: .6, y: .57, lx: .64, ly: .3, name: 'Фасад', note: 'планкен из лиственницы' }
+        { x: .655, y: .59, lx: .76, ly: .32, name: 'Поставили окна', note: 'двухкамерный стеклопакет' },
+        { x: .572, y: .655, lx: .55, ly: .4, name: 'Утеплитель 200 мм', note: 'базальтовая вата' },
+        { x: .4, y: .64, lx: .24, ly: .44, name: 'Фасад из лиственницы', note: 'обшиваем по рейкам' }
       ] },
-    { t: 30.17, img: 'dom-den', rail: 5, when: '≈ 3 месяца · ключи', title: 'Под ключ', text: 'Инженерия, отделка, газон и дорожка. Привозите вещи.', sum: 6500000, note: 'под ключ',
-      incl: [['Электрика, вода, отопление', 'входит'], ['Отделка и санузел', 'входит'], ['Газон и дорожка', 'по желанию']], callouts: [] },
-    { t: 35.2, img: 'dom-noch', rail: 5, when: 'Первый вечер', title: 'Добро пожаловать домой', text: 'Свет в окнах, фонари вдоль дорожки. Лето рядом.', sum: 6500000, note: 'под ключ',
-      incl: [['Срок', '≈ 3 месяца'], ['Цена', 'фиксируется в договоре']], callouts: [] }
+    { when: '≈ 2 месяца', title: 'Коробка готова', text: 'Тёплый закрытый дом с террасой. Можно остановиться здесь и доделать самим.', sum: 5500000, note: 'с террасой',
+      callouts: [
+        { x: .5, y: .735, lx: .36, ly: .52, name: 'Собрали террасу', note: 'около 18 м²' },
+        { x: .62, y: .5, lx: .72, ly: .26, name: 'Фасад готов', note: 'планкен из лиственницы' }
+      ] },
+    { when: '≈ 3 месяца · ключи', title: 'Под ключ', text: 'Инженерия, отделка, газон и дорожка. Привозите вещи.', sum: 6500000, note: 'под ключ',
+      callouts: [
+        { x: .5, y: .74, lx: .4, ly: .5, name: 'Терраса с мебелью', note: 'можно пить чай' },
+        { x: .74, y: .86, lx: .8, ly: .66, name: 'Газон и дорожка', note: 'благоустройство' },
+        { x: .66, y: .6, lx: .78, ly: .34, name: 'Окна в пол', note: 'много света' }
+      ] },
+    { when: 'Первый вечер', title: 'Добро пожаловать домой', text: 'Свет в окнах, фонари вдоль дорожки. Лето рядом.', sum: 6500000, note: 'под ключ',
+      callouts: [
+        { x: .5, y: .6, lx: .52, ly: .32, name: 'Свет в каждой комнате', note: 'электрика под ключ' },
+        { x: .37, y: .77, lx: .44, ly: .7, name: 'Фонари вдоль дорожки', note: 'включаются сами' },
+        { x: .43, y: .52, lx: .26, ly: .34, name: 'Подсветка фасада', note: 'тёплый свет' }
+      ] }
   ];
-  var HOLD = .6, LAST = STOPS.length - 1, UNITS = STOPS.length * HOLD + LAST;
-  // перед этапами: первый экран (заголовок уезжает) и откат готового дома к участку
-  var HH = .5, RW = 1.3, TOTAL = HH + RW + UNITS, T_DAY = STOPS[6].t;
+  var LAST = STOPS.length - 1;
 
   /* ---------- день / ночь ----------
      Автоматический режим: день, а на финале сборки ночь.
@@ -632,13 +645,17 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   btn.addEventListener('click', function(){ loadNight(); choice = choice === 'night' ? null : 'night'; applyMode(); });
 
   /* ---------- калькулятор ---------- */
-  var RATE = { kit: [20000, 26000, '≈ 1 месяц'], warm: [40000, 60000, '≈ 2 месяца'], key: [55000, 80000, '≈ 3 месяца'] };
+  // ставки за м² подобраны так, чтобы дом 100 м² на сваях стоил как в «Комплектациях»: 3,5 / 5,5 / 6,5 млн
+  var RATE = { kit: [33000, 42000, '≈ 1 месяц'], warm: [53000, 68000, '≈ 2 месяца'], key: [63000, 85000, '≈ 3 месяца'] };
   var calc = document.getElementById('calc');
   function money(v){ return v >= 1e6 ? (Math.round(v / 1e5) / 10).toString().replace('.', ',') + ' млн ₽' : Math.round(v / 1000) + ' тыс. ₽'; }
   function recalc(){
     var a = +calc.area.value, r = RATE[calc.querySelector('[name=tier]:checked').value];
     var lo = a * r[0], hi = a * r[1];
-    if (document.getElementById('terrace').checked) { lo += 250000; hi += 450000; }
+    // в «Тёплом контуре» и «Под ключ» терраса уже входит в цену
+    var tr = document.getElementById('terrace'), inc = calc.querySelector('[name=tier]:checked').value !== 'kit';
+    tr.disabled = inc; document.getElementById('terraceIn').hidden = !inc; if (inc) tr.checked = true;
+    if (tr.checked && !inc) { lo += 250000; hi += 450000; }
     var f = document.getElementById('found').checked, slab = calc.querySelector('[name=ft]:checked').value === 'slab';
     document.getElementById('foundType').style.opacity = f ? 1 : .4;
     if (f) { lo += slab ? 900000 : 200000; hi += slab ? 1400000 : 300000; }
@@ -665,7 +682,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   var cap = { body: document.getElementById('cap'), when: document.getElementById('capWhen'), title: document.getElementById('capTitle'), text: document.getElementById('capText'), price: document.getElementById('capPrice'), sum: document.getElementById('capSum'), note: document.getElementById('capNote'), incl: document.getElementById('capIncl') };
   var railBtns = [].slice.call(document.querySelectorAll('.rail button')), bars = [].slice.call(document.querySelectorAll('#bar i')), tlRows = [].slice.call(document.querySelectorAll('#tl li'));
   var NS = 'http://www.w3.org/2000/svg', A = 2752 / 1536, SUF = phone.matches ? '-m' : '';
-  function stillUrl(i){ return 'step/stop-' + i + SUF + '.webp'; }
+  function stillUrl(i){ return 'step/k-' + i + SUF + '.webp'; }   // чёткий кадр этапа 2k
 
   var items = [];
   STOPS.forEach(function(s, si){
@@ -752,16 +769,16 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     cap.when.textContent = s.when; cap.title.textContent = s.title; cap.text.textContent = s.text; fitTitle(cap.title);
     cap.price.hidden = !s.sum;
     cap.note.textContent = s.note ? s.note + ' · цены демо' : '';
-    var rows = s.incl || s.callouts.map(function(c){ return [c.name, c.note]; });
+    var rows = s.callouts.map(function(c){ return [c.name, c.note]; });
     cap.incl.innerHTML = rows.map(function(r){ return '<li>' + r[0] + '<span>' + r[1] + '</span></li>'; }).join('');
-    if (s.sum) setSum(s.sum);
-    var r = s.rail || 0;
+    if (s.sum) { sumState.v = s.sum; cap.sum.textContent = priceText(s.sum); }
     railBtns.forEach(function(b, k){
-      if (k + 1 === r) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
-      b.classList.toggle('done', k + 1 < r);
+      if (k === si) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+      b.classList.toggle('done', k < si);
     });
-    bars.forEach(function(b, k){ b.classList.toggle('done', k < r); });
-    tlRows.forEach(function(li, k){ li.classList.toggle('done', k + 1 < r); li.classList.toggle('cur', k + 1 === r); });
+    bars.forEach(function(b, k){ b.classList.toggle('done', k <= si); });
+    var tlNow = [0, 1, 2, 3, 4, 4, 5, 5][si];
+    tlRows.forEach(function(li, k){ li.classList.toggle('done', k + 1 < tlNow); li.classList.toggle('cur', k + 1 === tlNow); });
   }
 
   var html = document.documentElement, hero = document.getElementById('hero'), heroCopy = hero.querySelector('.hero-copy');
@@ -772,6 +789,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     body.classList.add('still', 'intro-done');
     intro.remove();
     var go = function(i){ stillEl.src = stillUrl(i); stillEl.style.opacity = 1; showStop(i); layout(); showCallouts(i); };
+    var stills = {};
     railBtns.forEach(function(b){ b.addEventListener('click', function(){ go(+b.dataset.stop); }); });
     stillEl.onload = layout;
     go(1);
@@ -830,9 +848,10 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   var shownV = null;
   function preloadAround(p){
     var want = [];
-    if (p < LAST) want.push(key(p + 1, false));
+    if (p >= 0 && p < LAST) want.push(key(p + 1, false));
     if (p + 1 < LAST) want.push(key(p + 2, false));
-    if (p > -1) want.push(key(p, true));
+    if (p > 0) want.push(key(p, true));
+    if (p === -1) stillImg(0);
     want.forEach(fetchClip);
     [p - 1, p + 1, p + 2].forEach(stillImg);
     Object.keys(vids).forEach(function(k){
@@ -850,17 +869,32 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     if (phone.matches) document.getElementById('backdrop').style.backgroundImage = 'url(' + stillUrl(0) + ')';
     if (kbTween) kbTween.pause();
     gsap.to(kb, { scale: 1, xPercent: 0, duration: .4 });
-    gsap.to(heroCopy, { y: -120, opacity: 0, duration: .5, ease: 'power2.in' });
-    gsap.to(hero, { opacity: 0, duration: .5, delay: .15, onComplete: function(){ hero.style.visibility = 'hidden'; } });
+    gsap.to(heroCopy, { y: -60, opacity: 0, duration: .35, ease: 'power2.in' });
+    gsap.to(hero, { opacity: 0, duration: .5, onComplete: function(){ hero.style.visibility = 'hidden'; } });
     body.classList.remove('at-hero');
   }
   function enterHero(){
     hero.style.visibility = '';
-    gsap.to(hero, { opacity: 1, duration: .45 });
-    gsap.to(heroCopy, { y: 0, opacity: 1, duration: .6, ease: 'power2.out', delay: .1 });
+    gsap.to(hero, { opacity: 1, duration: .5 });
+    gsap.to(heroCopy, { y: 0, opacity: 1, duration: .5, ease: 'power2.out' });
     body.classList.add('at-hero');
     stopNow = -1; applyMode();
     if (kbTween) kbTween.restart();
+  }
+
+  // показать чёткий кадр этапа поверх ролика; done() — когда он целиком на экране
+  var DUR = 1.2;                                     // длительность перехода, с
+  function showCrisp(i, fade, done){
+    var src = stillUrl(i);
+    var put = function(){
+      stillEl.src = src; stillEl.style.zIndex = ++z;
+      if (!fade) { gsap.killTweensOf(stillEl); stillEl.style.opacity = 1; done && done(); return; }
+      stillEl.style.opacity = 0;
+      gsap.to(stillEl, { opacity: 1, duration: fade, ease: 'power1.out', overwrite: true, onComplete: done });
+    };
+    var im = stills[i] && stills[i].complete && stills[i].naturalWidth ? stills[i] : null;
+    if (im) { (im.decode ? im.decode() : Promise.resolve()).catch(function(){}).then(put); return; }
+    var t = new Image(); t.onload = t.onerror = put; t.src = src; stills[i] = t;
   }
 
   function step(dir){
@@ -868,39 +902,42 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     var to = pos + dir;
     if (to > LAST) { release(document.getElementById('ceny')); return; }
     if (to < -1) return;
-    busy = true; body.classList.add('moving');
-    var k = key(dir > 0 ? to : pos, dir < 0), started = false, done = false, v = null;
+    busy = true;
+    var done = false, started = false, v = null;
     showCallouts(-1);
-    if (pos === -1) leaveHero();
-    if (to === -1) body.classList.add('at-hero');
     function finish(){
       if (done) return; done = true;
-      pos = to; busy = false; body.classList.remove('moving');
+      pos = to; busy = false;
       if (to === -1) enterHero(); else { showStop(to); layout(); showCallouts(to); }
       preloadAround(to);
       if (to >= 0) loadNight();
     }
-    // запасной путь: ролик не готов или видео запрещено (энергосбережение) — плавно показываем кадр этапа
-    function fallback(){
+    // главный экран ↔ участок: короткое растворение 0,5 с, без ролика
+    if (pos === -1 || to === -1) {
+      if (to === 0) { showCrisp(0, 0, null); leaveHero(); setTimeout(finish, 500); }
+      else { enterHero(); setTimeout(finish, 500); }
+      return;
+    }
+    var k = key(dir > 0 ? to : pos, dir < 0);
+    function fallback(){                             // ролик не готов или видео запрещено: растворение в кадр этапа
       if (started || done) return; started = true;
-      if (to < 0) { finish(); return; }
-      stillEl.onload = null; stillEl.src = stillUrl(to); stillEl.style.zIndex = ++z; stillEl.style.opacity = 0;
-      gsap.to(stillEl, { opacity: 1, duration: .45, ease: 'power1.out', onComplete: finish });
+      showCrisp(to, .45, finish);
     }
     function play(){
       if (started) return; started = true;
       try { v.currentTime = 0; } catch (e) {}
+      v.playbackRate = (v.duration || DUR) / DUR;
       front(v); shownV = v;
       var pr = v.play();
       if (pr && pr.catch) pr.catch(function(){ started = false; fallback(); });
     }
     if (blobs[k]) {
       v = video(k);
-      v.onended = finish;
+      v.onended = function(){ showCrisp(to, .18, finish); };   // в конце сразу резкий кадр
       if (v.readyState >= 2) play(); else v.addEventListener('loadeddata', play, { once: true });
     } else fetchClip(k);
-    setTimeout(fallback, 600);                                              // ролик ещё не скачан
-    setTimeout(function(){ if (!done) { started = false; fallback(); } }, 4500); // ролик застрял посреди
+    setTimeout(fallback, 500);
+    setTimeout(function(){ if (!done) showCrisp(to, .2, finish); }, 3500);   // ролик застрял
   }
 
   // кружок этапа: сразу к нужному этапу коротким растворением
@@ -908,14 +945,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     if (busy || k === pos) return;
     busy = true; showCallouts(-1);
     if (pos === -1) leaveHero();
-    var im = new Image();
-    im.onload = im.onerror = function(){
-      stillEl.src = im.src; stillEl.style.opacity = 0; stillEl.style.zIndex = ++z;
-      gsap.to(stillEl, { opacity: 1, duration: .4, ease: 'power1.out', onComplete: function(){
-        pos = k; busy = false; showStop(k); layout(); showCallouts(k); preloadAround(k); loadNight();
-      } });
-    };
-    im.src = stillUrl(k);
+    showCrisp(k, .4, function(){ pos = k; busy = false; showStop(k); layout(); showCallouts(k); preloadAround(k); loadNight(); });
   }
   railBtns.forEach(function(b){ b.addEventListener('click', function(){ jump(+b.dataset.stop); }); });
 
