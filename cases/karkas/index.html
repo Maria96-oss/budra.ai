@@ -808,26 +808,40 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 
   /* ---------- ролики-переходы ----------
      c0: готовый дом → участок, c1…c7: этап за этапом. Обратные версии (…r) для движения вверх.
-     Держим загруженными ролик к следующему этапу и ролик к предыдущему. */
-  var pos = -1, busy = false, locked = true, z = 1, cache = {};
+     Ролики заранее скачиваем целиком в память (blob): тогда переход стартует сразу, даже там,
+     где браузер сам видео заранее не грузит. Держим два ролика вперёд и один назад, и кадры этих этапов. */
+  var pos = -1, busy = false, locked = true, z = 1, blobs = {}, loading = {}, vids = {}, stills = {};
   function key(c, rev){ return 'c' + c + (rev ? 'r' : '') + SUF; }
-  function clip(k){
-    if (cache[k]) return cache[k];
+  function fetchClip(k){
+    if (blobs[k] || loading[k]) return;
+    loading[k] = fetch('step/' + k + '.mp4').then(function(r){ if (!r.ok) throw r.status; return r.blob(); })
+      .then(function(b){ blobs[k] = URL.createObjectURL(b); delete loading[k]; })
+      .catch(function(){ delete loading[k]; setTimeout(function(){ fetchClip(k); }, 1500); });
+  }
+  function video(k){
+    if (vids[k]) return vids[k];
     var v = document.createElement('video');
     v.muted = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
-    v.preload = 'auto'; v.className = 'clip'; v.src = 'step/' + k + '.mp4';
-    clipsBox.appendChild(v); v.load(); cache[k] = v;
+    v.preload = 'auto'; v.className = 'clip'; v.src = blobs[k];
+    clipsBox.appendChild(v); v.load(); vids[k] = v;
     return v;
   }
+  function stillImg(i){ if (i >= 0 && i <= LAST && !stills[i]) { stills[i] = new Image(); stills[i].src = stillUrl(i); } }
   var shownV = null;
   function preloadAround(p){
     var want = [];
     if (p < LAST) want.push(key(p + 1, false));
+    if (p + 1 < LAST) want.push(key(p + 2, false));
     if (p > -1) want.push(key(p, true));
-    want.forEach(clip);
-    Object.keys(cache).forEach(function(k){
-      if (want.indexOf(k) < 0 && cache[k] !== shownV) { var v = cache[k]; v.removeAttribute('src'); v.load(); v.remove(); delete cache[k]; }
+    want.forEach(fetchClip);
+    [p - 1, p + 1, p + 2].forEach(stillImg);
+    Object.keys(vids).forEach(function(k){
+      if (want.indexOf(k) < 0 && vids[k] !== shownV) { vids[k].remove(); delete vids[k]; }
     });
+    Object.keys(blobs).forEach(function(k){
+      if (want.indexOf(k) < 0 && !vids[k]) { URL.revokeObjectURL(blobs[k]); delete blobs[k]; }
+    });
+    want.forEach(function(k){ if (blobs[k]) video(k); });
   }
   function front(el){ el.style.zIndex = ++z; el.style.opacity = 1; }
 
@@ -855,7 +869,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     if (to > LAST) { release(document.getElementById('ceny')); return; }
     if (to < -1) return;
     busy = true; body.classList.add('moving');
-    var v = clip(key(dir > 0 ? to : pos, dir < 0)), started = false, done = false;
+    var k = key(dir > 0 ? to : pos, dir < 0), started = false, done = false, v = null;
     showCallouts(-1);
     if (pos === -1) leaveHero();
     if (to === -1) body.classList.add('at-hero');
@@ -866,19 +880,28 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
       preloadAround(to);
       if (to >= 0) loadNight();
     }
+    // запасной путь: ролик не готов или видео запрещено (энергосбережение) — плавно показываем кадр этапа
+    function fallback(){
+      if (started || done) return; started = true;
+      if (to < 0) { finish(); return; }
+      stillEl.onload = null; stillEl.src = stillUrl(to); stillEl.style.zIndex = ++z; stillEl.style.opacity = 0;
+      gsap.to(stillEl, { opacity: 1, duration: .45, ease: 'power1.out', onComplete: finish });
+    }
     function play(){
       if (started) return; started = true;
       try { v.currentTime = 0; } catch (e) {}
       front(v); shownV = v;
       var pr = v.play();
-      if (pr && pr.catch) pr.catch(function(){ snap(to); finish(); });
+      if (pr && pr.catch) pr.catch(function(){ started = false; fallback(); });
     }
-    v.onended = finish;
-    if (v.readyState >= 3) play(); else v.addEventListener('canplay', play, { once: true });
-    setTimeout(function(){ if (!started) { snap(to); finish(); } }, 3500);   // ролик не успел загрузиться: сразу кадр этапа
-    setTimeout(function(){ if (!done) { snap(to); finish(); } }, 7000);      // ролик застрял посреди
+    if (blobs[k]) {
+      v = video(k);
+      v.onended = finish;
+      if (v.readyState >= 2) play(); else v.addEventListener('loadeddata', play, { once: true });
+    } else fetchClip(k);
+    setTimeout(fallback, 600);                                              // ролик ещё не скачан
+    setTimeout(function(){ if (!done) { started = false; fallback(); } }, 4500); // ролик застрял посреди
   }
-  function snap(i){ if (i >= 0) { stillEl.src = stillUrl(i); front(stillEl); } }
 
   // кружок этапа: сразу к нужному этапу коротким растворением
   function jump(k){
