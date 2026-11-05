@@ -261,7 +261,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 .foot .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
 
 /* ---------- телефон ---------- */
-@media (max-width:760px){
+@media (max-width:768px){
   body{font-size:16px}
   .topbar{top:10px;left:12px;right:12px}
   .menu{display:inline-flex}
@@ -287,24 +287,28 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 
   /* сборка: видео полосой сверху (дом и рабочие целиком), компактная карточка под ним */
   .stage{display:flex;flex-direction:column;height:100svh}
-  .media{position:relative;inset:auto;flex:none;width:100%;height:min(38svh,72vw)}
-  .media .clip,.media .shot{object-position:63% 50%}
+  /* фото как можно выше, но дом целиком: при 90vw видно 62 % ширины кадра, а дом занимает около 58 % */
+  .media{position:relative;inset:auto;flex:none;width:100%;height:min(90vw,calc(100svh - 58px - 230px))}
+  .media .clip,.media .shot{object-position:66% 50%}
   .media::after{display:none}
   .backdrop{display:block;position:absolute;inset:-40px;background:#1b2130 center/cover no-repeat;filter:blur(26px) brightness(.45) saturate(1.1);transition:background-image .6s var(--ease)}
   .caption{position:relative;left:auto;bottom:auto;width:auto;flex:1;min-height:0;margin:0;border:0;border-radius:0;padding:14px 16px max(14px,env(safe-area-inset-bottom));background:rgba(14,20,30,.35);-webkit-backdrop-filter:none;backdrop-filter:none;overflow:hidden;display:flex;flex-direction:column}
   .caption .when{font-size:12px}
-  .caption h2{font-size:34px;margin:6px 0 6px}
+  .caption h2{font-size:32px;margin:6px 0 6px}
   .caption p{font-size:14.5px;line-height:1.4}
   .price{margin-top:10px}
   .price strong{font-size:22px}
-  .incl{display:block;margin-top:10px}
-  .incl li{font-size:13.5px;padding:7px 0}
+  .incl{display:none}  /* подписи видны на фото, список не нужен */
   .bar{display:flex;margin-top:auto;padding-top:12px}
   .rail{display:none}
-  .callout{max-width:none;white-space:nowrap;padding:5px 9px;border-radius:9px}
-  .callout b{font-size:12px}
+  /* подписи на телефоне: все сразу, компактные, плотный фон без размытия и без плавного проявления
+     (в Safari размытая подложка с проявлением застывала полупрозрачной) */
+  .callout{max-width:none;white-space:nowrap;padding:4px 8px 5px;border-radius:8px;background:rgba(10,14,22,.88)!important;-webkit-backdrop-filter:none;backdrop-filter:none;transition:none}
+  .callout b{font-size:11.5px;letter-spacing:.02em}
   .callout small{display:none}
-  .dot{pointer-events:auto;cursor:pointer}
+  .lines g,.dot{transition:none}
+  .dot{pointer-events:none;width:20px;height:20px;margin:-10px 0 0 -10px}
+  .dot::before{inset:4px}
 
   .tiers,.projects,.reviews,.calc,.lead-block{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr;gap:0}
@@ -313,11 +317,13 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 }
 
 /* без анимаций: обычные кадры вместо видео */
-@media (max-width:760px) and (min-height:760px){
+@media (max-width:768px) and (min-height:760px){
   .tl{display:block}
 }
 /* низкие экраны: iPhone SE и Safari с панелями */
-@media (max-width:760px) and (max-height:700px){
+@media (max-width:768px) and (max-height:700px){
+  .caption h2{font-size:26px;line-height:1.12}
+  .caption p{font-size:13.5px}
   .hero .pics{width:135%;transform:translateX(-61%)}
   .hero-copy{top:calc(var(--m) + 46px)}
   h1{font-size:44px;margin:10px 0 12px}
@@ -337,7 +343,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 .steps-on,.steps-on body{overscroll-behavior:none}
 .steps-on .stage{touch-action:none}
 /* без анимаций этапы переключаются кружками, на телефоне они стоят рядом */
-@media (max-width:760px){.still .stage{height:auto}.still .rail{display:flex;position:static;transform:none;flex-direction:row;justify-content:center;padding:12px 0 4px;background:#1b2130}.still .caption{flex:none}}
+@media (max-width:768px){.still .stage{height:auto}.still .rail{display:flex;position:static;transform:none;flex-direction:row;justify-content:center;padding:12px 0 4px;background:#1b2130}.still .caption{flex:none}}
 </style>
 </head>
 <body data-mode="day">
@@ -357,11 +363,11 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
   <header class="hero" id="hero" aria-labelledby="h1">
     <div class="pics"><div class="kb" id="kb">
     <picture>
-      <source media="(max-width:760px)" srcset="img/dom-den-m.webp">
+      <source media="(max-width:768px)" srcset="img/dom-den-m.webp">
       <img class="ph" src="img/dom-den.webp" width="2200" height="1228" alt="Готовый каркасный дом с террасой среди берёз, летний день" fetchpriority="high">
     </picture>
     <picture class="night">
-      <source media="(max-width:760px)" data-srcset="img/dom-noch-m.webp">
+      <source media="(max-width:768px)" data-srcset="img/dom-noch-m.webp">
       <img class="ph" id="nightImg" data-src="img/dom-noch.webp" width="2200" height="1228" alt="Тот же дом вечером: светятся окна и фонари вдоль дорожки">
     </picture>
     <video class="intro" id="intro" muted playsinline preload="auto" poster="img/intro-poster.webp" aria-hidden="true"></video>
@@ -587,14 +593,14 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
 (function(){
   var body = document.body;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var phone = window.matchMedia('(max-width: 760px)');
+  var phone = window.matchMedia('(max-width: 768px)');
 
   /* ---------- остановки сборки ----------
      t: секунда полного ролика сборки (номер кадра серии = t × 5); координаты выносок в долях кадра 16:9. */
   var STOPS = [
     { when: 'Старт · день 1', title: 'Участок', text: 'Привезли материалы и разметили, где встанет дом.', sum: 0,
       callouts: [
-        { x: .22, y: .66, lx: .2, ly: .36, name: 'Привезли сваи и брус', note: 'за один рейс' },
+        { x: .22, y: .66, m: [.36, .67], lx: .2, ly: .36, name: 'Привезли сваи и брус', note: 'за один рейс' },
         { x: .585, y: .81, lx: .62, ly: .5, name: 'Разметили пятно дома', note: 'колышки и шнур' }
       ] },
     { when: 'Этап 1 · неделя 1', title: 'Фундамент', text: 'Вкручиваем винтовые сваи и кладём обвязку. Без бетона и без ожидания.', sum: 250000, note: 'фундамент',
@@ -617,7 +623,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
       callouts: [
         { x: .655, y: .59, lx: .76, ly: .32, name: 'Поставили окна', note: 'двухкамерный стеклопакет' },
         { x: .572, y: .655, lx: .55, ly: .4, name: 'Утеплитель 200 мм', note: 'базальтовая вата' },
-        { x: .4, y: .64, lx: .24, ly: .44, name: 'Фасад из лиственницы', note: 'обшиваем по рейкам' }
+        { x: .4, y: .64, m: [.37, .56], lx: .24, ly: .44, name: 'Фасад из лиственницы', note: 'обшиваем по рейкам' }
       ] },
     { when: '≈ 2 месяца', title: 'Коробка готова', text: 'Тёплый закрытый дом с террасой. Можно остановиться здесь и доделать самим.', sum: 5500000, note: 'с террасой',
       callouts: [
@@ -707,46 +713,73 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
       el.innerHTML = '<b>' + c.name + '</b><small>' + c.note + '</small>';
       box.appendChild(dot); box.appendChild(el);
       var it = { step: si, i: ci, c: c, g: g, ln: ln, dot: dot, el: el };
-      dot.addEventListener('click', function(){ if (phone.matches) openOne(it); });
       items.push(it);
     });
   });
 
   // перевод координат кадра в пиксели сцены с учётом object-fit: cover
+  // телефон: подпись встаёт над точкой, под ней, слева или справа — где не задевает другие подписи, точки и края фото
+  function placeSmall(it, px, py, ew, eh, W, H, placed){
+    var g = 14, pad = 6;
+    var dots = items.filter(function(o){ return o.step === it.step && !o.hidden; }).map(function(o){ return [o._px, o._py]; });
+    var cands = [
+      [px - ew / 2, py - eh - g], [px - ew / 2, py + g],
+      [px - ew - g, py - eh / 2], [px + g, py - eh / 2],
+      [px - ew + 12, py - eh - g], [px - 12, py - eh - g],
+      [px - ew + 12, py + g], [px - 12, py + g],
+      [px - ew / 2, py - eh - g * 3], [px - ew / 2, py + g * 3], [px - ew + 12, py - eh - g * 3], [px - 12, py + g * 3]
+    ];
+    var best = null, bestScore = 1e9;
+    cands.forEach(function(c){
+      var x = Math.max(pad, Math.min(W - ew - pad, c[0])), y = Math.max(pad, Math.min(H - eh - pad, c[1]));
+      var score = Math.abs(x - c[0]) + Math.abs(y - c[1]);
+      placed.forEach(function(r){ if (r.step === it.step && x < r.x + r.w + 4 && x + ew + 4 > r.x && y < r.y + r.h + 4 && y + eh + 4 > r.y) score += 1000; });
+      dots.forEach(function(d){ if (d[0] > x - 8 && d[0] < x + ew + 8 && d[1] > y - 8 && d[1] < y + eh + 8) score += 300; });
+      if (score < bestScore) { bestScore = score; best = [x, y]; }
+    });
+    placed.push({ step: it.step, x: best[0], y: best[1], w: ew, h: eh });
+    return best;
+  }
+
+  // перевод координат кадра в пиксели сцены с учётом object-fit: cover
   function layout(){
     var W = media.clientWidth, H = media.clientHeight;
     var rw = Math.max(W, H * A), rh = rw / A;
-    var ox = (W - rw) * (phone.matches ? .63 : .6), oy = (H - rh) * .5;
+    var ox = (W - rw) * (phone.matches ? .66 : .6), oy = (H - rh) * .5;
     var small = phone.matches, placed = [];
     var tb = document.getElementById('topbar').getBoundingClientRect(), mr = media.getBoundingClientRect();
     var safeTop = Math.max(8, tb.bottom - mr.top + 10);
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    items.forEach(function(it){ var c = small && it.c.m ? { x: it.c.m[0], y: it.c.m[1] } : it.c; it._px = ox + c.x * rw; it._py = oy + c.y * rh; it.hidden = it._px < 10 || it._px > W - 10; });
     items.forEach(function(it){
-      var px = ox + it.c.x * rw, py = oy + it.c.y * rh;
-      it.hidden = px < 10 || px > W - 10;
-      var ew = it.el.offsetWidth, eh = it.el.offsetHeight, lx, ly;
-      if (small) { lx = px - ew / 2; ly = py - eh - 22; }
-      else { lx = ox + it.c.lx * rw - ew / 2; ly = oy + it.c.ly * rh - eh; }
-      lx = Math.max(8, Math.min(W - ew - (small ? 8 : 72), lx));
-      ly = Math.max(safeTop, ly);
-      if (!small) {
+      var px = it._px, py = it._py;
+      var ew = it.el.offsetWidth, eh = it.el.offsetHeight, lx, ly, ex, ey;
+      if (small) {
+        var pl = placeSmall(it, px, py, ew, eh, W, H, placed); lx = pl[0]; ly = pl[1];
+        // линия от точки к ближайшему краю подписи
+        ex = Math.max(lx, Math.min(lx + ew, px)); ey = Math.max(ly, Math.min(ly + eh, py));
+      } else {
+        lx = ox + it.c.lx * rw - ew / 2; ly = oy + it.c.ly * rh - eh;
+        lx = Math.max(8, Math.min(W - ew - 72, lx));
+        ly = Math.max(safeTop, ly);
         for (var guard = 0; guard < 6; guard++) {
           var hit = placed.filter(function(r){ return r.step === it.step && lx < r.x + r.w + 8 && lx + ew + 8 > r.x && ly < r.y + r.h + 8 && ly + eh + 8 > r.y; })[0];
           if (!hit) break;
           ly = hit.y - eh - 10; if (ly < 8) ly = hit.y + hit.h + 10;
         }
         placed.push({ step: it.step, x: lx, y: ly, w: ew, h: eh });
+        ex = Math.max(lx + 14, Math.min(lx + ew - 14, px)); ey = ly + eh;
       }
       it.el.style.left = lx + 'px'; it.el.style.top = ly + 'px';
       it.dot.style.left = px + 'px'; it.dot.style.top = py + 'px';
-      var ex = Math.max(lx + 14, Math.min(lx + ew - 14, px)), ey = ly + eh;
-      it.ln.setAttribute('x1', px); it.ln.setAttribute('y1', py - 8);
+      var d = Math.hypot(ex - px, ey - py) || 1, sx = px + (ex - px) * Math.min(1, (small ? 6 : 8) / d), sy = py + (ey - py) * Math.min(1, (small ? 6 : 8) / d);
+      it.ln.setAttribute('x1', small ? sx : px); it.ln.setAttribute('y1', small ? sy : py - 8);
       it.ln.setAttribute('x2', ex); it.ln.setAttribute('y2', ey);
       it.g.style.display = it.el.style.display = it.dot.style.display = it.hidden ? 'none' : '';
     });
   }
 
-  // выноски этапа появляются целиком и сразу: точка, линия и подпись вместе. На телефоне открыта первая, остальные по нажатию
+  // выноски этапа появляются целиком и сразу: точка, линия и подпись вместе, на телефоне тоже все сразу
   function openOne(target){
     var wasOn = target.el.classList.contains('on');
     items.forEach(function(it){ var on = it === target && !wasOn; it.el.classList.toggle('on', on); it.g.classList.toggle('on', on); });
@@ -757,7 +790,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
       var mine = it.step === si && !it.hidden;
       it.dot.tabIndex = mine && phone.matches ? 0 : -1;
       it.dot.classList.toggle('on', mine);
-      var lab = mine && (!phone.matches || !first);
+      var lab = mine;
       if (mine && !first) first = it;
       it.g.classList.toggle('on', lab); it.el.classList.toggle('on', lab);
     });
@@ -896,7 +929,8 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
     if (!nx || nx.complete) want.forEach(fetchClip);
     else nx.addEventListener('load', function(){ if (pos === p) want.forEach(fetchClip); }, { once: true });
     Object.keys(vids).forEach(function(k){
-      if (want.indexOf(k) < 0 && vids[k] !== shownV) { vids[k].remove(); delete vids[k]; }
+      // сначала отвязываем ролик от элемента, иначе Safari ругается на освобождённый blob
+      if (want.indexOf(k) < 0 && vids[k] !== shownV) { var ov = vids[k]; ov.pause(); ov.removeAttribute('src'); ov.load(); ov.remove(); delete vids[k]; }
     });
     Object.keys(blobs).forEach(function(k){
       if (want.indexOf(k) < 0 && !vids[k]) { URL.revokeObjectURL(blobs[k]); delete blobs[k]; }
